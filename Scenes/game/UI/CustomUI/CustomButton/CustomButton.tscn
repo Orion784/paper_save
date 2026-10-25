@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://n1o0odr82me"]
+
+[ext_resource type="Script" uid="uid://c73tgt48k60pu" path="res://Scenes/game/UI/CustomUI/CustomButton/CustomButton.gd" id="2_ddh1m"]
+[ext_resource type="FontFile" uid="uid://b7633adwlstvg" path="res://Assets/upheavtt.ttf" id="2_xm458"]
+[ext_resource type="PackedScene" uid="uid://27858p8ohbyr" path="res://Scenes/game/UI/CustomUI/CustomShadow/CustomShadow.tscn" id="3_4ws5k"]
+[ext_resource type="PackedScene" uid="uid://dhcccgfi4g0ln" path="res://Scenes/game/UI/CustomUI/TweenAnim/TweenAnim.tscn" id="4_4ws5k"]
+
+[node name="CustomButton" type="Button" unique_id=88439538 node_paths=PackedStringArray("animation", "shadow")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.8745098, 0.8745098, 0.8745098, 0)
+theme_override_colors/font_focus_color = Color(0.9490196, 0.9490196, 0.9490196, 0)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 0)
+theme_override_colors/font_hover_color = Color(0.9490196, 0.9490196, 0.9490196, 0)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 0)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+flat = true
+icon_alignment = 1
+script = ExtResource("2_ddh1m")
+animation = NodePath("TweenAnim")
+shadow = NodePath("CustomShadow")
+current_shadow_size = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=1173492254]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.5
+offset_top = -42.0
+offset_right = 160.5
+offset_bottom = 42.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_xm458")
+theme_override_font_sizes/normal_font_size = 40
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CustomShadow" parent="." unique_id=1111175842 node_paths=PackedStringArray("parent") instance=ExtResource("3_4ws5k")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_position = Vector2(0, 5)
+mouse_filter = 2
+parent = NodePath("..")
+current_shadow_size = 2
+
+[node name="TweenAnim" parent="." unique_id=679141744 instance=ExtResource("4_4ws5k")]
+
+[connection signal="mouse_entered" from="." to="." method="hover_in"]
+[connection signal="mouse_exited" from="." to="." method="hover_out"]

@@ -1,0 +1,326 @@
+[gd_scene format=3 uid="uid://pkba7i4wbbqt"]
+
+[ext_resource type="Script" uid="uid://cmwo0t2n6wp8d" path="res://Scenes/game/items.gd" id="1_7pssd"]
+[ext_resource type="Script" uid="uid://dto0a5wgcki4d" path="res://Scenes/game/game.gd" id="1_d0b77"]
+[ext_resource type="Script" uid="uid://d28n0bd80ci1r" path="res://Scenes/game/data.gd" id="2_5l446"]
+[ext_resource type="Script" uid="uid://bvgiptddbqn4f" path="res://Scenes/game/main_menu.gd" id="2_6y3i1"]
+[ext_resource type="Script" uid="uid://b4ql81ff42fj0" path="res://Scenes/game/wave_profile.gd" id="2_d0b77"]
+[ext_resource type="Script" uid="uid://bkucrc2xpbnam" path="res://Scenes/game/player_profile.gd" id="3_7trcl"]
+[ext_resource type="Script" uid="uid://c4xa0u7tesc3i" path="res://Scenes/game/stage_profile.gd" id="4_nds08"]
+[ext_resource type="Script" uid="uid://btbqpv5mumxr3" path="res://Scenes/game/entity_manager.gd" id="5_5l446"]
+[ext_resource type="PackedScene" uid="uid://n1o0odr82me" path="res://Scenes/game/UI/CustomUI/CustomButton/CustomButton.tscn" id="5_hy3pq"]
+[ext_resource type="Texture2D" uid="uid://dbtl7qw2uv765" path="res://Assets/112_sin_titulo_20260826212710.png" id="6_klkrs"]
+[ext_resource type="Script" uid="uid://dgrceketh2lmm" path="res://Scenes/game/shop.gd" id="7_6y3i1"]
+[ext_resource type="Shader" uid="uid://lwju5we3dplt" path="res://Assets/shader_background_presset.gdshader" id="7_27ybv"]
+[ext_resource type="Script" uid="uid://c06je4lm702s7" path="res://Scenes/game/stage.gd" id="8_meiaf"]
+[ext_resource type="Texture2D" uid="uid://dn1igcxergeam" path="res://Assets/carboard/cardboard1.png" id="9_27ybv"]
+[ext_resource type="Shader" uid="uid://wlidgy6ssbcd" path="res://Scenes/game/transition/transition_texture_mask.gdshader" id="11_kw6cb"]
+[ext_resource type="Texture2D" uid="uid://cx48yqu7ywgcd" path="res://Assets/papel/paper3.png" id="12_btxna"]
+[ext_resource type="Texture2D" uid="uid://b5m50gv4dsvvy" path="res://icon.svg" id="12_ii7ab"]
+[ext_resource type="PackedScene" uid="uid://dp7t6ennil78c" path="res://Scenes/game/UI/CustomUI/Stickersheet/Stickersheet.tscn" id="13_2kyel"]
+[ext_resource type="Texture2D" uid="uid://gwumhp4a3pah" path="res://Assets/UFOS/red ufo.png" id="13_hxkax"]
+[ext_resource type="Script" uid="uid://bxwu83hpm1478" path="res://Scenes/game/transition/transition_texture_mask.gd" id="13_ii7ab"]
+[ext_resource type="Script" uid="uid://coghiw17ea507" path="res://Scenes/game/UI/CustomUI/Stickersheet/sticker_stack.gd" id="16_68wwg"]
+[ext_resource type="Texture2D" uid="uid://bmjiaw68k15aq" path="res://Assets/papel/paper2.png" id="18_68wwg"]
+[ext_resource type="Script" uid="uid://qvr7thrqfid2" path="res://Scenes/game/transition/bloqueador_xd.gd" id="19_2kyel"]
+[ext_resource type="Texture2D" uid="uid://bm6x2vtd5v32e" path="res://Assets/larg.jpeg" id="19_btxna"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_duc3a"]
+noise_type = 2
+frequency = 0.0064
+fractal_octaves = 3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qequx"]
+noise = SubResource("FastNoiseLite_duc3a")
+seamless = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_btxna"]
+noise_type = 2
+fractal_octaves = 3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_27ybv"]
+noise = SubResource("FastNoiseLite_btxna")
+seamless = true
+
+[sub_resource type="Gradient" id="Gradient_qequx"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.15677966, 0.2584746, 0.30932203, 0.43644068, 0.5381356, 0.6398305, 0.7584746, 0.88559324)
+colors = PackedColorArray(0.22745098, 0.23137255, 0, 1, 1, 0.70980394, 0.36078432, 1, 1, 0.63529414, 0, 1, 0.22745098, 0.23137255, 0, 1, 1, 0.70980394, 0.36078432, 1, 0.22745098, 0.23137255, 0, 1, 1, 0.63529414, 0, 1, 1, 0.70980394, 0.36078432, 1, 0.22745098, 0.23137255, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_27ybv"]
+gradient = SubResource("Gradient_qequx")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2ov6r"]
+shader = ExtResource("7_27ybv")
+shader_parameter/pixelation = Vector2(3000, 3000)
+shader_parameter/cloud_noise1 = SubResource("NoiseTexture2D_qequx")
+shader_parameter/scroll_speed1 = Vector2(0.002, 0.007)
+shader_parameter/cloud_noise2 = SubResource("NoiseTexture2D_27ybv")
+shader_parameter/scroll_speed2 = Vector2(-0.001, -0.004)
+shader_parameter/center_pos = Vector2(0.5, 0)
+shader_parameter/position_impact = 0.499999988824
+shader_parameter/color_gardient = SubResource("GradientTexture1D_27ybv")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_006r0"]
+blend_mode = 3
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1y1g7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_006r0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_006r0"]
+shader = ExtResource("11_kw6cb")
+shader_parameter/mask_texture = ExtResource("13_hxkax")
+shader_parameter/zoom = 2.0
+shader_parameter/strength = 0.0
+shader_parameter/center = Vector2(0.5, 0.5)
+
+[node name="Game" type="Node2D" unique_id=1666873034 node_paths=PackedStringArray("state_node")]
+script = ExtResource("1_d0b77")
+state_node = [NodePath("MainMenu"), NodePath("Shop"), NodePath("Stage")]
+
+[node name="Data" type="Node2D" parent="." unique_id=1750733494]
+script = ExtResource("2_5l446")
+
+[node name="Items" type="Node" parent="Data" unique_id=2026950215]
+script = ExtResource("1_7pssd")
+
+[node name="WaveProfile" type="Node" parent="Data" unique_id=1761618581]
+script = ExtResource("2_d0b77")
+
+[node name="PlayerProfile" type="Node" parent="Data" unique_id=1275462889]
+script = ExtResource("3_7trcl")
+
+[node name="StageProfile" type="Node" parent="Data" unique_id=528993412]
+script = ExtResource("4_nds08")
+
+[node name="ShopStatus" type="Node" parent="Data" unique_id=1844910751]
+
+[node name="Background" type="CanvasLayer" parent="." unique_id=539190627]
+layer = 0
+
+[node name="ColorRect" type="ColorRect" parent="Background" unique_id=1852096254]
+material = SubResource("ShaderMaterial_2ov6r")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Background" unique_id=1777311066]
+material = SubResource("CanvasItemMaterial_006r0")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -24.0
+offset_right = 47.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_27ybv")
+
+[node name="MainMenu" type="Node2D" parent="." unique_id=1820613610]
+script = ExtResource("2_6y3i1")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="MainMenu" unique_id=1177897169]
+visible = false
+
+[node name="Control" type="Control" parent="MainMenu/CanvasLayer" unique_id=1940642793]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginLinks" type="PanelContainer" parent="MainMenu/CanvasLayer/Control" unique_id=854200289]
+layout_mode = 0
+offset_right = 424.0
+offset_bottom = 720.0
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_1y1g7")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/CanvasLayer/Control/MarginLinks" unique_id=1324434602]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 2
+
+[node name="Button" type="Button" parent="MainMenu/CanvasLayer/Control/MarginLinks/VBoxContainer" unique_id=1637380023]
+layout_mode = 2
+icon = ExtResource("12_ii7ab")
+flat = true
+
+[node name="Buttons" type="VBoxContainer" parent="MainMenu/CanvasLayer/Control" unique_id=316849788]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -161.0
+offset_top = -177.5
+offset_right = 161.0
+offset_bottom = 177.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="Play" parent="MainMenu/CanvasLayer/Control/Buttons" unique_id=88439538 node_paths=PackedStringArray("container") instance=ExtResource("5_hy3pq")]
+layout_mode = 2
+text = "play"
+icon = ExtResource("12_btxna")
+container = NodePath("..")
+
+[node name="Settings" parent="MainMenu/CanvasLayer/Control/Buttons" unique_id=1348949294 node_paths=PackedStringArray("container") instance=ExtResource("5_hy3pq")]
+layout_mode = 2
+text = "settings"
+icon = ExtResource("12_btxna")
+container = NodePath("..")
+
+[node name="Quit" parent="MainMenu/CanvasLayer/Control/Buttons" unique_id=11511914 node_paths=PackedStringArray("container") instance=ExtResource("5_hy3pq")]
+layout_mode = 2
+text = "quit"
+icon = ExtResource("12_btxna")
+container = NodePath("..")
+
+[node name="LucyTexture" type="TextureRect" parent="MainMenu/CanvasLayer/Control" unique_id=332650765]
+custom_minimum_size = Vector2(400, 400)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_vertical = 3
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 4)
+texture = ExtResource("6_klkrs")
+expand_mode = 4
+
+[node name="Shop" type="Node2D" parent="." unique_id=1383714936]
+script = ExtResource("7_6y3i1")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Shop" unique_id=426446954]
+
+[node name="Control" type="Control" parent="Shop/CanvasLayer" unique_id=831682384]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Shop/CanvasLayer/Control" unique_id=2031725786]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 53.0
+offset_right = 1165.0
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 25
+
+[node name="Arrow1" parent="Shop/CanvasLayer/Control/HBoxContainer" unique_id=241590845 instance=ExtResource("5_hy3pq")]
+layout_mode = 2
+text = "cambiar"
+icon = ExtResource("18_68wwg")
+
+[node name="StickerSheets" type="PanelContainer" parent="Shop/CanvasLayer/Control/HBoxContainer" unique_id=1154503702 node_paths=PackedStringArray("stack")]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_006r0")
+script = ExtResource("16_68wwg")
+stack = [NodePath("Sheet0"), NodePath("Sheet1"), NodePath("Sheet2")]
+
+[node name="Sheet2" parent="Shop/CanvasLayer/Control/HBoxContainer/StickerSheets" unique_id=96412486 instance=ExtResource("13_2kyel")]
+layout_mode = 2
+offset_transform_enabled = true
+
+[node name="Sheet1" parent="Shop/CanvasLayer/Control/HBoxContainer/StickerSheets" unique_id=1890295091 instance=ExtResource("13_2kyel")]
+modulate = Color(1, 1, 0.20392157, 1)
+layout_mode = 2
+offset_transform_enabled = true
+
+[node name="Sheet0" parent="Shop/CanvasLayer/Control/HBoxContainer/StickerSheets" unique_id=1278150484 node_paths=PackedStringArray("container") instance=ExtResource("13_2kyel")]
+modulate = Color(1, 0.5647059, 1, 1)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_visual_only = false
+container = NodePath("../..")
+
+[node name="Arrow2" parent="Shop/CanvasLayer/Control/HBoxContainer" unique_id=1315038082 node_paths=PackedStringArray("container") instance=ExtResource("5_hy3pq")]
+layout_mode = 2
+text = "flechas"
+icon = ExtResource("18_68wwg")
+container = NodePath("..")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Shop/CanvasLayer/Control" unique_id=1735525267]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -273.0
+offset_top = -82.0
+offset_bottom = -82.0
+grow_horizontal = 0
+grow_vertical = 2
+alignment = 2
+
+[node name="Ready" parent="Shop/CanvasLayer/Control/VBoxContainer" unique_id=1731063591 node_paths=PackedStringArray("container") instance=ExtResource("5_hy3pq")]
+layout_mode = 2
+text = "Ready"
+icon = ExtResource("18_68wwg")
+container = NodePath("..")
+
+[node name="Stage" type="Node2D" parent="." unique_id=162588584]
+script = ExtResource("8_meiaf")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Stage" unique_id=1125312283]
+
+[node name="TextureRect" type="TextureRect" parent="Stage/CanvasLayer" unique_id=1279956834]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("19_btxna")
+expand_mode = 1
+
+[node name="EntityManager" type="Node2D" parent="Stage" unique_id=307585001]
+script = ExtResource("5_5l446")
+
+[node name="UfoContainer" type="Node2D" parent="Stage" unique_id=1165835254]
+
+[node name="Player" type="Node2D" parent="Stage" unique_id=888585195]
+
+[node name="Timer" type="Timer" parent="Stage" unique_id=1096629392]
+
+[node name="Transition" type="CanvasLayer" parent="." unique_id=517670231]
+
+[node name="ColorRect" type="ColorRect" parent="Transition" unique_id=1671315147]
+material = SubResource("ShaderMaterial_006r0")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("13_ii7ab")
+
+[node name="bloqueador xd" type="ColorRect" parent="Transition" unique_id=1318035115]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+script = ExtResource("19_2kyel")
+
+[connection signal="state_change" from="MainMenu" to="." method="state_transition"]
+[connection signal="button_down" from="MainMenu/CanvasLayer/Control/Buttons/Play" to="MainMenu" method="_on_button_play"]
+[connection signal="button_down" from="MainMenu/CanvasLayer/Control/Buttons/Quit" to="MainMenu" method="_on_button_quit"]
+[connection signal="state_change" from="Shop" to="." method="state_transition"]
+[connection signal="button_down" from="Shop/CanvasLayer/Control/HBoxContainer/Arrow1" to="Shop/CanvasLayer/Control/HBoxContainer/StickerSheets" method="move_front"]
+[connection signal="button_down" from="Shop/CanvasLayer/Control/HBoxContainer/Arrow2" to="Shop/CanvasLayer/Control/HBoxContainer/StickerSheets" method="move_behind"]
+[connection signal="button_down" from="Shop/CanvasLayer/Control/VBoxContainer/Ready" to="Shop" method="_on_button_ready"]

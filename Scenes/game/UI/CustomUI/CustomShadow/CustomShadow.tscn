@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://27858p8ohbyr"]
+
+[ext_resource type="Script" uid="uid://cd2g2y2yp8o43" path="res://Scenes/game/UI/CustomUI/CustomShadow/custom_shadow.gd" id="1_ax38w"]
+
+[node name="CustomShadow" type="TextureRect" unique_id=1111175842]
+modulate = Color(0, 0, 0, 0.5372549)
+show_behind_parent = true
+offset_transform_enabled = true
+script = ExtResource("1_ax38w")
+current_shadow_size = 1

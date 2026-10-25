@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dhcccgfi4g0ln"]
+
+[ext_resource type="Script" uid="uid://cps6wledrexan" path="res://Scenes/game/UI/CustomUI/TweenAnim/tween_anim.gd" id="1_yrqsi"]
+
+[node name="TweenAnim" type="Node" unique_id=679141744]
+script = ExtResource("1_yrqsi")
