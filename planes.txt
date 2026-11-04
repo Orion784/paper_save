@@ -1,0 +1,34 @@
+OK:
+
+
+antes de llegar a juego, se hace abre una cajita misteriosa con stickers para esa ronda
+en el juego, esos stickers cambian la jugabilidad
+hay 6 balas, nos dan 6 stickers
+digamos que por ejemplo, hay sticker bala explosiva, y 5 sticker explosión
+cada "cartucho" de nuestras balas, convertira 1 de esas balas normales en una bala explosiva
+stickers pueden cambiar el comportamiento del juego
+como que los ufos sean mas grandes, tengan mas vida, sean mas rapido, puedan aparecer variedades de estos
+por ejemplo, podria salir un ufo que al morir se transforme en un agujero negro que chupa enemigos,
+y tengo el sticker de explosion, que al morir un ufo, provoca daño a los contiguos. al hacer daño ahi, se haria una reaccion en cadena impresionante
+
+
+En la tienda puedes DESBLOQUEAR estos stickers. Puedes mejorar estadisiticas bases.
+
+cada ufo tiene experiencia dentro de si mismo, al morir rellenan una barra. si llega al 100% se gana el nivel. y se puede seguir juntando a mas del 100%
+
+hay una cantidad maxima de ufos en pantalla. spawnean infinitamente
+
+al final de la ronda, ese porcentaje se vuelve dinero.
+
+a final de cuenta si vamos a seguir con la idea de las "100 noches" 
+
+
+DEFINAMOS LAS TAREAS PENDIENTES:
+
+1. Stage
+	1-finalizar sistema de partida:
+	     Temporizador, barra de avance, (¿puntaje?), sistema de balas, sistema de bomba, spawn_rate, ufos activos, 
+	     cada 6 balas recarga por un momento, 
+-Crear UI basica de stage
+-Crear unos stickers placeholder.
+-Finalizar la tienda.

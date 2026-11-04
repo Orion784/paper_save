@@ -12,8 +12,16 @@ func _process(_delta: float) -> void:
 	pass
 
 func init():
+	visible = true
 	$CanvasLayer.visible = true
+	$EntityManager.start_ufos()
 	pass
+
 func dispose():
 	$CanvasLayer.visible = false
+	visible = false
+	pass
+
+func shoot_fired(center:Vector2, radius : float, damage: float) -> void:
+	$EntityManager.apply_shoot(center,radius,damage)
 	pass

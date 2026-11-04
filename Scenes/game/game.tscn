@@ -20,10 +20,19 @@
 [ext_resource type="PackedScene" uid="uid://dp7t6ennil78c" path="res://Scenes/game/UI/CustomUI/Stickersheet/Stickersheet.tscn" id="13_2kyel"]
 [ext_resource type="Texture2D" uid="uid://gwumhp4a3pah" path="res://Assets/UFOS/red ufo.png" id="13_hxkax"]
 [ext_resource type="Script" uid="uid://bxwu83hpm1478" path="res://Scenes/game/transition/transition_texture_mask.gd" id="13_ii7ab"]
+[ext_resource type="Texture2D" uid="uid://bqinyim4vclfc" path="res://Assets/papel/flecha correjidar 2.png" id="15_tvnbm"]
 [ext_resource type="Script" uid="uid://coghiw17ea507" path="res://Scenes/game/UI/CustomUI/Stickersheet/sticker_stack.gd" id="16_68wwg"]
 [ext_resource type="Texture2D" uid="uid://bmjiaw68k15aq" path="res://Assets/papel/paper2.png" id="18_68wwg"]
+[ext_resource type="Texture2D" uid="uid://c6aved8w50823" path="res://Assets/papel/flecha correjidar.png" id="18_mmnmt"]
 [ext_resource type="Script" uid="uid://qvr7thrqfid2" path="res://Scenes/game/transition/bloqueador_xd.gd" id="19_2kyel"]
 [ext_resource type="Texture2D" uid="uid://bm6x2vtd5v32e" path="res://Assets/larg.jpeg" id="19_btxna"]
+[ext_resource type="Texture2D" uid="uid://k6w71u2q22x3" path="res://Assets/UFOS/blue ufo.png" id="21_68wwg"]
+[ext_resource type="Script" uid="uid://cq5yspaqjkqs8" path="res://Scenes/game/player.gd" id="21_duc3a"]
+[ext_resource type="Shader" uid="uid://de0td81qtux1y" path="res://Scenes/game/UI/Shaders/ufo_sprite.gdshader" id="21_jodyk"]
+[ext_resource type="Texture2D" uid="uid://upt47mu43f0g" path="res://Assets/UFOS/textura del atlas.png" id="22_jodyk"]
+[ext_resource type="Texture2D" uid="uid://bx1vt6fswk4m6" path="res://Assets/mouse.png" id="22_yl8fu"]
+[ext_resource type="Script" uid="uid://b14bd117adk2r" path="res://Scenes/game/damage_label.gd" id="23_dlt2v"]
+[ext_resource type="FontFile" uid="uid://c5pdyt8k2ko6q" path="res://Assets/Hey Comic.ttf" id="24_tawbq"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_duc3a"]
 noise_type = 2
@@ -68,6 +77,25 @@ blend_mode = 3
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_006r0"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_dtglo"]
+radius = 12.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_duc3a"]
+size = Vector2(64, 64)
+
+[sub_resource type="MultiMesh" id="MultiMesh_68wwg"]
+use_custom_data = true
+mesh = SubResource("QuadMesh_duc3a")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jodyk"]
+shader = ExtResource("21_jodyk")
+shader_parameter/frame_count = 3.0
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Gradient" id="Gradient_tawbq"]
+offsets = PackedFloat32Array(0, 0.041666668, 0.93333334)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0.9254902, 0.1254902, 1, 1, 0.2627451, 0, 1)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_006r0"]
 shader = ExtResource("11_kw6cb")
 shader_parameter/mask_texture = ExtResource("13_hxkax")
@@ -97,7 +125,7 @@ script = ExtResource("4_nds08")
 [node name="ShopStatus" type="Node" parent="Data" unique_id=1844910751]
 
 [node name="Background" type="CanvasLayer" parent="." unique_id=539190627]
-layer = 0
+layer = -1
 
 [node name="ColorRect" type="ColorRect" parent="Background" unique_id=1852096254]
 material = SubResource("ShaderMaterial_2ov6r")
@@ -123,7 +151,6 @@ texture = ExtResource("9_27ybv")
 script = ExtResource("2_6y3i1")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="MainMenu" unique_id=1177897169]
-visible = false
 
 [node name="Control" type="Control" parent="MainMenu/CanvasLayer" unique_id=1940642793]
 layout_mode = 3
@@ -185,6 +212,7 @@ icon = ExtResource("12_btxna")
 container = NodePath("..")
 
 [node name="LucyTexture" type="TextureRect" parent="MainMenu/CanvasLayer/Control" unique_id=332650765]
+visible = false
 custom_minimum_size = Vector2(400, 400)
 layout_mode = 1
 anchors_preset = 11
@@ -224,8 +252,7 @@ theme_override_constants/separation = 25
 
 [node name="Arrow1" parent="Shop/CanvasLayer/Control/HBoxContainer" unique_id=241590845 instance=ExtResource("5_hy3pq")]
 layout_mode = 2
-text = "cambiar"
-icon = ExtResource("18_68wwg")
+icon = ExtResource("15_tvnbm")
 
 [node name="StickerSheets" type="PanelContainer" parent="Shop/CanvasLayer/Control/HBoxContainer" unique_id=1154503702 node_paths=PackedStringArray("stack")]
 layout_mode = 2
@@ -251,8 +278,7 @@ container = NodePath("../..")
 
 [node name="Arrow2" parent="Shop/CanvasLayer/Control/HBoxContainer" unique_id=1315038082 node_paths=PackedStringArray("container") instance=ExtResource("5_hy3pq")]
 layout_mode = 2
-text = "flechas"
-icon = ExtResource("18_68wwg")
+icon = ExtResource("18_mmnmt")
 container = NodePath("..")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Shop/CanvasLayer/Control" unique_id=1735525267]
@@ -277,7 +303,44 @@ container = NodePath("..")
 [node name="Stage" type="Node2D" parent="." unique_id=162588584]
 script = ExtResource("8_meiaf")
 
+[node name="Player" type="Node2D" parent="Stage" unique_id=888585195]
+position = Vector2(179, 160)
+scale = Vector2(3, 3)
+script = ExtResource("21_duc3a")
+base_damage = 1.0
+crit_damage = 3.0
+crit_chance = 0.1
+
+[node name="Sprite2D" type="Sprite2D" parent="Stage/Player" unique_id=382463450]
+z_index = 1
+texture = ExtResource("22_yl8fu")
+
+[node name="Area2D" type="Area2D" parent="Stage/Player" unique_id=924743265]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Stage/Player/Area2D" unique_id=95842268]
+shape = SubResource("CircleShape2D_dtglo")
+
+[node name="EntityManager" type="Node" parent="Stage" unique_id=1135806143]
+script = ExtResource("5_5l446")
+
+[node name="UfoShadow" type="MultiMeshInstance2D" parent="Stage/EntityManager" unique_id=1926341031]
+modulate = Color(0, 0, 0, 0.49411765)
+position = Vector2(0, 7)
+multimesh = SubResource("MultiMesh_68wwg")
+texture = ExtResource("21_68wwg")
+
+[node name="MultiMeshInstance2D" type="MultiMeshInstance2D" parent="Stage/EntityManager" unique_id=1625249083]
+material = SubResource("ShaderMaterial_jodyk")
+multimesh = SubResource("MultiMesh_68wwg")
+texture = ExtResource("22_jodyk")
+
+[node name="DamageLabel" type="Node2D" parent="Stage/EntityManager" unique_id=842094779]
+script = ExtResource("23_dlt2v")
+font = ExtResource("24_tawbq")
+gradient = SubResource("Gradient_tawbq")
+
 [node name="CanvasLayer" type="CanvasLayer" parent="Stage" unique_id=1125312283]
+layer = -1
 
 [node name="TextureRect" type="TextureRect" parent="Stage/CanvasLayer" unique_id=1279956834]
 anchors_preset = 15
@@ -287,15 +350,6 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("19_btxna")
 expand_mode = 1
-
-[node name="EntityManager" type="Node2D" parent="Stage" unique_id=307585001]
-script = ExtResource("5_5l446")
-
-[node name="UfoContainer" type="Node2D" parent="Stage" unique_id=1165835254]
-
-[node name="Player" type="Node2D" parent="Stage" unique_id=888585195]
-
-[node name="Timer" type="Timer" parent="Stage" unique_id=1096629392]
 
 [node name="Transition" type="CanvasLayer" parent="." unique_id=517670231]
 
@@ -324,3 +378,4 @@ script = ExtResource("19_2kyel")
 [connection signal="button_down" from="Shop/CanvasLayer/Control/HBoxContainer/Arrow1" to="Shop/CanvasLayer/Control/HBoxContainer/StickerSheets" method="move_front"]
 [connection signal="button_down" from="Shop/CanvasLayer/Control/HBoxContainer/Arrow2" to="Shop/CanvasLayer/Control/HBoxContainer/StickerSheets" method="move_behind"]
 [connection signal="button_down" from="Shop/CanvasLayer/Control/VBoxContainer/Ready" to="Shop" method="_on_button_ready"]
+[connection signal="shoot_fired" from="Stage/Player" to="Stage" method="shoot_fired"]

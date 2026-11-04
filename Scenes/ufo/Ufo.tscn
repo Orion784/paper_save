@@ -1,3 +1,6 @@
 [gd_scene format=3 uid="uid://b0dxf1x6lxmoj"]
 
+[ext_resource type="Script" uid="uid://b4032j371vfaj" path="res://Scenes/ufo/ufo.gd" id="1_mppvp"]
+
 [node name="Ufo" type="Node2D" unique_id=1116892110]
+script = ExtResource("1_mppvp")
