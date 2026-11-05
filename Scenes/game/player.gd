@@ -9,6 +9,8 @@ extends Node2D
 #@export var recharge_speed : float
 #@export var ammo : int
 
+var paused : bool = false
+
 signal shoot_fired(center: Vector2, radius: float, damage:float)
 
 func setup(_a : Dictionary) -> void:
@@ -22,17 +24,13 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	$Sprite2D.rotation += _delta * 3
-	if $Sprite2D.rotation > 360:
-		$Sprite2D.rotation = 0
 	position = get_global_mouse_position()
-	
-	if shot_timer > 0.0:
-		shot_timer -= _delta
-	else:
-		shoot_fired.emit(global_position, radius, damage_output())
-		shot_timer = 0.5
-	pass
+	if !paused:
+		$Sprite2D.rotation += _delta * 3
+		if $Sprite2D.rotation > 360:
+			$Sprite2D.rotation = 0
+		update_damage(_delta)
+
 
 func damage_output() -> float:
 	if randf() <= crit_chance:
@@ -40,6 +38,13 @@ func damage_output() -> float:
 	else:
 		return base_damage #se envia el rango, el daño, el multiplicador
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("shoot"):
+func update_damage(_delta) -> void:
+	if shot_timer > 0.0:
+		shot_timer -= _delta
+	else:
 		shoot_fired.emit(global_position, radius, damage_output())
+		shot_timer = 0.5
+	pass
+#func _unhandled_input(event: InputEvent) -> void:
+	#if event.is_action_pressed("shoot"):
+		#shoot_fired.emit(global_position, radius, damage_output())

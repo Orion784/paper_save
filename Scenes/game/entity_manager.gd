@@ -3,6 +3,8 @@ extends Node
 class_name EntityManager
 
 var play_area : Rect2
+var paused: bool = false
+signal experience_gained(amount:float)
 
 @onready var multimesh: MultiMesh = $MultiMeshInstance2D.multimesh
 @onready var damage_label: DamageNumbers = $DamageLabel
@@ -12,6 +14,7 @@ const MAX_UFOS: int = 2000
 const UFO_SPEED: float = 120.0   # píxeles por segundo
 const UFO_HEALTH: int = 3
 const UFO_RADIUS: float = 48.0
+const UFO_EXPERIENCE: float = 1
 #Datos de animación
 const PENDULUM_AMPLITUDE: float = 0.45   # radianes, unos 26° hacia cada lado
 const PENDULUM_SPEED: float = 2.5        # radianes de fase por segundo
@@ -23,6 +26,7 @@ const DEATH_TIME: float = 0.5
 var positions: PackedVector2Array
 var velocities: PackedVector2Array
 var health: PackedInt32Array
+var experience: PackedFloat32Array
 #Datos de animación
 var phases: PackedFloat32Array
 var stun_timers: PackedFloat32Array
@@ -42,6 +46,7 @@ func init_pool() -> bool:
 	velocities.resize(MAX_UFOS)
 	phases.resize(MAX_UFOS)
 	health.resize(MAX_UFOS)
+	experience.resize(MAX_UFOS	)
 	stun_timers.resize(MAX_UFOS)
 	flash_timers.resize(MAX_UFOS)
 	death_timers.resize(MAX_UFOS)
@@ -75,10 +80,11 @@ func spawn_ufo(spawn_position: Vector2) -> bool:
 	return true
 
 func _process(delta: float) -> void:
-	update_movement(delta)
-	update_pendulum(delta)
-	update_flash(delta)
-	update_death(delta)
+	if !paused :
+		update_movement(delta)
+		update_pendulum(delta)
+		update_flash(delta)
+		update_death(delta)
 	sync_multimesh()
 
 func update_movement(delta: float) -> void:
@@ -162,6 +168,7 @@ func sync_multimesh() -> void:
 
 func apply_shoot(center : Vector2, radius : float, damage: int) -> void:
 	var hit_distance = intersection(radius)
+	var total_experience : int = 0
 	for i in range(active_count - 1, -1, -1):
 		if health[i] <= 0:
 			continue   # ya está muriendo, no se vuelve a golpear
@@ -172,8 +179,11 @@ func apply_shoot(center : Vector2, radius : float, damage: int) -> void:
 			if health[i] <= 0:
 				death_timers[i] = DEATH_TIME
 				stun_timers[i] = DEATH_TIME   # quieto (y vibrando) mientras muere
+				total_experience += 1
 			else:
 				stun_timers[i] = 0.50
+	if total_experience > 0 :
+		experience_gained.emit(total_experience * UFO_EXPERIENCE)
 
 func remove_ufo(i: int) -> void:
 	if i < 0 or i >= active_count:
@@ -191,7 +201,6 @@ func remove_ufo(i: int) -> void:
 func clear_ufos() -> void:
 	active_count = 0
 	multimesh.visible_instance_count = 0
-
 
 #Funciones simples
 func distance(p1 : Vector2, p2 : Vector2) -> float:

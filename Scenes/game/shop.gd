@@ -14,11 +14,11 @@ func _process(_delta: float) -> void:
 
 
 func init():
-	$CanvasLayer.visible = true
+	$ShopCanvas.visible = true
 	pass
 	
 func dispose():
-	$CanvasLayer.visible = false
+	$ShopCanvas.visible = false
 	pass
 
 

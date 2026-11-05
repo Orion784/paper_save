@@ -33,6 +33,9 @@
 [ext_resource type="Texture2D" uid="uid://bx1vt6fswk4m6" path="res://Assets/mouse.png" id="22_yl8fu"]
 [ext_resource type="Script" uid="uid://b14bd117adk2r" path="res://Scenes/game/damage_label.gd" id="23_dlt2v"]
 [ext_resource type="FontFile" uid="uid://c5pdyt8k2ko6q" path="res://Assets/Hey Comic.ttf" id="24_tawbq"]
+[ext_resource type="Script" uid="uid://bc1w8xkm34go6" path="res://Scenes/game/stage_canvas.gd" id="30_aeitv"]
+[ext_resource type="FontFile" uid="uid://b7633adwlstvg" path="res://Assets/upheavtt.ttf" id="31_2700v"]
+[ext_resource type="Texture2D" uid="uid://d3tnvnm0w1hrk" path="res://Assets/UFOS/golden ufo.png" id="33_5a7di"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_duc3a"]
 noise_type = 2
@@ -105,6 +108,7 @@ shader_parameter/center = Vector2(0.5, 0.5)
 
 [node name="Game" type="Node2D" unique_id=1666873034 node_paths=PackedStringArray("state_node")]
 script = ExtResource("1_d0b77")
+opening_state = 2
 state_node = [NodePath("MainMenu"), NodePath("Shop"), NodePath("Stage")]
 
 [node name="Data" type="Node2D" parent="." unique_id=1750733494]
@@ -125,7 +129,8 @@ script = ExtResource("4_nds08")
 [node name="ShopStatus" type="Node" parent="Data" unique_id=1844910751]
 
 [node name="Background" type="CanvasLayer" parent="." unique_id=539190627]
-layer = -1
+layer = -2
+visible = false
 
 [node name="ColorRect" type="ColorRect" parent="Background" unique_id=1852096254]
 material = SubResource("ShaderMaterial_2ov6r")
@@ -150,9 +155,10 @@ texture = ExtResource("9_27ybv")
 [node name="MainMenu" type="Node2D" parent="." unique_id=1820613610]
 script = ExtResource("2_6y3i1")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="MainMenu" unique_id=1177897169]
+[node name="MenuCanvas" type="CanvasLayer" parent="MainMenu" unique_id=1177897169]
+visible = false
 
-[node name="Control" type="Control" parent="MainMenu/CanvasLayer" unique_id=1940642793]
+[node name="Control" type="Control" parent="MainMenu/MenuCanvas" unique_id=1940642793]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -160,24 +166,24 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginLinks" type="PanelContainer" parent="MainMenu/CanvasLayer/Control" unique_id=854200289]
+[node name="MarginLinks" type="PanelContainer" parent="MainMenu/MenuCanvas/Control" unique_id=854200289]
 layout_mode = 0
 offset_right = 424.0
 offset_bottom = 720.0
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_1y1g7")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/CanvasLayer/Control/MarginLinks" unique_id=1324434602]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/MenuCanvas/Control/MarginLinks" unique_id=1324434602]
 layout_mode = 2
 theme_override_constants/separation = 50
 alignment = 2
 
-[node name="Button" type="Button" parent="MainMenu/CanvasLayer/Control/MarginLinks/VBoxContainer" unique_id=1637380023]
+[node name="Button" type="Button" parent="MainMenu/MenuCanvas/Control/MarginLinks/VBoxContainer" unique_id=1637380023]
 layout_mode = 2
 icon = ExtResource("12_ii7ab")
 flat = true
 
-[node name="Buttons" type="VBoxContainer" parent="MainMenu/CanvasLayer/Control" unique_id=316849788]
+[node name="Buttons" type="VBoxContainer" parent="MainMenu/MenuCanvas/Control" unique_id=316849788]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -193,26 +199,25 @@ grow_vertical = 2
 theme_override_constants/separation = 50
 alignment = 1
 
-[node name="Play" parent="MainMenu/CanvasLayer/Control/Buttons" unique_id=88439538 node_paths=PackedStringArray("container") instance=ExtResource("5_hy3pq")]
+[node name="Play" parent="MainMenu/MenuCanvas/Control/Buttons" unique_id=88439538 node_paths=PackedStringArray("container") instance=ExtResource("5_hy3pq")]
 layout_mode = 2
 text = "play"
 icon = ExtResource("12_btxna")
 container = NodePath("..")
 
-[node name="Settings" parent="MainMenu/CanvasLayer/Control/Buttons" unique_id=1348949294 node_paths=PackedStringArray("container") instance=ExtResource("5_hy3pq")]
+[node name="Settings" parent="MainMenu/MenuCanvas/Control/Buttons" unique_id=1348949294 node_paths=PackedStringArray("container") instance=ExtResource("5_hy3pq")]
 layout_mode = 2
 text = "settings"
 icon = ExtResource("12_btxna")
 container = NodePath("..")
 
-[node name="Quit" parent="MainMenu/CanvasLayer/Control/Buttons" unique_id=11511914 node_paths=PackedStringArray("container") instance=ExtResource("5_hy3pq")]
+[node name="Quit" parent="MainMenu/MenuCanvas/Control/Buttons" unique_id=11511914 node_paths=PackedStringArray("container") instance=ExtResource("5_hy3pq")]
 layout_mode = 2
 text = "quit"
 icon = ExtResource("12_btxna")
 container = NodePath("..")
 
-[node name="LucyTexture" type="TextureRect" parent="MainMenu/CanvasLayer/Control" unique_id=332650765]
-visible = false
+[node name="LucyTexture" type="TextureRect" parent="MainMenu/MenuCanvas/Control" unique_id=332650765]
 custom_minimum_size = Vector2(400, 400)
 layout_mode = 1
 anchors_preset = 11
@@ -230,9 +235,10 @@ expand_mode = 4
 [node name="Shop" type="Node2D" parent="." unique_id=1383714936]
 script = ExtResource("7_6y3i1")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="Shop" unique_id=426446954]
+[node name="ShopCanvas" type="CanvasLayer" parent="Shop" unique_id=426446954]
+visible = false
 
-[node name="Control" type="Control" parent="Shop/CanvasLayer" unique_id=831682384]
+[node name="Control" type="Control" parent="Shop/ShopCanvas" unique_id=831682384]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -240,7 +246,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Shop/CanvasLayer/Control" unique_id=2031725786]
+[node name="HBoxContainer" type="HBoxContainer" parent="Shop/ShopCanvas/Control" unique_id=2031725786]
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -250,38 +256,38 @@ grow_vertical = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 25
 
-[node name="Arrow1" parent="Shop/CanvasLayer/Control/HBoxContainer" unique_id=241590845 instance=ExtResource("5_hy3pq")]
+[node name="Arrow1" parent="Shop/ShopCanvas/Control/HBoxContainer" unique_id=241590845 instance=ExtResource("5_hy3pq")]
 layout_mode = 2
 icon = ExtResource("15_tvnbm")
 
-[node name="StickerSheets" type="PanelContainer" parent="Shop/CanvasLayer/Control/HBoxContainer" unique_id=1154503702 node_paths=PackedStringArray("stack")]
+[node name="StickerSheets" type="PanelContainer" parent="Shop/ShopCanvas/Control/HBoxContainer" unique_id=1154503702 node_paths=PackedStringArray("stack")]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_006r0")
 script = ExtResource("16_68wwg")
 stack = [NodePath("Sheet0"), NodePath("Sheet1"), NodePath("Sheet2")]
 
-[node name="Sheet2" parent="Shop/CanvasLayer/Control/HBoxContainer/StickerSheets" unique_id=96412486 instance=ExtResource("13_2kyel")]
+[node name="Sheet2" parent="Shop/ShopCanvas/Control/HBoxContainer/StickerSheets" unique_id=96412486 instance=ExtResource("13_2kyel")]
 layout_mode = 2
 offset_transform_enabled = true
 
-[node name="Sheet1" parent="Shop/CanvasLayer/Control/HBoxContainer/StickerSheets" unique_id=1890295091 instance=ExtResource("13_2kyel")]
+[node name="Sheet1" parent="Shop/ShopCanvas/Control/HBoxContainer/StickerSheets" unique_id=1890295091 instance=ExtResource("13_2kyel")]
 modulate = Color(1, 1, 0.20392157, 1)
 layout_mode = 2
 offset_transform_enabled = true
 
-[node name="Sheet0" parent="Shop/CanvasLayer/Control/HBoxContainer/StickerSheets" unique_id=1278150484 node_paths=PackedStringArray("container") instance=ExtResource("13_2kyel")]
+[node name="Sheet0" parent="Shop/ShopCanvas/Control/HBoxContainer/StickerSheets" unique_id=1278150484 node_paths=PackedStringArray("container") instance=ExtResource("13_2kyel")]
 modulate = Color(1, 0.5647059, 1, 1)
 layout_mode = 2
 offset_transform_enabled = true
 offset_transform_visual_only = false
 container = NodePath("../..")
 
-[node name="Arrow2" parent="Shop/CanvasLayer/Control/HBoxContainer" unique_id=1315038082 node_paths=PackedStringArray("container") instance=ExtResource("5_hy3pq")]
+[node name="Arrow2" parent="Shop/ShopCanvas/Control/HBoxContainer" unique_id=1315038082 node_paths=PackedStringArray("container") instance=ExtResource("5_hy3pq")]
 layout_mode = 2
 icon = ExtResource("18_mmnmt")
 container = NodePath("..")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Shop/CanvasLayer/Control" unique_id=1735525267]
+[node name="VBoxContainer" type="VBoxContainer" parent="Shop/ShopCanvas/Control" unique_id=1735525267]
 layout_mode = 1
 anchors_preset = 11
 anchor_left = 1.0
@@ -294,7 +300,7 @@ grow_horizontal = 0
 grow_vertical = 2
 alignment = 2
 
-[node name="Ready" parent="Shop/CanvasLayer/Control/VBoxContainer" unique_id=1731063591 node_paths=PackedStringArray("container") instance=ExtResource("5_hy3pq")]
+[node name="Ready" parent="Shop/ShopCanvas/Control/VBoxContainer" unique_id=1731063591 node_paths=PackedStringArray("container") instance=ExtResource("5_hy3pq")]
 layout_mode = 2
 text = "Ready"
 icon = ExtResource("18_68wwg")
@@ -302,6 +308,21 @@ container = NodePath("..")
 
 [node name="Stage" type="Node2D" parent="." unique_id=162588584]
 script = ExtResource("8_meiaf")
+
+[node name="Background" type="CanvasLayer" parent="Stage" unique_id=652184466]
+layer = -1
+
+[node name="TextureRect" type="TextureRect" parent="Stage/Background" unique_id=1279956834]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("19_btxna")
+expand_mode = 1
+
+[node name="Timer" type="Timer" parent="Stage" unique_id=938371162]
+one_shot = true
 
 [node name="Player" type="Node2D" parent="Stage" unique_id=888585195]
 position = Vector2(179, 160)
@@ -339,17 +360,116 @@ script = ExtResource("23_dlt2v")
 font = ExtResource("24_tawbq")
 gradient = SubResource("Gradient_tawbq")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="Stage" unique_id=1125312283]
-layer = -1
+[node name="StageCanvas" type="CanvasLayer" parent="Stage" unique_id=1125312283 node_paths=PackedStringArray("time_label", "progress_bar", "menu", "menu_shade", "menu_button")]
+script = ExtResource("30_aeitv")
+time_label = NodePath("Control/TimeLabel")
+progress_bar = NodePath("Control/StageProgressBar")
+menu = NodePath("Control/Menu")
+menu_shade = NodePath("Control/MenuShade")
+menu_button = NodePath("Control/MenuButton")
 
-[node name="TextureRect" type="TextureRect" parent="Stage/CanvasLayer" unique_id=1279956834]
+[node name="Control" type="Control" parent="Stage/StageCanvas" unique_id=195308058]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="TimeLabel" type="Label" parent="Stage/StageCanvas/Control" unique_id=324129299]
+layout_mode = 0
+offset_left = 34.0
+offset_top = 28.0
+offset_right = 248.0
+offset_bottom = 61.0
+theme_override_fonts/font = ExtResource("31_2700v")
+theme_override_font_sizes/font_size = 35
+text = "kjasnjknfa"
+
+[node name="BulletChamber" type="HBoxContainer" parent="Stage/StageCanvas/Control" unique_id=2011793062]
+layout_mode = 0
+offset_left = 1000.0
+offset_top = 623.0
+offset_right = 1263.0
+offset_bottom = 708.0
+alignment = 2
+
+[node name="TextureRect2" type="TextureRect" parent="Stage/StageCanvas/Control/BulletChamber" unique_id=1332962249]
+layout_mode = 2
+texture = ExtResource("13_hxkax")
+expand_mode = 3
+
+[node name="TextureRect" type="TextureRect" parent="Stage/StageCanvas/Control/BulletChamber" unique_id=1599821530]
+layout_mode = 2
+texture = ExtResource("21_68wwg")
+expand_mode = 3
+
+[node name="TextureRect3" type="TextureRect" parent="Stage/StageCanvas/Control/BulletChamber" unique_id=404334034]
+layout_mode = 2
+texture = ExtResource("33_5a7di")
+expand_mode = 2
+
+[node name="StageProgressBar" type="ProgressBar" parent="Stage/StageCanvas/Control" unique_id=375365708]
+layout_mode = 0
+offset_left = 510.0
+offset_top = 19.0
+offset_right = 714.0
+offset_bottom = 78.0
+max_value = 10.0
+allow_greater = true
+
+[node name="MenuShade" type="TextureRect" parent="Stage/StageCanvas/Control" unique_id=1578396438]
+visible = false
+modulate = Color(0, 0, 0, 0.5882353)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -48.0
+offset_top = -24.0
+offset_right = 48.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
 texture = ExtResource("19_btxna")
+
+[node name="MenuButton" parent="Stage/StageCanvas/Control" unique_id=915991918 instance=ExtResource("5_hy3pq")]
+layout_mode = 1
+offset_left = 462.0
+offset_top = -338.0
+offset_right = 627.0
+offset_bottom = -273.0
+text = "| |"
+icon = ExtResource("18_68wwg")
+
+[node name="Menu" type="TextureRect" parent="Stage/StageCanvas/Control" unique_id=394418137]
+visible = false
+layout_mode = 0
+offset_left = 452.0
+offset_top = 163.0
+offset_right = 803.0
+offset_bottom = 545.0
+texture = ExtResource("9_27ybv")
 expand_mode = 1
+
+[node name="CustomButton2" parent="Stage/StageCanvas/Control/Menu" unique_id=904309247 instance=ExtResource("5_hy3pq")]
+layout_mode = 1
+offset_left = -75.5
+offset_top = -108.0
+offset_right = 89.5
+offset_bottom = -43.0
+text = "retry"
+icon = ExtResource("18_68wwg")
+
+[node name="CustomButton" parent="Stage/StageCanvas/Control/Menu" unique_id=343202504 instance=ExtResource("5_hy3pq")]
+layout_mode = 1
+offset_left = -79.5
+offset_top = 41.0
+offset_right = 85.5
+offset_bottom = 106.0
+text = "shop"
+icon = ExtResource("18_68wwg")
 
 [node name="Transition" type="CanvasLayer" parent="." unique_id=517670231]
 
@@ -361,6 +481,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("13_ii7ab")
+duration_in = 1.0
+duration_out = 0.8
+await_time = 0.5
 
 [node name="bloqueador xd" type="ColorRect" parent="Transition" unique_id=1318035115]
 anchors_preset = 15
@@ -372,10 +495,17 @@ color = Color(1, 1, 1, 0)
 script = ExtResource("19_2kyel")
 
 [connection signal="state_change" from="MainMenu" to="." method="state_transition"]
-[connection signal="button_down" from="MainMenu/CanvasLayer/Control/Buttons/Play" to="MainMenu" method="_on_button_play"]
-[connection signal="button_down" from="MainMenu/CanvasLayer/Control/Buttons/Quit" to="MainMenu" method="_on_button_quit"]
+[connection signal="button_down" from="MainMenu/MenuCanvas/Control/Buttons/Play" to="MainMenu" method="_on_button_play"]
+[connection signal="button_down" from="MainMenu/MenuCanvas/Control/Buttons/Quit" to="MainMenu" method="_on_button_quit"]
 [connection signal="state_change" from="Shop" to="." method="state_transition"]
-[connection signal="button_down" from="Shop/CanvasLayer/Control/HBoxContainer/Arrow1" to="Shop/CanvasLayer/Control/HBoxContainer/StickerSheets" method="move_front"]
-[connection signal="button_down" from="Shop/CanvasLayer/Control/HBoxContainer/Arrow2" to="Shop/CanvasLayer/Control/HBoxContainer/StickerSheets" method="move_behind"]
-[connection signal="button_down" from="Shop/CanvasLayer/Control/VBoxContainer/Ready" to="Shop" method="_on_button_ready"]
+[connection signal="button_down" from="Shop/ShopCanvas/Control/HBoxContainer/Arrow1" to="Shop/ShopCanvas/Control/HBoxContainer/StickerSheets" method="move_front"]
+[connection signal="button_down" from="Shop/ShopCanvas/Control/HBoxContainer/Arrow2" to="Shop/ShopCanvas/Control/HBoxContainer/StickerSheets" method="move_behind"]
+[connection signal="button_down" from="Shop/ShopCanvas/Control/VBoxContainer/Ready" to="Shop" method="_on_button_ready"]
+[connection signal="state_change" from="Stage" to="." method="state_transition"]
+[connection signal="timeout" from="Stage/Timer" to="Stage" method="_on_timer_timeout"]
 [connection signal="shoot_fired" from="Stage/Player" to="Stage" method="shoot_fired"]
+[connection signal="experience_gained" from="Stage/EntityManager" to="Stage" method="experience_gained"]
+[connection signal="pause" from="Stage/StageCanvas" to="Stage" method="_on_pause"]
+[connection signal="button_down" from="Stage/StageCanvas/Control/MenuButton" to="Stage/StageCanvas" method="_on_menu_button"]
+[connection signal="button_down" from="Stage/StageCanvas/Control/Menu/CustomButton2" to="Stage" method="on_button_retry"]
+[connection signal="pressed" from="Stage/StageCanvas/Control/Menu/CustomButton" to="Stage" method="on_button_shop"]
