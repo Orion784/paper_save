@@ -9,12 +9,9 @@ signal experience_gained(amount:float)
 @onready var multimesh: MultiMesh = $MultiMeshInstance2D.multimesh
 @onready var damage_label: DamageNumbers = $DamageLabel
 
+@export var stats : UfoProfile
 #Datos importantes
-const MAX_UFOS: int = 2000
-const UFO_SPEED: float = 120.0   # píxeles por segundo
-const UFO_HEALTH: int = 3
-const UFO_RADIUS: float = 48.0
-const UFO_EXPERIENCE: float = 1
+
 #Datos de animación
 const PENDULUM_AMPLITUDE: float = 0.45   # radianes, unos 26° hacia cada lado
 const PENDULUM_SPEED: float = 2.5        # radianes de fase por segundo
@@ -42,36 +39,36 @@ func _ready() -> void:
 
 func init_pool() -> bool:
 	#Le damos tamaño a los arreglos
-	positions.resize(MAX_UFOS)
-	velocities.resize(MAX_UFOS)
-	phases.resize(MAX_UFOS)
-	health.resize(MAX_UFOS)
-	experience.resize(MAX_UFOS	)
-	stun_timers.resize(MAX_UFOS)
-	flash_timers.resize(MAX_UFOS)
-	death_timers.resize(MAX_UFOS)
+	positions.resize(stats.MAX_UFOS)
+	velocities.resize(stats.MAX_UFOS)
+	phases.resize(stats.MAX_UFOS)
+	health.resize(stats.MAX_UFOS)
+	experience.resize(stats.MAX_UFOS	)
+	stun_timers.resize(stats.MAX_UFOS)
+	flash_timers.resize(stats.MAX_UFOS)
+	death_timers.resize(stats.MAX_UFOS)
 	active_count = 0
 	return true
 func setup_multimesh() -> void:
 	#obligatorio. Atributos de multimesh
-	multimesh.instance_count = MAX_UFOS
+	multimesh.instance_count = stats.MAX_UFOS
 	multimesh.visible_instance_count = 0
 
 func start_ufos() -> void: #Cambiar esta puta mierda
 	play_area = get_viewport().get_visible_rect() #MAl, ajustarlo
-	var inner: Rect2 = play_area.grow(-UFO_RADIUS)
+	var inner: Rect2 = play_area.grow(-stats.UFO_RADIUS)
 	for n in 20:
 		spawn_ufo(inner.position + Vector2(randf(), randf()) * inner.size)
 func spawn_ufo(spawn_position: Vector2) -> bool:
 	#Si los ufos actuales son mayores a la cantidad maxima,
 	#entonces no se hace nada
-	if active_count >= MAX_UFOS:
+	if active_count >= stats.MAX_UFOS:
 		return false
 	var i: int = active_count # i = instancia en el ultimo espacio disponible
 	positions[i] = spawn_position
-	velocities[i] = Vector2.from_angle(randf() * TAU) * UFO_SPEED #TAU = 2PI
+	velocities[i] = Vector2.from_angle(randf() * TAU) * stats.UFO_SPEED #TAU = 2PI
 	phases[i] = randf() * TAU
-	health[i] = UFO_HEALTH
+	health[i] = stats.UFO_HEALTH
 	stun_timers[i] = 0.0
 	flash_timers[i] = 0.0
 	death_timers[i] = DEATH_TIME
@@ -90,10 +87,10 @@ func _process(delta: float) -> void:
 func update_movement(delta: float) -> void:
 	#Esto idealmente tomaria de una seccion que yo determine
 	#no del viewport
-	var min_x: float = play_area.position.x + UFO_RADIUS
-	var max_x: float = play_area.end.x - UFO_RADIUS
-	var min_y: float = play_area.position.y + UFO_RADIUS
-	var max_y: float = play_area.end.y - UFO_RADIUS
+	var min_x: float = play_area.position.x + stats.UFO_RADIUS
+	var max_x: float = play_area.end.x - stats.UFO_RADIUS
+	var min_y: float = play_area.position.y + stats.UFO_RADIUS
+	var max_y: float = play_area.end.y - stats.UFO_RADIUS
 	for i in active_count:
 		if stun_timers[i] > 0.0:
 			stun_timers[i] -= delta
@@ -158,7 +155,7 @@ func sync_multimesh() -> void:
 		#envia datos para el dibujo
 		multimesh.set_instance_transform_2d(i, Transform2D(angle, Vector2(1, -1) * diminish, 0.0, draw_pos))
 		
-		var frame: int = clampi(UFO_HEALTH - health[i], 0, 2)
+		var frame: int = clampi(stats.UFO_HEALTH - health[i], 0, 2)
 		#envia datos para el shader
 		multimesh.set_instance_custom_data(i, Color(frame, flash_progress, death_progress, 0))
 	
@@ -175,7 +172,7 @@ func apply_shoot(center : Vector2, radius : float, damage: int) -> void:
 		if distance(center, positions[i]) <= hit_distance:
 			health[i] -= damage
 			flash_timers[i] = HIT_FLASH_TIME
-			damage_label.spawn(positions[i] + Vector2(0, -UFO_RADIUS), damage)
+			damage_label.spawn(positions[i] + Vector2(0, -stats.UFO_RADIUS), damage)
 			if health[i] <= 0:
 				death_timers[i] = DEATH_TIME
 				stun_timers[i] = DEATH_TIME   # quieto (y vibrando) mientras muere
@@ -183,7 +180,7 @@ func apply_shoot(center : Vector2, radius : float, damage: int) -> void:
 			else:
 				stun_timers[i] = 0.50
 	if total_experience > 0 :
-		experience_gained.emit(total_experience * UFO_EXPERIENCE)
+		experience_gained.emit(total_experience * stats.UFO_EXPERIENCE)
 
 func remove_ufo(i: int) -> void:
 	if i < 0 or i >= active_count:
@@ -208,7 +205,7 @@ func distance(p1 : Vector2, p2 : Vector2) -> float:
 	n = (p1.x - p2.x)**2 + (p1.y - p2.y)**2
 	return n
 func intersection(radius:float) -> float:
-	return (radius + UFO_RADIUS)**2
+	return (radius + stats.UFO_RADIUS)**2
 #Trucazo de pitagoras para no calcular la raiz cuadrada
 # sqr(a^2 + b^2) = c  Es lo mismo que (a^2 + b^2) = c^2
 #la distancia y la interseccion estan elevadas al cuadrado

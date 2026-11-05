@@ -4,9 +4,6 @@
 [ext_resource type="Script" uid="uid://dto0a5wgcki4d" path="res://Scenes/game/game.gd" id="1_d0b77"]
 [ext_resource type="Script" uid="uid://d28n0bd80ci1r" path="res://Scenes/game/data.gd" id="2_5l446"]
 [ext_resource type="Script" uid="uid://bvgiptddbqn4f" path="res://Scenes/game/main_menu.gd" id="2_6y3i1"]
-[ext_resource type="Script" uid="uid://b4ql81ff42fj0" path="res://Scenes/game/wave_profile.gd" id="2_d0b77"]
-[ext_resource type="Script" uid="uid://bkucrc2xpbnam" path="res://Scenes/game/player_profile.gd" id="3_7trcl"]
-[ext_resource type="Script" uid="uid://c4xa0u7tesc3i" path="res://Scenes/game/stage_profile.gd" id="4_nds08"]
 [ext_resource type="Script" uid="uid://btbqpv5mumxr3" path="res://Scenes/game/entity_manager.gd" id="5_5l446"]
 [ext_resource type="PackedScene" uid="uid://n1o0odr82me" path="res://Scenes/game/UI/CustomUI/CustomButton/CustomButton.tscn" id="5_hy3pq"]
 [ext_resource type="Texture2D" uid="uid://dbtl7qw2uv765" path="res://Assets/112_sin_titulo_20260826212710.png" id="6_klkrs"]
@@ -26,10 +23,12 @@
 [ext_resource type="Texture2D" uid="uid://c6aved8w50823" path="res://Assets/papel/flecha correjidar.png" id="18_mmnmt"]
 [ext_resource type="Script" uid="uid://qvr7thrqfid2" path="res://Scenes/game/transition/bloqueador_xd.gd" id="19_2kyel"]
 [ext_resource type="Texture2D" uid="uid://bm6x2vtd5v32e" path="res://Assets/larg.jpeg" id="19_btxna"]
+[ext_resource type="Resource" uid="uid://cdlexgvh0uyf7" path="res://Resources/PlayerProfile.tres" id="20_aeitv"]
 [ext_resource type="Texture2D" uid="uid://k6w71u2q22x3" path="res://Assets/UFOS/blue ufo.png" id="21_68wwg"]
 [ext_resource type="Script" uid="uid://cq5yspaqjkqs8" path="res://Scenes/game/player.gd" id="21_duc3a"]
 [ext_resource type="Shader" uid="uid://de0td81qtux1y" path="res://Scenes/game/UI/Shaders/ufo_sprite.gdshader" id="21_jodyk"]
 [ext_resource type="Texture2D" uid="uid://upt47mu43f0g" path="res://Assets/UFOS/textura del atlas.png" id="22_jodyk"]
+[ext_resource type="Resource" uid="uid://cj71ctl71rr6b" path="res://Resources/UfoProfile.tres" id="22_mmnmt"]
 [ext_resource type="Texture2D" uid="uid://bx1vt6fswk4m6" path="res://Assets/mouse.png" id="22_yl8fu"]
 [ext_resource type="Script" uid="uid://b14bd117adk2r" path="res://Scenes/game/damage_label.gd" id="23_dlt2v"]
 [ext_resource type="FontFile" uid="uid://c5pdyt8k2ko6q" path="res://Assets/Hey Comic.ttf" id="24_tawbq"]
@@ -117,15 +116,6 @@ script = ExtResource("2_5l446")
 [node name="Items" type="Node" parent="Data" unique_id=2026950215]
 script = ExtResource("1_7pssd")
 
-[node name="WaveProfile" type="Node" parent="Data" unique_id=1761618581]
-script = ExtResource("2_d0b77")
-
-[node name="PlayerProfile" type="Node" parent="Data" unique_id=1275462889]
-script = ExtResource("3_7trcl")
-
-[node name="StageProfile" type="Node" parent="Data" unique_id=528993412]
-script = ExtResource("4_nds08")
-
 [node name="ShopStatus" type="Node" parent="Data" unique_id=1844910751]
 
 [node name="Background" type="CanvasLayer" parent="." unique_id=539190627]
@@ -152,8 +142,9 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("9_27ybv")
 
-[node name="MainMenu" type="Node2D" parent="." unique_id=1820613610]
+[node name="MainMenu" type="Node2D" parent="." unique_id=1820613610 node_paths=PackedStringArray("data")]
 script = ExtResource("2_6y3i1")
+data = NodePath("../Data")
 
 [node name="MenuCanvas" type="CanvasLayer" parent="MainMenu" unique_id=1177897169]
 visible = false
@@ -232,8 +223,9 @@ offset_transform_position = Vector2(0, 4)
 texture = ExtResource("6_klkrs")
 expand_mode = 4
 
-[node name="Shop" type="Node2D" parent="." unique_id=1383714936]
+[node name="Shop" type="Node2D" parent="." unique_id=1383714936 node_paths=PackedStringArray("data")]
 script = ExtResource("7_6y3i1")
+data = NodePath("../Data")
 
 [node name="ShopCanvas" type="CanvasLayer" parent="Shop" unique_id=426446954]
 visible = false
@@ -306,8 +298,9 @@ text = "Ready"
 icon = ExtResource("18_68wwg")
 container = NodePath("..")
 
-[node name="Stage" type="Node2D" parent="." unique_id=162588584]
+[node name="Stage" type="Node2D" parent="." unique_id=162588584 node_paths=PackedStringArray("data")]
 script = ExtResource("8_meiaf")
+data = NodePath("../Data")
 
 [node name="Background" type="CanvasLayer" parent="Stage" unique_id=652184466]
 layer = -1
@@ -328,9 +321,7 @@ one_shot = true
 position = Vector2(179, 160)
 scale = Vector2(3, 3)
 script = ExtResource("21_duc3a")
-base_damage = 1.0
-crit_damage = 3.0
-crit_chance = 0.1
+stats = ExtResource("20_aeitv")
 
 [node name="Sprite2D" type="Sprite2D" parent="Stage/Player" unique_id=382463450]
 z_index = 1
@@ -343,6 +334,7 @@ shape = SubResource("CircleShape2D_dtglo")
 
 [node name="EntityManager" type="Node" parent="Stage" unique_id=1135806143]
 script = ExtResource("5_5l446")
+stats = ExtResource("22_mmnmt")
 
 [node name="UfoShadow" type="MultiMeshInstance2D" parent="Stage/EntityManager" unique_id=1926341031]
 modulate = Color(0, 0, 0, 0.49411765)

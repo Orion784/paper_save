@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="UfoProfile" format=3 uid="uid://cj71ctl71rr6b"]
+
+[ext_resource type="Script" uid="uid://bydn5d2rf3gmi" path="res://Resources/UfoProfile.gd" id="1_oiabc"]
+
+[resource]
+script = ExtResource("1_oiabc")
+MAX_UFOS = 2000
+UFO_SPEED = 122.0
+UFO_HEALTH = 6
+UFO_EXPERIENCE = 120.0
+metadata/_custom_type_script = "uid://bydn5d2rf3gmi"

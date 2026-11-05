@@ -3,6 +3,8 @@ extends Node2D
 class_name Stage
 signal state_change(GameState)
 
+@export var data : Data
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -59,7 +61,6 @@ func _on_pause() -> void:
 	$Timer.paused = !$Timer.paused
 	$Player.paused = !$Player.paused
 	pass # Replace with function body.
-
 
 func experience_gained(amount: float) -> void:
 	$StageCanvas.fill_progress_bar(amount)
