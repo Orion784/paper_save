@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://ce4a07umbweei" path="res://Scenes/game/UI/CustomUI/Stickersheet/stickersheet.gd" id="1_nq3kt"]
 [ext_resource type="Texture2D" uid="uid://cx5xh6nrplsll" path="res://Assets/stickersheets/stichersheet.png" id="1_wg375"]
-[ext_resource type="Texture2D" uid="uid://gwumhp4a3pah" path="res://Assets/UFOS/red ufo.png" id="2_mxrxe"]
 [ext_resource type="PackedScene" uid="uid://27858p8ohbyr" path="res://Scenes/game/UI/CustomUI/CustomShadow/CustomShadow.tscn" id="3_3ktka"]
 [ext_resource type="PackedScene" uid="uid://dhcccgfi4g0ln" path="res://Scenes/game/UI/CustomUI/TweenAnim/TweenAnim.tscn" id="4_nq3kt"]
 
@@ -22,6 +21,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxEmpty_qequx")
 script = ExtResource("1_nq3kt")
 animation = NodePath("TweenAnim")
@@ -38,22 +38,6 @@ parent = NodePath("..")
 current_shadow_size = 2
 
 [node name="TweenAnim" parent="." unique_id=679141744 instance=ExtResource("4_nq3kt")]
-
-[node name="Control" type="Control" parent="." unique_id=931801696]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-mouse_filter = 1
-
-[node name="TextureRect2" type="TextureRect" parent="Control" unique_id=1187966072]
-layout_mode = 0
-offset_left = -34.0
-offset_top = -166.5
-offset_right = 6.0
-offset_bottom = -126.5
-rotation = 0.07853982
-scale = Vector2(2, 2)
-texture = ExtResource("2_mxrxe")
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

@@ -3,8 +3,6 @@ extends Node2D
 class_name Stage
 signal state_change(GameState)
 
-@export var data : Data
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -16,7 +14,7 @@ func _process(_delta: float) -> void:
 	pass
 
 func init():
-	$EntityManager.start_ufos()
+	$EntityManager.initial_spawn()
 	$Timer.start(31)
 	visible = true
 	$Background.visible = true
@@ -31,8 +29,12 @@ func dispose():
 	$Background.visible = false
 	visible = false
 	$StageCanvas.dispose()
+	$EntityManager.paused = true
 	$EntityManager.clear_ufos()
+	
 	$Timer.stop()
+	
+	
 	pass
 
 func on_button_shop() -> void:

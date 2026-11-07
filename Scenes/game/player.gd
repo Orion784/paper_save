@@ -2,12 +2,12 @@ extends Node2D
 
 class_name Player
 
-@export var stats : PlayerProfile 
+@export var stats : PlayerProfile
 #@export var recharge_speed : float
 #@export var ammo : int
 
-var paused : bool = false
-var cadence: float = 0.5
+var paused : bool = true
+@onready var cadence: float = stats.shot_timer
 
 signal shoot_fired(center: Vector2, radius: float, damage:float)
 
@@ -18,8 +18,6 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	print(stats.name)
-	print(cadence)
 	position = get_global_mouse_position()
 	if !paused:
 		$Sprite2D.rotation += _delta * 3
@@ -39,7 +37,6 @@ func update_damage(_delta) -> void:
 	else:
 		shoot_fired.emit(global_position, stats.radius, damage_output())
 		cadence = stats.shot_timer
-		print("DISPARO, CADENCIA, SHOT TIMER:", cadence, stats.shot_timer)
 	pass
 #func _unhandled_input(event: InputEvent) -> void:
 	#if event.is_action_pressed("shoot"):

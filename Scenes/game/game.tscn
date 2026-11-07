@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://dp7t6ennil78c" path="res://Scenes/game/UI/CustomUI/Stickersheet/Stickersheet.tscn" id="13_2kyel"]
 [ext_resource type="Texture2D" uid="uid://gwumhp4a3pah" path="res://Assets/UFOS/red ufo.png" id="13_hxkax"]
 [ext_resource type="Script" uid="uid://bxwu83hpm1478" path="res://Scenes/game/transition/transition_texture_mask.gd" id="13_ii7ab"]
+[ext_resource type="PackedScene" uid="uid://rb4tbxslpx6e" path="res://Scenes/game/UI/CustomUI/Sticker/sticker.tscn" id="15_2700v"]
 [ext_resource type="Texture2D" uid="uid://bqinyim4vclfc" path="res://Assets/papel/flecha correjidar 2.png" id="15_tvnbm"]
 [ext_resource type="Script" uid="uid://coghiw17ea507" path="res://Scenes/game/UI/CustomUI/Stickersheet/sticker_stack.gd" id="16_68wwg"]
 [ext_resource type="Texture2D" uid="uid://bmjiaw68k15aq" path="res://Assets/papel/paper2.png" id="18_68wwg"]
@@ -80,7 +81,7 @@ blend_mode = 3
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_006r0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dtglo"]
-radius = 12.0
+radius = 14.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_duc3a"]
 size = Vector2(64, 64)
@@ -107,7 +108,7 @@ shader_parameter/center = Vector2(0.5, 0.5)
 
 [node name="Game" type="Node2D" unique_id=1666873034 node_paths=PackedStringArray("state_node")]
 script = ExtResource("1_d0b77")
-opening_state = 2
+opening_state = 1
 state_node = [NodePath("MainMenu"), NodePath("Shop"), NodePath("Stage")]
 
 [node name="Data" type="Node2D" parent="." unique_id=1750733494]
@@ -120,7 +121,6 @@ script = ExtResource("1_7pssd")
 
 [node name="Background" type="CanvasLayer" parent="." unique_id=539190627]
 layer = -2
-visible = false
 
 [node name="ColorRect" type="ColorRect" parent="Background" unique_id=1852096254]
 material = SubResource("ShaderMaterial_2ov6r")
@@ -223,12 +223,10 @@ offset_transform_position = Vector2(0, 4)
 texture = ExtResource("6_klkrs")
 expand_mode = 4
 
-[node name="Shop" type="Node2D" parent="." unique_id=1383714936 node_paths=PackedStringArray("data")]
+[node name="Shop" type="Node2D" parent="." unique_id=1383714936]
 script = ExtResource("7_6y3i1")
-data = NodePath("../Data")
 
 [node name="ShopCanvas" type="CanvasLayer" parent="Shop" unique_id=426446954]
-visible = false
 
 [node name="Control" type="Control" parent="Shop/ShopCanvas" unique_id=831682384]
 layout_mode = 3
@@ -263,16 +261,31 @@ layout_mode = 2
 offset_transform_enabled = true
 
 [node name="Sheet1" parent="Shop/ShopCanvas/Control/HBoxContainer/StickerSheets" unique_id=1890295091 instance=ExtResource("13_2kyel")]
-modulate = Color(1, 1, 0.20392157, 1)
+modulate = Color(1, 1, 0.7411765, 1)
 layout_mode = 2
 offset_transform_enabled = true
 
-[node name="Sheet0" parent="Shop/ShopCanvas/Control/HBoxContainer/StickerSheets" unique_id=1278150484 node_paths=PackedStringArray("container") instance=ExtResource("13_2kyel")]
-modulate = Color(1, 0.5647059, 1, 1)
+[node name="Sheet0" parent="Shop/ShopCanvas/Control/HBoxContainer/StickerSheets" unique_id=1278150484 instance=ExtResource("13_2kyel")]
+modulate = Color(1, 0.8980392, 1, 1)
 layout_mode = 2
 offset_transform_enabled = true
-offset_transform_visual_only = false
-container = NodePath("../..")
+
+[node name="Stickers" type="TextureRect" parent="Shop/ShopCanvas/Control/HBoxContainer/StickerSheets/Sheet0" unique_id=1219237253]
+layout_mode = 2
+
+[node name="Sticker" parent="Shop/ShopCanvas/Control/HBoxContainer/StickerSheets/Sheet0/Stickers" unique_id=1302394940 instance=ExtResource("15_2700v")]
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 91.0
+offset_top = 183.0
+offset_right = 155.0
+offset_bottom = 247.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="Arrow2" parent="Shop/ShopCanvas/Control/HBoxContainer" unique_id=1315038082 node_paths=PackedStringArray("container") instance=ExtResource("5_hy3pq")]
 layout_mode = 2
@@ -298,12 +311,12 @@ text = "Ready"
 icon = ExtResource("18_68wwg")
 container = NodePath("..")
 
-[node name="Stage" type="Node2D" parent="." unique_id=162588584 node_paths=PackedStringArray("data")]
+[node name="Stage" type="Node2D" parent="." unique_id=162588584]
 script = ExtResource("8_meiaf")
-data = NodePath("../Data")
 
 [node name="Background" type="CanvasLayer" parent="Stage" unique_id=652184466]
 layer = -1
+visible = false
 
 [node name="TextureRect" type="TextureRect" parent="Stage/Background" unique_id=1279956834]
 anchors_preset = 15
@@ -353,6 +366,7 @@ font = ExtResource("24_tawbq")
 gradient = SubResource("Gradient_tawbq")
 
 [node name="StageCanvas" type="CanvasLayer" parent="Stage" unique_id=1125312283 node_paths=PackedStringArray("time_label", "progress_bar", "menu", "menu_shade", "menu_button")]
+visible = false
 script = ExtResource("30_aeitv")
 time_label = NodePath("Control/TimeLabel")
 progress_bar = NodePath("Control/StageProgressBar")

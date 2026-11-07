@@ -6,8 +6,8 @@
 script = ExtResource("1_jwiea")
 base_damage = 1.0
 crit_damage = 2.0
-crit_chance = 0.3
-radius = 12.0
-shot_timer = 0.5
+crit_chance = 0.1
+radius = 42.0
+shot_timer = 1.0
 name = "pelota"
 metadata/_custom_type_script = "uid://yc7ltvew3h3t"

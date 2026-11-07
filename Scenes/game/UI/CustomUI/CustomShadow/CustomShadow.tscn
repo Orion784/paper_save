@@ -6,5 +6,6 @@
 modulate = Color(0, 0, 0, 0.5372549)
 show_behind_parent = true
 offset_transform_enabled = true
+mouse_filter = 2
 script = ExtResource("1_ax38w")
 current_shadow_size = 1

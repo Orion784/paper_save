@@ -2,13 +2,15 @@ extends Node
 
 class_name EntityManager
 
-var play_area : Rect2
-var paused: bool = false
+
+var paused: bool = true
 signal experience_gained(amount:float)
 
+@onready var play_area : Rect2 = get_viewport().get_visible_rect() #MAl, ajustarlo
+@onready var inner: Rect2 = play_area.grow(-stats.UFO_RADIUS) #bordea la zona para que no haya errores
 @onready var multimesh: MultiMesh = $MultiMeshInstance2D.multimesh
 @onready var damage_label: DamageNumbers = $DamageLabel
-
+@onready var timer: float = stats.SPAWN_TIMER
 @export var stats : UfoProfile
 #Datos importantes
 
@@ -18,6 +20,7 @@ const PENDULUM_SPEED: float = 2.5        # radianes de fase por segundo
 const VIBRATION_AMPLITUDE: float = 1.00
 const HIT_FLASH_TIME: float = 0.50
 const DEATH_TIME: float = 0.5
+const BIRTH_TIME: float = 0.5            # nuevo: mismo valor que DEATH_TIME para que sea espejo
 #Declaracion de los arreglos | Packed es un tipo especial que ahorra espacio
 #Datos importantes
 var positions: PackedVector2Array
@@ -29,6 +32,7 @@ var phases: PackedFloat32Array
 var stun_timers: PackedFloat32Array
 var flash_timers: PackedFloat32Array
 var death_timers: PackedFloat32Array
+var birth_timers: PackedFloat32Array     # nuevo
 
 #Ufos activados
 var active_count: int = 0
@@ -36,6 +40,37 @@ var active_count: int = 0
 func _ready() -> void:
 	init_pool()
 	setup_multimesh()
+
+func spawn_ufo(spawn_position: Vector2) -> bool:
+	#Si los ufos actuales son mayores a la cantidad maxima,
+	#entonces no se hace nada
+	if active_count >= stats.MAX_UFOS:
+		return false
+	var i: int = active_count # i = instancia en el ultimo espacio disponible
+	positions[i] = spawn_position
+	velocities[i] = Vector2.from_angle(randf() * TAU) * stats.UFO_SPEED #TAU = 2PI
+	phases[i] = randf() * TAU
+	health[i] = stats.UFO_HEALTH
+	flash_timers[i] = 0.0
+	death_timers[i] = DEATH_TIME
+	birth_timers[i] = BIRTH_TIME
+	stun_timers[i] = BIRTH_TIME   # quieto y vibrando mientras nace
+	#Una vez inicializado, entonces aumentamos el conteo a uno
+	active_count += 1
+	return true
+
+func _process(delta: float) -> void:
+	if !paused :
+		update_movement(delta)
+		update_pendulum(delta)
+		update_flash(delta)
+		update_birth(delta)
+		update_death(delta)
+		update_spawns(delta)
+	sync_multimesh()
+
+
+
 
 func init_pool() -> bool:
 	#Le damos tamaño a los arreglos
@@ -47,43 +82,17 @@ func init_pool() -> bool:
 	stun_timers.resize(stats.MAX_UFOS)
 	flash_timers.resize(stats.MAX_UFOS)
 	death_timers.resize(stats.MAX_UFOS)
+	birth_timers.resize(stats.MAX_UFOS)
 	active_count = 0
 	return true
 func setup_multimesh() -> void:
 	#obligatorio. Atributos de multimesh
 	multimesh.instance_count = stats.MAX_UFOS
 	multimesh.visible_instance_count = 0
-
-func start_ufos() -> void: #Cambiar esta puta mierda
-	play_area = get_viewport().get_visible_rect() #MAl, ajustarlo
-	var inner: Rect2 = play_area.grow(-stats.UFO_RADIUS)
-	for n in 20:
+func initial_spawn() -> void:
+	for i in stats.MAX_INITIAL_UFOS:
 		spawn_ufo(inner.position + Vector2(randf(), randf()) * inner.size)
-func spawn_ufo(spawn_position: Vector2) -> bool:
-	#Si los ufos actuales son mayores a la cantidad maxima,
-	#entonces no se hace nada
-	if active_count >= stats.MAX_UFOS:
-		return false
-	var i: int = active_count # i = instancia en el ultimo espacio disponible
-	positions[i] = spawn_position
-	velocities[i] = Vector2.from_angle(randf() * TAU) * stats.UFO_SPEED #TAU = 2PI
-	phases[i] = randf() * TAU
-	health[i] = stats.UFO_HEALTH
-	stun_timers[i] = 0.0
-	flash_timers[i] = 0.0
-	death_timers[i] = DEATH_TIME
-	#Una vez inicializado, entonces aumentamos el conteo a uno
-	active_count += 1
-	return true
-
-func _process(delta: float) -> void:
-	if !paused :
-		update_movement(delta)
-		update_pendulum(delta)
-		update_flash(delta)
-		update_death(delta)
-	sync_multimesh()
-
+	pass
 func update_movement(delta: float) -> void:
 	#Esto idealmente tomaria de una seccion que yo determine
 	#no del viewport
@@ -116,15 +125,29 @@ func update_movement(delta: float) -> void:
 		positions[i] = pos
 		velocities[i] = vel
 func update_pendulum(delta: float) -> void:
+	
 	for i in active_count:
 		#la fase de la entidad + su proxima movimiento, 0pi, 2pi
 		if stun_timers[i] > 0.0:
 			continue
 		phases[i] = wrapf(phases[i] + PENDULUM_SPEED * delta, 0.0, TAU)
+func update_spawns(_delta) -> void:
+	timer -= _delta
+	if timer < 0 :
+		if active_count < (stats.MAX_INITIAL_UFOS * 2) and Enums.rand_float(0,1) < stats.SPAWN_RATE:
+			for i in stats.SPAWN_PACK:
+				spawn_ufo(inner.position + Vector2(randf(), randf()) * inner.size)
+		timer = stats.SPAWN_TIMER
+	pass
 func update_flash(delta: float) -> void:
 	for i in active_count:
 		if flash_timers[i] > 0.0:
 			flash_timers[i] = maxf(flash_timers[i] - delta, 0.0)
+# nuevo: el timer de nacimiento baja hasta 0
+func update_birth(delta: float) -> void:
+	for i in active_count:
+		if birth_timers[i] > 0.0:
+			birth_timers[i] = maxf(birth_timers[i] - delta, 0.0)
 # Recorrido inverso porque remove_ufo hace swap con el último
 func update_death(delta: float) -> void:
 	for i in range(active_count - 1, -1, -1):
@@ -144,20 +167,28 @@ func sync_multimesh() -> void:
 			draw_pos += Vector2(
 				randf_range(-VIBRATION_AMPLITUDE, VIBRATION_AMPLITUDE),
 				randf_range(-VIBRATION_AMPLITUDE, VIBRATION_AMPLITUDE))
+
+		#Efecto visual de nacimiento (espejo de la muerte)
+		var birth_progress: float = clampf(birth_timers[i] / BIRTH_TIME, 0.0, 1.0)   # 1 = recién nacido, 0 = listo
+
 		#Efecto visual de muerte
 		var death_progress: float = 0.0   # 0 = visible, 1 = desaparecido
 		var flash_progress: float = flash_timers[i] / HIT_FLASH_TIME
 		if health[i] <= 0:
 			death_progress = 1.0 - clampf(death_timers[i] / DEATH_TIME, 0.0, 1.0)
 			flash_progress = 1.0   # los que mueren se quedan blancos
-		
-		var diminish: float = 1.0 - death_progress   # se encoge al morir
+
+		# Nacer y morir comparten escala, transparencia y blanco
+		var fade_progress: float = maxf(death_progress, birth_progress)
+		flash_progress = maxf(flash_progress, birth_progress)
+
+		var diminish: float = 1.0 - fade_progress   # se encoge al morir, crece al nacer
 		#envia datos para el dibujo
 		multimesh.set_instance_transform_2d(i, Transform2D(angle, Vector2(1, -1) * diminish, 0.0, draw_pos))
-		
+
 		var frame: int = clampi(stats.UFO_HEALTH - health[i], 0, 2)
 		#envia datos para el shader
-		multimesh.set_instance_custom_data(i, Color(frame, flash_progress, death_progress, 0))
+		multimesh.set_instance_custom_data(i, Color(frame, flash_progress, fade_progress, 0))
 	
 	multimesh.visible_instance_count = active_count
 
@@ -167,8 +198,8 @@ func apply_shoot(center : Vector2, radius : float, damage: int) -> void:
 	var hit_distance = intersection(radius)
 	var total_experience : int = 0
 	for i in range(active_count - 1, -1, -1):
-		if health[i] <= 0:
-			continue   # ya está muriendo, no se vuelve a golpear
+		if health[i] <= 0 or birth_timers[i] > 0.0:
+			continue   # muriendo o naciendo, no se golpea
 		if distance(center, positions[i]) <= hit_distance:
 			health[i] -= damage
 			flash_timers[i] = HIT_FLASH_TIME
@@ -178,7 +209,8 @@ func apply_shoot(center : Vector2, radius : float, damage: int) -> void:
 				stun_timers[i] = DEATH_TIME   # quieto (y vibrando) mientras muere
 				total_experience += 1
 			else:
-				stun_timers[i] = 0.50
+				#stun_timers[i] = 0.50 probando sin esto
+				pass
 	if total_experience > 0 :
 		experience_gained.emit(total_experience * stats.UFO_EXPERIENCE)
 
@@ -193,6 +225,7 @@ func remove_ufo(i: int) -> void:
 	stun_timers[i] = stun_timers[last]
 	flash_timers[i] = flash_timers[last]
 	death_timers[i] = death_timers[last]
+	birth_timers[i] = birth_timers[last]
 	active_count -= 1
 
 func clear_ufos() -> void:

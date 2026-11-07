@@ -1,0 +1,107 @@
+[gd_scene format=3 uid="uid://rb4tbxslpx6e"]
+
+[ext_resource type="Texture2D" uid="uid://k6w71u2q22x3" path="res://Assets/UFOS/blue ufo.png" id="1_m8phk"]
+[ext_resource type="Script" uid="uid://cvsss5hvcutmf" path="res://Scenes/game/UI/CustomUI/Sticker/sticker.gd" id="2_pkl0l"]
+[ext_resource type="Resource" uid="uid://c8507p857p1hp" path="res://Resources/Items/damage_test.tres" id="3_838qy"]
+[ext_resource type="Texture2D" uid="uid://cwh8dpo6yiesc" path="res://Assets/UFOS/white ufo.png" id="3_pkl0l"]
+[ext_resource type="Shader" uid="uid://uifjsh06vf6d" path="res://Scenes/game/UI/CustomUI/Sticker/sticker.gdshader" id="4_yfcph"]
+[ext_resource type="PackedScene" uid="uid://dhcccgfi4g0ln" path="res://Scenes/game/UI/CustomUI/TweenAnim/TweenAnim.tscn" id="6_gwxxu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f1psa"]
+shader = ExtResource("4_yfcph")
+shader_parameter/tint = Color(0.8901961, 0.67058825, 0.27450982, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oka14"]
+shader = ExtResource("4_yfcph")
+shader_parameter/tint = Color(0.65834045, 0.65833974, 0.6583401, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3nfnk"]
+shader = ExtResource("4_yfcph")
+shader_parameter/tint = Color(1, 1, 1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dtglo"]
+shader = ExtResource("4_yfcph")
+shader_parameter/tint = Color(0.18000486, 0.18000486, 0.18000486, 1)
+
+[node name="Sticker" type="TextureButton" unique_id=1302394940 node_paths=PackedStringArray("tween")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -360.0
+offset_right = -576.0
+offset_bottom = -296.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 1
+texture_normal = ExtResource("1_m8phk")
+script = ExtResource("2_pkl0l")
+item = ExtResource("3_838qy")
+tween = NodePath("TweenAnim")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1332940100]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_f1psa")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.2, 1.2)
+pivot_offset = Vector2(32, 32)
+texture = ExtResource("3_pkl0l")
+
+[node name="TextureRect2" type="TextureRect" parent="." unique_id=209627528]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_oka14")
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(1.2, 1.2)
+pivot_offset = Vector2(32, 32)
+texture = ExtResource("3_pkl0l")
+
+[node name="TextureRect3" type="TextureRect" parent="." unique_id=1559311895]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_3nfnk")
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(1.2, 1.2)
+pivot_offset = Vector2(32, 32)
+texture = ExtResource("3_pkl0l")
+
+[node name="TextureRect4" type="TextureRect" parent="." unique_id=1625164219]
+material = SubResource("ShaderMaterial_dtglo")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.2, 1.2)
+pivot_offset = Vector2(32, 32)
+texture = ExtResource("3_pkl0l")
+
+[node name="TweenAnim" parent="." unique_id=679141744 instance=ExtResource("6_gwxxu")]
+
+[connection signal="button_down" from="." to="." method="_on_button_down"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
