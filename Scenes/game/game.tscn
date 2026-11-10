@@ -33,9 +33,12 @@
 [ext_resource type="Texture2D" uid="uid://bx1vt6fswk4m6" path="res://Assets/mouse.png" id="22_yl8fu"]
 [ext_resource type="Script" uid="uid://b14bd117adk2r" path="res://Scenes/game/damage_label.gd" id="23_dlt2v"]
 [ext_resource type="FontFile" uid="uid://c5pdyt8k2ko6q" path="res://Assets/Hey Comic.ttf" id="24_tawbq"]
+[ext_resource type="Script" uid="uid://y7apnnayiqu8" path="res://Scenes/game/poronga.gd" id="30_5a7di"]
 [ext_resource type="Script" uid="uid://bc1w8xkm34go6" path="res://Scenes/game/stage_canvas.gd" id="30_aeitv"]
 [ext_resource type="FontFile" uid="uid://b7633adwlstvg" path="res://Assets/upheavtt.ttf" id="31_2700v"]
-[ext_resource type="Texture2D" uid="uid://d3tnvnm0w1hrk" path="res://Assets/UFOS/golden ufo.png" id="33_5a7di"]
+[ext_resource type="AudioStream" uid="uid://b6lyoqlal7ki6" path="res://Assets/Grabación (6).ogg" id="31_rmb0i"]
+[ext_resource type="Texture2D" uid="uid://dgcdiu7aw842j" path="res://Assets/bala.png" id="32_2700v"]
+[ext_resource type="Script" uid="uid://bqj3qsb3cdnv1" path="res://Scenes/game/audio_stream_player_2d.gd" id="32_gnbld"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_duc3a"]
 noise_type = 2
@@ -99,6 +102,11 @@ shader_parameter/flash_color = Color(1, 1, 1, 1)
 offsets = PackedFloat32Array(0, 0.041666668, 0.93333334)
 colors = PackedColorArray(1, 1, 1, 1, 1, 0.9254902, 0.1254902, 1, 1, 0.2627451, 0, 1)
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_2a0ah"]
+random_pitch = 1.0263338
+streams_count = 1
+stream_0/stream = ExtResource("31_rmb0i")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_006r0"]
 shader = ExtResource("11_kw6cb")
 shader_parameter/mask_texture = ExtResource("13_hxkax")
@@ -108,7 +116,7 @@ shader_parameter/center = Vector2(0.5, 0.5)
 
 [node name="Game" type="Node2D" unique_id=1666873034 node_paths=PackedStringArray("state_node")]
 script = ExtResource("1_d0b77")
-opening_state = 1
+opening_state = 2
 state_node = [NodePath("MainMenu"), NodePath("Shop"), NodePath("Stage")]
 
 [node name="Data" type="Node2D" parent="." unique_id=1750733494]
@@ -121,6 +129,7 @@ script = ExtResource("1_7pssd")
 
 [node name="Background" type="CanvasLayer" parent="." unique_id=539190627]
 layer = -2
+visible = false
 
 [node name="ColorRect" type="ColorRect" parent="Background" unique_id=1852096254]
 material = SubResource("ShaderMaterial_2ov6r")
@@ -227,6 +236,7 @@ expand_mode = 4
 script = ExtResource("7_6y3i1")
 
 [node name="ShopCanvas" type="CanvasLayer" parent="Shop" unique_id=426446954]
+visible = false
 
 [node name="Control" type="Control" parent="Shop/ShopCanvas" unique_id=831682384]
 layout_mode = 3
@@ -316,7 +326,6 @@ script = ExtResource("8_meiaf")
 
 [node name="Background" type="CanvasLayer" parent="Stage" unique_id=652184466]
 layer = -1
-visible = false
 
 [node name="TextureRect" type="TextureRect" parent="Stage/Background" unique_id=1279956834]
 anchors_preset = 15
@@ -365,14 +374,24 @@ script = ExtResource("23_dlt2v")
 font = ExtResource("24_tawbq")
 gradient = SubResource("Gradient_tawbq")
 
-[node name="StageCanvas" type="CanvasLayer" parent="Stage" unique_id=1125312283 node_paths=PackedStringArray("time_label", "progress_bar", "menu", "menu_shade", "menu_button")]
-visible = false
+[node name="particulas" type="Node2D" parent="Stage/EntityManager" unique_id=1607769020]
+script = ExtResource("30_5a7di")
+color = Color(1, 1, 1, 1)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Stage/EntityManager/particulas" unique_id=234292079]
+stream = SubResource("AudioStreamRandomizer_2a0ah")
+autoplay = true
+max_polyphony = 40
+script = ExtResource("32_gnbld")
+
+[node name="StageCanvas" type="CanvasLayer" parent="Stage" unique_id=1125312283 node_paths=PackedStringArray("time_label", "progress_bar", "menu", "menu_shade", "menu_button", "ui_chamber")]
 script = ExtResource("30_aeitv")
 time_label = NodePath("Control/TimeLabel")
 progress_bar = NodePath("Control/StageProgressBar")
 menu = NodePath("Control/Menu")
 menu_shade = NodePath("Control/MenuShade")
 menu_button = NodePath("Control/MenuButton")
+ui_chamber = [NodePath("Control/BulletChamber/TextureRect"), NodePath("Control/BulletChamber/TextureRect2"), NodePath("Control/BulletChamber/TextureRect3"), NodePath("Control/BulletChamber/TextureRect4"), NodePath("Control/BulletChamber/TextureRect5"), NodePath("Control/BulletChamber/TextureRect6")]
 
 [node name="Control" type="Control" parent="Stage/StageCanvas" unique_id=195308058]
 layout_mode = 3
@@ -393,34 +412,58 @@ theme_override_font_sizes/font_size = 35
 text = "kjasnjknfa"
 
 [node name="BulletChamber" type="HBoxContainer" parent="Stage/StageCanvas/Control" unique_id=2011793062]
-layout_mode = 0
-offset_left = 1000.0
-offset_top = 623.0
-offset_right = 1263.0
-offset_bottom = 708.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -265.0
+offset_top = -85.0
+offset_right = 265.0
+grow_horizontal = 2
+grow_vertical = 0
 alignment = 2
-
-[node name="TextureRect2" type="TextureRect" parent="Stage/StageCanvas/Control/BulletChamber" unique_id=1332962249]
-layout_mode = 2
-texture = ExtResource("13_hxkax")
-expand_mode = 3
 
 [node name="TextureRect" type="TextureRect" parent="Stage/StageCanvas/Control/BulletChamber" unique_id=1599821530]
 layout_mode = 2
-texture = ExtResource("21_68wwg")
+texture = ExtResource("32_2700v")
+expand_mode = 3
+
+[node name="TextureRect2" type="TextureRect" parent="Stage/StageCanvas/Control/BulletChamber" unique_id=1332962249]
+layout_mode = 2
+texture = ExtResource("32_2700v")
 expand_mode = 3
 
 [node name="TextureRect3" type="TextureRect" parent="Stage/StageCanvas/Control/BulletChamber" unique_id=404334034]
 layout_mode = 2
-texture = ExtResource("33_5a7di")
+texture = ExtResource("32_2700v")
+expand_mode = 2
+
+[node name="TextureRect4" type="TextureRect" parent="Stage/StageCanvas/Control/BulletChamber" unique_id=2051766225]
+layout_mode = 2
+texture = ExtResource("32_2700v")
+expand_mode = 2
+
+[node name="TextureRect5" type="TextureRect" parent="Stage/StageCanvas/Control/BulletChamber" unique_id=72378563]
+layout_mode = 2
+texture = ExtResource("32_2700v")
+expand_mode = 2
+
+[node name="TextureRect6" type="TextureRect" parent="Stage/StageCanvas/Control/BulletChamber" unique_id=1252788453]
+layout_mode = 2
+texture = ExtResource("32_2700v")
 expand_mode = 2
 
 [node name="StageProgressBar" type="ProgressBar" parent="Stage/StageCanvas/Control" unique_id=375365708]
-layout_mode = 0
-offset_left = 510.0
-offset_top = 19.0
-offset_right = 714.0
-offset_bottom = 78.0
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -102.0
+offset_right = 102.0
+offset_bottom = 59.0
+grow_horizontal = 2
 max_value = 10.0
 allow_greater = true
 
@@ -509,6 +552,7 @@ script = ExtResource("19_2kyel")
 [connection signal="button_down" from="Shop/ShopCanvas/Control/VBoxContainer/Ready" to="Shop" method="_on_button_ready"]
 [connection signal="state_change" from="Stage" to="." method="state_transition"]
 [connection signal="timeout" from="Stage/Timer" to="Stage" method="_on_timer_timeout"]
+[connection signal="ammo_reset" from="Stage/Player" to="Stage" method="ammo_reset"]
 [connection signal="shoot_fired" from="Stage/Player" to="Stage" method="shoot_fired"]
 [connection signal="experience_gained" from="Stage/EntityManager" to="Stage" method="experience_gained"]
 [connection signal="pause" from="Stage/StageCanvas" to="Stage" method="_on_pause"]

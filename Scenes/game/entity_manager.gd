@@ -17,6 +17,8 @@ signal experience_gained(amount:float)
 #Datos de animación
 const PENDULUM_AMPLITUDE: float = 0.45   # radianes, unos 26° hacia cada lado
 const PENDULUM_SPEED: float = 2.5        # radianes de fase por segundo
+const PENDULUM_HIT_BOOST: float = 2.0    # extra máximo: 3.0 = 4x la velocidad base
+const PENDULUM_BOOST_TIME: float = 0.8   # segundos que tarda en volver a la normalidad
 const VIBRATION_AMPLITUDE: float = 1.00
 const HIT_FLASH_TIME: float = 0.50
 const DEATH_TIME: float = 0.5
@@ -29,6 +31,7 @@ var health: PackedInt32Array
 var experience: PackedFloat32Array
 #Datos de animación
 var phases: PackedFloat32Array
+var pendulum_boosts: PackedFloat32Array  # nuevo: velocidad extra del péndulo tras un golpe
 var stun_timers: PackedFloat32Array
 var flash_timers: PackedFloat32Array
 var death_timers: PackedFloat32Array
@@ -48,8 +51,9 @@ func spawn_ufo(spawn_position: Vector2) -> bool:
 		return false
 	var i: int = active_count # i = instancia en el ultimo espacio disponible
 	positions[i] = spawn_position
-	velocities[i] = Vector2.from_angle(randf() * TAU) * stats.UFO_SPEED #TAU = 2PI
+	velocities[i] = Vector2.from_angle(randf() * TAU) * stats.UFO_SPEED * Enums.rand_float(1.0, 1.5)#TAU = 2PI
 	phases[i] = randf() * TAU
+	pendulum_boosts[i] = 0.0
 	health[i] = stats.UFO_HEALTH
 	flash_timers[i] = 0.0
 	death_timers[i] = DEATH_TIME
@@ -63,6 +67,7 @@ func _process(delta: float) -> void:
 	if !paused :
 		update_movement(delta)
 		update_pendulum(delta)
+		update_pendulum_boost(delta)
 		update_flash(delta)
 		update_birth(delta)
 		update_death(delta)
@@ -77,6 +82,7 @@ func init_pool() -> bool:
 	positions.resize(stats.MAX_UFOS)
 	velocities.resize(stats.MAX_UFOS)
 	phases.resize(stats.MAX_UFOS)
+	pendulum_boosts.resize(stats.MAX_UFOS)
 	health.resize(stats.MAX_UFOS)
 	experience.resize(stats.MAX_UFOS	)
 	stun_timers.resize(stats.MAX_UFOS)
@@ -130,7 +136,14 @@ func update_pendulum(delta: float) -> void:
 		#la fase de la entidad + su proxima movimiento, 0pi, 2pi
 		if stun_timers[i] > 0.0:
 			continue
-		phases[i] = wrapf(phases[i] + PENDULUM_SPEED * delta, 0.0, TAU)
+		# la velocidad base se multiplica por (1 + impulso): 4x al golpe, decae hasta 1x
+		phases[i] = wrapf(phases[i] + PENDULUM_SPEED * (1.0 + pendulum_boosts[i]) * delta, 0.0, TAU)
+# nuevo: el impulso baja linealmente hasta 0
+func update_pendulum_boost(delta: float) -> void:
+	var decay: float = PENDULUM_HIT_BOOST / PENDULUM_BOOST_TIME * delta
+	for i in active_count:
+		if pendulum_boosts[i] > 0.0:
+			pendulum_boosts[i] = maxf(pendulum_boosts[i] - decay, 0.0)
 func update_spawns(_delta) -> void:
 	timer -= _delta
 	if timer < 0 :
@@ -155,6 +168,7 @@ func update_death(delta: float) -> void:
 			continue
 		death_timers[i] -= delta
 		if death_timers[i] <= 0.0:
+			$particulas.burst(positions[i])
 			remove_ufo(i)
 func sync_multimesh() -> void:
 	for i in active_count:
@@ -203,6 +217,7 @@ func apply_shoot(center : Vector2, radius : float, damage: int) -> void:
 		if distance(center, positions[i]) <= hit_distance:
 			health[i] -= damage
 			flash_timers[i] = HIT_FLASH_TIME
+			pendulum_boosts[i] = PENDULUM_HIT_BOOST   # nuevo: el péndulo se acelera de golpe
 			damage_label.spawn(positions[i] + Vector2(0, -stats.UFO_RADIUS), damage)
 			if health[i] <= 0:
 				death_timers[i] = DEATH_TIME
@@ -221,6 +236,7 @@ func remove_ufo(i: int) -> void:
 	positions[i] = positions[last]
 	velocities[i] = velocities[last]
 	phases[i] = phases[last]
+	pendulum_boosts[i] = pendulum_boosts[last]
 	health[i] = health[last]
 	stun_timers[i] = stun_timers[last]
 	flash_timers[i] = flash_timers[last]

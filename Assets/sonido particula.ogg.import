@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://c1iyegnooxsdm"
+path="res://.godot/imported/sonido particula.ogg-9f33c54b827c613d232d0b33ef8fb569.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/sonido particula.ogg"
+dest_files=["res://.godot/imported/sonido particula.ogg-9f33c54b827c613d232d0b33ef8fb569.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

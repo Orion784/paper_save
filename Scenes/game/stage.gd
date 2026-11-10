@@ -41,8 +41,9 @@ func on_button_shop() -> void:
 	state_change.emit(Enums.GameState.SHOP)
 	pass
 
-func shoot_fired(center:Vector2, radius : float, damage: float) -> void:
+func shoot_fired(center:Vector2, radius : float, damage: float, ammo: int) -> void:
 	$EntityManager.apply_shoot(center,radius,damage)
+	$StageCanvas.hide_ammo()
 	#le decimos a stagecanvas que disminuya el [chamber]
 	pass
 
@@ -66,4 +67,9 @@ func _on_pause() -> void:
 
 func experience_gained(amount: float) -> void:
 	$StageCanvas.fill_progress_bar(amount)
+	pass # Replace with function body.
+
+
+func ammo_reset() -> void:
+	$StageCanvas.reset_ammo()
 	pass # Replace with function body.

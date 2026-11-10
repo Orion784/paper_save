@@ -6,6 +6,20 @@ extends CanvasLayer
 @export var menu_shade : TextureRect
 @export var menu_button : CustomButton
 
+@export var ui_chamber : Array[TextureRect]
+
+func hide_ammo() -> void:
+	for i in ui_chamber:
+		if i.visible == true:
+			i.visible = false
+			break
+	pass
+
+func reset_ammo() -> void:
+	for i in ui_chamber:
+		i.visible = true
+	pass
+
 signal pause
 
 var time_left : float = 0
