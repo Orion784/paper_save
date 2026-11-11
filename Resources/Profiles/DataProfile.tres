@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="DataProfile" format=3 uid="uid://dyta4aqu6t53i"]
+
+[ext_resource type="Script" uid="uid://28eyrwnmt0kt" path="res://Resources/Profiles/DataProfile.gd" id="1_pdwmc"]
+
+[resource]
+script = ExtResource("1_pdwmc")
+metadata/_custom_type_script = "uid://28eyrwnmt0kt"

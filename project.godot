@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Enums="*uid://bli5v0m21pu70"
 EventBus="*uid://tdfax8xx04tm"
+Sfx="*uid://chbmdsvp0ygug"
 
 [display]
 
@@ -26,6 +27,7 @@ window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+window/vsync/vsync_mode=0
 
 [input]
 

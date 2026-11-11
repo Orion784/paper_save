@@ -1,17 +1,15 @@
 [gd_scene format=3 uid="uid://pkba7i4wbbqt"]
 
-[ext_resource type="Script" uid="uid://cmwo0t2n6wp8d" path="res://Scenes/game/items.gd" id="1_7pssd"]
-[ext_resource type="Script" uid="uid://dto0a5wgcki4d" path="res://Scenes/game/game.gd" id="1_d0b77"]
-[ext_resource type="Script" uid="uid://d28n0bd80ci1r" path="res://Scenes/game/data.gd" id="2_5l446"]
-[ext_resource type="Script" uid="uid://bvgiptddbqn4f" path="res://Scenes/game/main_menu.gd" id="2_6y3i1"]
-[ext_resource type="Script" uid="uid://btbqpv5mumxr3" path="res://Scenes/game/entity_manager.gd" id="5_5l446"]
+[ext_resource type="Script" uid="uid://dto0a5wgcki4d" path="res://Scenes/game/game.gd" id="1_2700v"]
+[ext_resource type="Script" uid="uid://d28n0bd80ci1r" path="res://Scenes/game/Data/data.gd" id="2_5a7di"]
+[ext_resource type="Script" uid="uid://cmwo0t2n6wp8d" path="res://Scenes/game/Data/items.gd" id="3_iedfw"]
 [ext_resource type="PackedScene" uid="uid://n1o0odr82me" path="res://Scenes/game/UI/CustomUI/CustomButton/CustomButton.tscn" id="5_hy3pq"]
-[ext_resource type="Texture2D" uid="uid://dbtl7qw2uv765" path="res://Assets/112_sin_titulo_20260826212710.png" id="6_klkrs"]
-[ext_resource type="Script" uid="uid://dgrceketh2lmm" path="res://Scenes/game/shop.gd" id="7_6y3i1"]
-[ext_resource type="Shader" uid="uid://lwju5we3dplt" path="res://Assets/shader_background_presset.gdshader" id="7_27ybv"]
-[ext_resource type="Script" uid="uid://c06je4lm702s7" path="res://Scenes/game/stage.gd" id="8_meiaf"]
+[ext_resource type="Script" uid="uid://bvgiptddbqn4f" path="res://Scenes/game/MainMenu/main_menu.gd" id="5_rmb0i"]
+[ext_resource type="Texture2D" uid="uid://dbtl7qw2uv765" path="res://Assets/misc/112_sin_titulo_20260826212710.png" id="6_klkrs"]
 [ext_resource type="Texture2D" uid="uid://dn1igcxergeam" path="res://Assets/carboard/cardboard1.png" id="9_27ybv"]
+[ext_resource type="Script" uid="uid://dgrceketh2lmm" path="res://Scenes/game/Shop/shop.gd" id="10_gnbld"]
 [ext_resource type="Shader" uid="uid://wlidgy6ssbcd" path="res://Scenes/game/transition/transition_texture_mask.gdshader" id="11_kw6cb"]
+[ext_resource type="Resource" uid="uid://dyta4aqu6t53i" path="res://Resources/Profiles/DataProfile.tres" id="11_rmb0i"]
 [ext_resource type="Texture2D" uid="uid://cx48yqu7ywgcd" path="res://Assets/papel/paper3.png" id="12_btxna"]
 [ext_resource type="Texture2D" uid="uid://b5m50gv4dsvvy" path="res://icon.svg" id="12_ii7ab"]
 [ext_resource type="PackedScene" uid="uid://dp7t6ennil78c" path="res://Scenes/game/UI/CustomUI/Stickersheet/Stickersheet.tscn" id="13_2kyel"]
@@ -20,25 +18,61 @@
 [ext_resource type="PackedScene" uid="uid://rb4tbxslpx6e" path="res://Scenes/game/UI/CustomUI/Sticker/sticker.tscn" id="15_2700v"]
 [ext_resource type="Texture2D" uid="uid://bqinyim4vclfc" path="res://Assets/papel/flecha correjidar 2.png" id="15_tvnbm"]
 [ext_resource type="Script" uid="uid://coghiw17ea507" path="res://Scenes/game/UI/CustomUI/Stickersheet/sticker_stack.gd" id="16_68wwg"]
+[ext_resource type="Script" uid="uid://c06je4lm702s7" path="res://Scenes/game/Stage/stage.gd" id="17_k5vhh"]
 [ext_resource type="Texture2D" uid="uid://bmjiaw68k15aq" path="res://Assets/papel/paper2.png" id="18_68wwg"]
 [ext_resource type="Texture2D" uid="uid://c6aved8w50823" path="res://Assets/papel/flecha correjidar.png" id="18_mmnmt"]
 [ext_resource type="Script" uid="uid://qvr7thrqfid2" path="res://Scenes/game/transition/bloqueador_xd.gd" id="19_2kyel"]
-[ext_resource type="Texture2D" uid="uid://bm6x2vtd5v32e" path="res://Assets/larg.jpeg" id="19_btxna"]
-[ext_resource type="Resource" uid="uid://cdlexgvh0uyf7" path="res://Resources/PlayerProfile.tres" id="20_aeitv"]
+[ext_resource type="Texture2D" uid="uid://bm6x2vtd5v32e" path="res://Assets/misc/larg.jpeg" id="19_btxna"]
+[ext_resource type="Script" uid="uid://cq5yspaqjkqs8" path="res://Scenes/game/Stage/player.gd" id="19_vewj5"]
+[ext_resource type="Resource" uid="uid://cdlexgvh0uyf7" path="res://Resources/Profiles/PlayerProfile.tres" id="20_aeitv"]
 [ext_resource type="Texture2D" uid="uid://k6w71u2q22x3" path="res://Assets/UFOS/blue ufo.png" id="21_68wwg"]
-[ext_resource type="Script" uid="uid://cq5yspaqjkqs8" path="res://Scenes/game/player.gd" id="21_duc3a"]
 [ext_resource type="Shader" uid="uid://de0td81qtux1y" path="res://Scenes/game/UI/Shaders/ufo_sprite.gdshader" id="21_jodyk"]
+[ext_resource type="Script" uid="uid://btbqpv5mumxr3" path="res://Scenes/game/Stage/entity_manager.gd" id="22_2o5js"]
 [ext_resource type="Texture2D" uid="uid://upt47mu43f0g" path="res://Assets/UFOS/textura del atlas.png" id="22_jodyk"]
-[ext_resource type="Resource" uid="uid://cj71ctl71rr6b" path="res://Resources/UfoProfile.tres" id="22_mmnmt"]
-[ext_resource type="Texture2D" uid="uid://bx1vt6fswk4m6" path="res://Assets/mouse.png" id="22_yl8fu"]
-[ext_resource type="Script" uid="uid://b14bd117adk2r" path="res://Scenes/game/damage_label.gd" id="23_dlt2v"]
-[ext_resource type="FontFile" uid="uid://c5pdyt8k2ko6q" path="res://Assets/Hey Comic.ttf" id="24_tawbq"]
-[ext_resource type="Script" uid="uid://y7apnnayiqu8" path="res://Scenes/game/poronga.gd" id="30_5a7di"]
-[ext_resource type="Script" uid="uid://bc1w8xkm34go6" path="res://Scenes/game/stage_canvas.gd" id="30_aeitv"]
-[ext_resource type="FontFile" uid="uid://b7633adwlstvg" path="res://Assets/upheavtt.ttf" id="31_2700v"]
-[ext_resource type="AudioStream" uid="uid://b6lyoqlal7ki6" path="res://Assets/Grabación (6).ogg" id="31_rmb0i"]
-[ext_resource type="Texture2D" uid="uid://dgcdiu7aw842j" path="res://Assets/bala.png" id="32_2700v"]
-[ext_resource type="Script" uid="uid://bqj3qsb3cdnv1" path="res://Scenes/game/audio_stream_player_2d.gd" id="32_gnbld"]
+[ext_resource type="Resource" uid="uid://cj71ctl71rr6b" path="res://Resources/Profiles/UfoProfile.tres" id="22_mmnmt"]
+[ext_resource type="Texture2D" uid="uid://bx1vt6fswk4m6" path="res://Assets/misc/mouse.png" id="22_yl8fu"]
+[ext_resource type="FontFile" uid="uid://c5pdyt8k2ko6q" path="res://Assets/misc/Hey Comic.ttf" id="24_tawbq"]
+[ext_resource type="Script" uid="uid://b14bd117adk2r" path="res://Scenes/game/Stage/damage_label.gd" id="27_4tnyi"]
+[ext_resource type="Script" uid="uid://y7apnnayiqu8" path="res://Scenes/game/Stage/particles.gd" id="29_m3b5m"]
+[ext_resource type="AudioStream" uid="uid://ccitejh8s6wk6" path="res://Assets/sound effects/UI SFX_FEEDBACK_Woop.ogg" id="30_5a7di"]
+[ext_resource type="Script" uid="uid://bc1w8xkm34go6" path="res://Scenes/game/Stage/Canvas/stage_canvas.gd" id="30_dlowu"]
+[ext_resource type="FontFile" uid="uid://b7633adwlstvg" path="res://Assets/misc/upheavtt.ttf" id="31_2700v"]
+[ext_resource type="Texture2D" uid="uid://cqv4ndv4u87yw" path="res://Assets/moneda_dorada_32x32.png" id="31_rmb0i"]
+[ext_resource type="Texture2D" uid="uid://dgcdiu7aw842j" path="res://Assets/misc/bala.png" id="32_2700v"]
+[ext_resource type="AudioStream" uid="uid://hpx8cf7rfysh" path="res://Assets/sound effects/Paper Mario 64 OST - Battle Theme_256kbps.mp3" id="40_gnbld"]
+
+[sub_resource type="Shader" id="Shader_5a7di"]
+code = "shader_type canvas_item;
+
+uniform vec2 pixelation = vec2(256, 256); //The resolution of the Texture
+uniform sampler2D cloud_noise1; //The first scroling noise for the clouds
+uniform vec2 scroll_speed1 = vec2(0.02, 0.007); //The scroll-speed of the first noise
+uniform sampler2D cloud_noise2; //The second scroling noise for the clouds
+uniform vec2 scroll_speed2 = vec2(-0.015, -0.004); //The scroll-speed of the second noise
+uniform vec2 center_pos = vec2(0.5, 0.0); //Mantengo el uniform por compatibilidad, aunque ya no se usa para radial
+uniform float position_impact : hint_range(0.0, 1.0, 0.01) = 0.75;
+uniform sampler2D color_gardient; //The colors of the cloud-sky-transition as a 1D-Gradient (set interpolation to constant for more pixel look)
+
+void fragment() {
+	//The pixelated UV (so that the texture is actually pixelart)
+	vec2 pixel_uv = floor(UV * pixelation) / pixelation;
+	//Makes sure the clouds aren't stretched, even if it's not square shaped
+	vec2 noise_uv_scale = pixel_uv;
+	noise_uv_scale.x *= pixelation.x / pixelation.y;
+	//The UVs inside the noise texture with time-offset
+	vec2 noise1uv = fract(noise_uv_scale + TIME * scroll_speed1);
+	vec2 noise2uv = fract(noise_uv_scale + TIME * scroll_speed2);
+	//Determents the average color of the two noises
+	vec4 noise_col = (texture(cloud_noise1, noise1uv) + texture(cloud_noise2, noise2uv)) * 0.5;
+	
+	// Utiliza la coordenada vertical (eje Y) para generar el gradiente horizontal
+	float vertical_grad = pixel_uv.y;
+	
+	//Mixes the noise color with the vertical coordinate to form horizontal bands
+	float final = mix(1.0 - noise_col.r, vertical_grad, position_impact);
+	//applies the color from the gradient
+	COLOR = texture(color_gardient, vec2(final, final));
+}"
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_duc3a"]
 noise_type = 2
@@ -66,7 +100,7 @@ colors = PackedColorArray(0.22745098, 0.23137255, 0, 1, 1, 0.70980394, 0.3607843
 gradient = SubResource("Gradient_qequx")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2ov6r"]
-shader = ExtResource("7_27ybv")
+shader = SubResource("Shader_5a7di")
 shader_parameter/pixelation = Vector2(3000, 3000)
 shader_parameter/cloud_noise1 = SubResource("NoiseTexture2D_qequx")
 shader_parameter/scroll_speed1 = Vector2(0.002, 0.007)
@@ -98,14 +132,10 @@ shader = ExtResource("21_jodyk")
 shader_parameter/frame_count = 3.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 
-[sub_resource type="Gradient" id="Gradient_tawbq"]
-offsets = PackedFloat32Array(0, 0.041666668, 0.93333334)
-colors = PackedColorArray(1, 1, 1, 1, 1, 0.9254902, 0.1254902, 1, 1, 0.2627451, 0, 1)
-
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_2a0ah"]
 random_pitch = 1.0263338
 streams_count = 1
-stream_0/stream = ExtResource("31_rmb0i")
+stream_0/stream = ExtResource("30_5a7di")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_006r0"]
 shader = ExtResource("11_kw6cb")
@@ -115,15 +145,14 @@ shader_parameter/strength = 0.0
 shader_parameter/center = Vector2(0.5, 0.5)
 
 [node name="Game" type="Node2D" unique_id=1666873034 node_paths=PackedStringArray("state_node")]
-script = ExtResource("1_d0b77")
-opening_state = 2
+script = ExtResource("1_2700v")
 state_node = [NodePath("MainMenu"), NodePath("Shop"), NodePath("Stage")]
 
 [node name="Data" type="Node2D" parent="." unique_id=1750733494]
-script = ExtResource("2_5l446")
+script = ExtResource("2_5a7di")
 
 [node name="Items" type="Node" parent="Data" unique_id=2026950215]
-script = ExtResource("1_7pssd")
+script = ExtResource("3_iedfw")
 
 [node name="ShopStatus" type="Node" parent="Data" unique_id=1844910751]
 
@@ -152,7 +181,7 @@ grow_vertical = 2
 texture = ExtResource("9_27ybv")
 
 [node name="MainMenu" type="Node2D" parent="." unique_id=1820613610 node_paths=PackedStringArray("data")]
-script = ExtResource("2_6y3i1")
+script = ExtResource("5_rmb0i")
 data = NodePath("../Data")
 
 [node name="MenuCanvas" type="CanvasLayer" parent="MainMenu" unique_id=1177897169]
@@ -233,7 +262,7 @@ texture = ExtResource("6_klkrs")
 expand_mode = 4
 
 [node name="Shop" type="Node2D" parent="." unique_id=1383714936]
-script = ExtResource("7_6y3i1")
+script = ExtResource("10_gnbld")
 
 [node name="ShopCanvas" type="CanvasLayer" parent="Shop" unique_id=426446954]
 visible = false
@@ -322,7 +351,8 @@ icon = ExtResource("18_68wwg")
 container = NodePath("..")
 
 [node name="Stage" type="Node2D" parent="." unique_id=162588584]
-script = ExtResource("8_meiaf")
+script = ExtResource("17_k5vhh")
+data = ExtResource("11_rmb0i")
 
 [node name="Background" type="CanvasLayer" parent="Stage" unique_id=652184466]
 layer = -1
@@ -342,7 +372,7 @@ one_shot = true
 [node name="Player" type="Node2D" parent="Stage" unique_id=888585195]
 position = Vector2(179, 160)
 scale = Vector2(3, 3)
-script = ExtResource("21_duc3a")
+script = ExtResource("19_vewj5")
 stats = ExtResource("20_aeitv")
 
 [node name="Sprite2D" type="Sprite2D" parent="Stage/Player" unique_id=382463450]
@@ -355,10 +385,10 @@ texture = ExtResource("22_yl8fu")
 shape = SubResource("CircleShape2D_dtglo")
 
 [node name="EntityManager" type="Node" parent="Stage" unique_id=1135806143]
-script = ExtResource("5_5l446")
+script = ExtResource("22_2o5js")
 stats = ExtResource("22_mmnmt")
 
-[node name="UfoShadow" type="MultiMeshInstance2D" parent="Stage/EntityManager" unique_id=1926341031]
+[node name="Shadows" type="MultiMeshInstance2D" parent="Stage/EntityManager" unique_id=1926341031]
 modulate = Color(0, 0, 0, 0.49411765)
 position = Vector2(0, 7)
 multimesh = SubResource("MultiMesh_68wwg")
@@ -370,22 +400,21 @@ multimesh = SubResource("MultiMesh_68wwg")
 texture = ExtResource("22_jodyk")
 
 [node name="DamageLabel" type="Node2D" parent="Stage/EntityManager" unique_id=842094779]
-script = ExtResource("23_dlt2v")
+script = ExtResource("27_4tnyi")
 font = ExtResource("24_tawbq")
-gradient = SubResource("Gradient_tawbq")
+font_size = 64
 
-[node name="particulas" type="Node2D" parent="Stage/EntityManager" unique_id=1607769020]
-script = ExtResource("30_5a7di")
-color = Color(1, 1, 1, 1)
+[node name="Particles" type="Node2D" parent="Stage/EntityManager" unique_id=1607769020]
+script = ExtResource("29_m3b5m")
+data = ExtResource("11_rmb0i")
+texture = ExtResource("31_rmb0i")
+color = Color(1, 0.93333334, 0, 1)
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Stage/EntityManager/particulas" unique_id=234292079]
+[node name="AudioManager" type="AudioStreamPlayer2D" parent="Stage/EntityManager/Particles" unique_id=234292079]
 stream = SubResource("AudioStreamRandomizer_2a0ah")
-autoplay = true
-max_polyphony = 40
-script = ExtResource("32_gnbld")
 
 [node name="StageCanvas" type="CanvasLayer" parent="Stage" unique_id=1125312283 node_paths=PackedStringArray("time_label", "progress_bar", "menu", "menu_shade", "menu_button", "ui_chamber")]
-script = ExtResource("30_aeitv")
+script = ExtResource("30_dlowu")
 time_label = NodePath("Control/TimeLabel")
 progress_bar = NodePath("Control/StageProgressBar")
 menu = NodePath("Control/Menu")
@@ -401,12 +430,22 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="MoneyLabel" type="Label" parent="Stage/StageCanvas/Control" unique_id=2127687350]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 56.0
+offset_right = 247.0
+offset_bottom = 89.0
+theme_override_fonts/font = ExtResource("31_2700v")
+theme_override_font_sizes/font_size = 35
+text = "poronga roja"
+
 [node name="TimeLabel" type="Label" parent="Stage/StageCanvas/Control" unique_id=324129299]
 layout_mode = 0
-offset_left = 34.0
-offset_top = 28.0
-offset_right = 248.0
-offset_bottom = 61.0
+offset_left = 13.0
+offset_top = 9.0
+offset_right = 227.0
+offset_bottom = 42.0
 theme_override_fonts/font = ExtResource("31_2700v")
 theme_override_font_sizes/font_size = 35
 text = "kjasnjknfa"
@@ -543,6 +582,11 @@ grow_vertical = 2
 color = Color(1, 1, 1, 0)
 script = ExtResource("19_2kyel")
 
+[node name="MainTheme" type="AudioStreamPlayer2D" parent="." unique_id=2052002203]
+stream = ExtResource("40_gnbld")
+volume_db = -5.0
+autoplay = true
+
 [connection signal="state_change" from="MainMenu" to="." method="state_transition"]
 [connection signal="button_down" from="MainMenu/MenuCanvas/Control/Buttons/Play" to="MainMenu" method="_on_button_play"]
 [connection signal="button_down" from="MainMenu/MenuCanvas/Control/Buttons/Quit" to="MainMenu" method="_on_button_quit"]
@@ -559,3 +603,4 @@ script = ExtResource("19_2kyel")
 [connection signal="button_down" from="Stage/StageCanvas/Control/MenuButton" to="Stage/StageCanvas" method="_on_menu_button"]
 [connection signal="button_down" from="Stage/StageCanvas/Control/Menu/CustomButton2" to="Stage" method="on_button_retry"]
 [connection signal="pressed" from="Stage/StageCanvas/Control/Menu/CustomButton" to="Stage" method="on_button_shop"]
+[connection signal="finished" from="MainTheme" to="." method="_on_main_theme_finished"]

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://chbmdsvp0ygug"]
+
+[ext_resource type="Script" uid="uid://dr5xwvhdp1wux" path="res://Scenes/game/Sfx/sfx.gd" id="1_3qv5x"]
+[ext_resource type="AudioStream" uid="uid://bjk8df0rbuxbs" path="res://Assets/sound effects/UI SFX_FEEDBACK_Woom.ogg" id="1_mppvc"]
+
+[node name="Sfx" type="AudioStreamPlayer2D" unique_id=1311233596]
+stream = ExtResource("1_mppvc")
+script = ExtResource("1_3qv5x")

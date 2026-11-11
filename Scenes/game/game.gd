@@ -36,3 +36,8 @@ func start()->void:
 	current_state = opening_state
 	enter(current_state)
 	pass # Replace with functiopass
+
+
+func _on_main_theme_finished() -> void:
+	$MainTheme.play()
+	pass # Replace with function body.

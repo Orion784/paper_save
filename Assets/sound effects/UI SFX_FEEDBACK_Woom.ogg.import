@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bjk8df0rbuxbs"
+path="res://.godot/imported/UI SFX_FEEDBACK_Woom.ogg-67c0d5c970f06d1b0590ce5dfd99cd28.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/sound effects/UI SFX_FEEDBACK_Woom.ogg"
+dest_files=["res://.godot/imported/UI SFX_FEEDBACK_Woom.ogg-67c0d5c970f06d1b0590ce5dfd99cd28.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

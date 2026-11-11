@@ -1,0 +1,589 @@
+[gd_scene format=3 uid="uid://pkba7i4wbbqt"]
+
+[ext_resource type="Script" uid="uid://dto0a5wgcki4d" path="res://Scenes/game/game.gd" id="1_2700v"]
+[ext_resource type="Script" uid="uid://d28n0bd80ci1r" path="res://Scenes/game/Data/data.gd" id="2_5a7di"]
+[ext_resource type="Script" uid="uid://cmwo0t2n6wp8d" path="res://Scenes/game/Data/items.gd" id="3_iedfw"]
+[ext_resource type="PackedScene" uid="uid://n1o0odr82me" path="res://Scenes/game/UI/CustomUI/CustomButton/CustomButton.tscn" id="5_hy3pq"]
+[ext_resource type="Script" uid="uid://bvgiptddbqn4f" path="res://Scenes/game/MainMenu/main_menu.gd" id="5_rmb0i"]
+[ext_resource type="Texture2D" uid="uid://dbtl7qw2uv765" path="res://Assets/misc/112_sin_titulo_20260826212710.png" id="6_klkrs"]
+[ext_resource type="Texture2D" uid="uid://dn1igcxergeam" path="res://Assets/carboard/cardboard1.png" id="9_27ybv"]
+[ext_resource type="Script" uid="uid://dgrceketh2lmm" path="res://Scenes/game/Shop/shop.gd" id="10_gnbld"]
+[ext_resource type="Shader" uid="uid://wlidgy6ssbcd" path="res://Scenes/game/transition/transition_texture_mask.gdshader" id="11_kw6cb"]
+[ext_resource type="Texture2D" uid="uid://cx48yqu7ywgcd" path="res://Assets/papel/paper3.png" id="12_btxna"]
+[ext_resource type="Texture2D" uid="uid://b5m50gv4dsvvy" path="res://icon.svg" id="12_ii7ab"]
+[ext_resource type="PackedScene" uid="uid://dp7t6ennil78c" path="res://Scenes/game/UI/CustomUI/Stickersheet/Stickersheet.tscn" id="13_2kyel"]
+[ext_resource type="Texture2D" uid="uid://gwumhp4a3pah" path="res://Assets/UFOS/red ufo.png" id="13_hxkax"]
+[ext_resource type="Script" uid="uid://bxwu83hpm1478" path="res://Scenes/game/transition/transition_texture_mask.gd" id="13_ii7ab"]
+[ext_resource type="PackedScene" uid="uid://rb4tbxslpx6e" path="res://Scenes/game/UI/CustomUI/Sticker/sticker.tscn" id="15_2700v"]
+[ext_resource type="Texture2D" uid="uid://bqinyim4vclfc" path="res://Assets/papel/flecha correjidar 2.png" id="15_tvnbm"]
+[ext_resource type="Script" uid="uid://coghiw17ea507" path="res://Scenes/game/UI/CustomUI/Stickersheet/sticker_stack.gd" id="16_68wwg"]
+[ext_resource type="Script" uid="uid://c06je4lm702s7" path="res://Scenes/game/Stage/stage.gd" id="17_k5vhh"]
+[ext_resource type="Texture2D" uid="uid://bmjiaw68k15aq" path="res://Assets/papel/paper2.png" id="18_68wwg"]
+[ext_resource type="Texture2D" uid="uid://c6aved8w50823" path="res://Assets/papel/flecha correjidar.png" id="18_mmnmt"]
+[ext_resource type="Script" uid="uid://qvr7thrqfid2" path="res://Scenes/game/transition/bloqueador_xd.gd" id="19_2kyel"]
+[ext_resource type="Texture2D" uid="uid://bm6x2vtd5v32e" path="res://Assets/misc/larg.jpeg" id="19_btxna"]
+[ext_resource type="Script" uid="uid://cq5yspaqjkqs8" path="res://Scenes/game/Stage/player.gd" id="19_vewj5"]
+[ext_resource type="Resource" uid="uid://cdlexgvh0uyf7" path="res://Resources/Profiles/PlayerProfile.tres" id="20_aeitv"]
+[ext_resource type="Texture2D" uid="uid://k6w71u2q22x3" path="res://Assets/UFOS/blue ufo.png" id="21_68wwg"]
+[ext_resource type="Shader" uid="uid://de0td81qtux1y" path="res://Scenes/game/UI/Shaders/ufo_sprite.gdshader" id="21_jodyk"]
+[ext_resource type="Script" uid="uid://btbqpv5mumxr3" path="res://Scenes/game/Stage/entity_manager.gd" id="22_2o5js"]
+[ext_resource type="Texture2D" uid="uid://upt47mu43f0g" path="res://Assets/UFOS/textura del atlas.png" id="22_jodyk"]
+[ext_resource type="Resource" uid="uid://cj71ctl71rr6b" path="res://Resources/Profiles/UfoProfile.tres" id="22_mmnmt"]
+[ext_resource type="Texture2D" uid="uid://bx1vt6fswk4m6" path="res://Assets/misc/mouse.png" id="22_yl8fu"]
+[ext_resource type="FontFile" uid="uid://c5pdyt8k2ko6q" path="res://Assets/misc/Hey Comic.ttf" id="24_tawbq"]
+[ext_resource type="Script" uid="uid://b14bd117adk2r" path="res://Scenes/game/Stage/damage_label.gd" id="27_4tnyi"]
+[ext_resource type="Script" uid="uid://y7apnnayiqu8" path="res://Scenes/game/Stage/particles.gd" id="29_m3b5m"]
+[ext_resource type="Script" uid="uid://bc1w8xkm34go6" path="res://Scenes/game/Stage/Canvas/stage_canvas.gd" id="30_dlowu"]
+[ext_resource type="FontFile" uid="uid://b7633adwlstvg" path="res://Assets/misc/upheavtt.ttf" id="31_2700v"]
+[ext_resource type="Texture2D" uid="uid://dgcdiu7aw842j" path="res://Assets/misc/bala.png" id="32_2700v"]
+
+[sub_resource type="Shader" id="Shader_5a7di"]
+code = "shader_type canvas_item;
+
+uniform vec2 pixelation = vec2(256, 256); //The resolution of the Texture
+uniform sampler2D cloud_noise1; //The first scroling noise for the clouds
+uniform vec2 scroll_speed1 = vec2(0.02, 0.007); //The scroll-speed of the first noise
+uniform sampler2D cloud_noise2; //The second scroling noise for the clouds
+uniform vec2 scroll_speed2 = vec2(-0.015, -0.004); //The scroll-speed of the second noise
+uniform vec2 center_pos = vec2(0.5, 0.0); //Mantengo el uniform por compatibilidad, aunque ya no se usa para radial
+uniform float position_impact : hint_range(0.0, 1.0, 0.01) = 0.75;
+uniform sampler2D color_gardient; //The colors of the cloud-sky-transition as a 1D-Gradient (set interpolation to constant for more pixel look)
+
+void fragment() {
+	//The pixelated UV (so that the texture is actually pixelart)
+	vec2 pixel_uv = floor(UV * pixelation) / pixelation;
+	//Makes sure the clouds aren't stretched, even if it's not square shaped
+	vec2 noise_uv_scale = pixel_uv;
+	noise_uv_scale.x *= pixelation.x / pixelation.y;
+	//The UVs inside the noise texture with time-offset
+	vec2 noise1uv = fract(noise_uv_scale + TIME * scroll_speed1);
+	vec2 noise2uv = fract(noise_uv_scale + TIME * scroll_speed2);
+	//Determents the average color of the two noises
+	vec4 noise_col = (texture(cloud_noise1, noise1uv) + texture(cloud_noise2, noise2uv)) * 0.5;
+	
+	// Utiliza la coordenada vertical (eje Y) para generar el gradiente horizontal
+	float vertical_grad = pixel_uv.y;
+	
+	//Mixes the noise color with the vertical coordinate to form horizontal bands
+	float final = mix(1.0 - noise_col.r, vertical_grad, position_impact);
+	//applies the color from the gradient
+	COLOR = texture(color_gardient, vec2(final, final));
+}"
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_duc3a"]
+noise_type = 2
+frequency = 0.0064
+fractal_octaves = 3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qequx"]
+noise = SubResource("FastNoiseLite_duc3a")
+seamless = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_btxna"]
+noise_type = 2
+fractal_octaves = 3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_27ybv"]
+noise = SubResource("FastNoiseLite_btxna")
+seamless = true
+
+[sub_resource type="Gradient" id="Gradient_qequx"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.15677966, 0.2584746, 0.30932203, 0.43644068, 0.5381356, 0.6398305, 0.7584746, 0.88559324)
+colors = PackedColorArray(0.22745098, 0.23137255, 0, 1, 1, 0.70980394, 0.36078432, 1, 1, 0.63529414, 0, 1, 0.22745098, 0.23137255, 0, 1, 1, 0.70980394, 0.36078432, 1, 0.22745098, 0.23137255, 0, 1, 1, 0.63529414, 0, 1, 1, 0.70980394, 0.36078432, 1, 0.22745098, 0.23137255, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_27ybv"]
+gradient = SubResource("Gradient_qequx")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2ov6r"]
+shader = SubResource("Shader_5a7di")
+shader_parameter/pixelation = Vector2(3000, 3000)
+shader_parameter/cloud_noise1 = SubResource("NoiseTexture2D_qequx")
+shader_parameter/scroll_speed1 = Vector2(0.002, 0.007)
+shader_parameter/cloud_noise2 = SubResource("NoiseTexture2D_27ybv")
+shader_parameter/scroll_speed2 = Vector2(-0.001, -0.004)
+shader_parameter/center_pos = Vector2(0.5, 0)
+shader_parameter/position_impact = 0.499999988824
+shader_parameter/color_gardient = SubResource("GradientTexture1D_27ybv")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_006r0"]
+blend_mode = 3
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1y1g7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_006r0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dtglo"]
+radius = 14.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_duc3a"]
+size = Vector2(64, 64)
+
+[sub_resource type="MultiMesh" id="MultiMesh_68wwg"]
+use_custom_data = true
+mesh = SubResource("QuadMesh_duc3a")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jodyk"]
+shader = ExtResource("21_jodyk")
+shader_parameter/frame_count = 3.0
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Gradient" id="Gradient_tawbq"]
+offsets = PackedFloat32Array(0, 0.041666668, 0.93333334)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0.9254902, 0.1254902, 1, 1, 0.2627451, 0, 1)
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_2a0ah"]
+random_pitch = 1.0263338
+streams_count = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_006r0"]
+shader = ExtResource("11_kw6cb")
+shader_parameter/mask_texture = ExtResource("13_hxkax")
+shader_parameter/zoom = 2.0
+shader_parameter/strength = 0.0
+shader_parameter/center = Vector2(0.5, 0.5)
+
+[node name="Game" type="Node2D" unique_id=1666873034 node_paths=PackedStringArray("state_node")]
+script = ExtResource("1_2700v")
+opening_state = 2
+state_node = [NodePath("MainMenu"), NodePath("Shop"), NodePath("Stage")]
+
+[node name="Data" type="Node2D" parent="." unique_id=1750733494]
+script = ExtResource("2_5a7di")
+
+[node name="Items" type="Node" parent="Data" unique_id=2026950215]
+script = ExtResource("3_iedfw")
+
+[node name="ShopStatus" type="Node" parent="Data" unique_id=1844910751]
+
+[node name="Background" type="CanvasLayer" parent="." unique_id=539190627]
+layer = -2
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="Background" unique_id=1852096254]
+material = SubResource("ShaderMaterial_2ov6r")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Background" unique_id=1777311066]
+material = SubResource("CanvasItemMaterial_006r0")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -24.0
+offset_right = 47.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_27ybv")
+
+[node name="MainMenu" type="Node2D" parent="." unique_id=1820613610 node_paths=PackedStringArray("data")]
+script = ExtResource("5_rmb0i")
+data = NodePath("../Data")
+
+[node name="MenuCanvas" type="CanvasLayer" parent="MainMenu" unique_id=1177897169]
+visible = false
+
+[node name="Control" type="Control" parent="MainMenu/MenuCanvas" unique_id=1940642793]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginLinks" type="PanelContainer" parent="MainMenu/MenuCanvas/Control" unique_id=854200289]
+layout_mode = 0
+offset_right = 424.0
+offset_bottom = 720.0
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_1y1g7")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/MenuCanvas/Control/MarginLinks" unique_id=1324434602]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 2
+
+[node name="Button" type="Button" parent="MainMenu/MenuCanvas/Control/MarginLinks/VBoxContainer" unique_id=1637380023]
+layout_mode = 2
+icon = ExtResource("12_ii7ab")
+flat = true
+
+[node name="Buttons" type="VBoxContainer" parent="MainMenu/MenuCanvas/Control" unique_id=316849788]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -161.0
+offset_top = -177.5
+offset_right = 161.0
+offset_bottom = 177.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="Play" parent="MainMenu/MenuCanvas/Control/Buttons" unique_id=88439538 node_paths=PackedStringArray("container") instance=ExtResource("5_hy3pq")]
+layout_mode = 2
+text = "play"
+icon = ExtResource("12_btxna")
+container = NodePath("..")
+
+[node name="Settings" parent="MainMenu/MenuCanvas/Control/Buttons" unique_id=1348949294 node_paths=PackedStringArray("container") instance=ExtResource("5_hy3pq")]
+layout_mode = 2
+text = "settings"
+icon = ExtResource("12_btxna")
+container = NodePath("..")
+
+[node name="Quit" parent="MainMenu/MenuCanvas/Control/Buttons" unique_id=11511914 node_paths=PackedStringArray("container") instance=ExtResource("5_hy3pq")]
+layout_mode = 2
+text = "quit"
+icon = ExtResource("12_btxna")
+container = NodePath("..")
+
+[node name="LucyTexture" type="TextureRect" parent="MainMenu/MenuCanvas/Control" unique_id=332650765]
+custom_minimum_size = Vector2(400, 400)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_vertical = 3
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 4)
+texture = ExtResource("6_klkrs")
+expand_mode = 4
+
+[node name="Shop" type="Node2D" parent="." unique_id=1383714936]
+script = ExtResource("10_gnbld")
+
+[node name="ShopCanvas" type="CanvasLayer" parent="Shop" unique_id=426446954]
+visible = false
+
+[node name="Control" type="Control" parent="Shop/ShopCanvas" unique_id=831682384]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Shop/ShopCanvas/Control" unique_id=2031725786]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 53.0
+offset_right = 1165.0
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 25
+
+[node name="Arrow1" parent="Shop/ShopCanvas/Control/HBoxContainer" unique_id=241590845 instance=ExtResource("5_hy3pq")]
+layout_mode = 2
+icon = ExtResource("15_tvnbm")
+
+[node name="StickerSheets" type="PanelContainer" parent="Shop/ShopCanvas/Control/HBoxContainer" unique_id=1154503702 node_paths=PackedStringArray("stack")]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_006r0")
+script = ExtResource("16_68wwg")
+stack = [NodePath("Sheet0"), NodePath("Sheet1"), NodePath("Sheet2")]
+
+[node name="Sheet2" parent="Shop/ShopCanvas/Control/HBoxContainer/StickerSheets" unique_id=96412486 instance=ExtResource("13_2kyel")]
+layout_mode = 2
+offset_transform_enabled = true
+
+[node name="Sheet1" parent="Shop/ShopCanvas/Control/HBoxContainer/StickerSheets" unique_id=1890295091 instance=ExtResource("13_2kyel")]
+modulate = Color(1, 1, 0.7411765, 1)
+layout_mode = 2
+offset_transform_enabled = true
+
+[node name="Sheet0" parent="Shop/ShopCanvas/Control/HBoxContainer/StickerSheets" unique_id=1278150484 instance=ExtResource("13_2kyel")]
+modulate = Color(1, 0.8980392, 1, 1)
+layout_mode = 2
+offset_transform_enabled = true
+
+[node name="Stickers" type="TextureRect" parent="Shop/ShopCanvas/Control/HBoxContainer/StickerSheets/Sheet0" unique_id=1219237253]
+layout_mode = 2
+
+[node name="Sticker" parent="Shop/ShopCanvas/Control/HBoxContainer/StickerSheets/Sheet0/Stickers" unique_id=1302394940 instance=ExtResource("15_2700v")]
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 91.0
+offset_top = 183.0
+offset_right = 155.0
+offset_bottom = 247.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="Arrow2" parent="Shop/ShopCanvas/Control/HBoxContainer" unique_id=1315038082 node_paths=PackedStringArray("container") instance=ExtResource("5_hy3pq")]
+layout_mode = 2
+icon = ExtResource("18_mmnmt")
+container = NodePath("..")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Shop/ShopCanvas/Control" unique_id=1735525267]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -273.0
+offset_top = -82.0
+offset_bottom = -82.0
+grow_horizontal = 0
+grow_vertical = 2
+alignment = 2
+
+[node name="Ready" parent="Shop/ShopCanvas/Control/VBoxContainer" unique_id=1731063591 node_paths=PackedStringArray("container") instance=ExtResource("5_hy3pq")]
+layout_mode = 2
+text = "Ready"
+icon = ExtResource("18_68wwg")
+container = NodePath("..")
+
+[node name="Stage" type="Node2D" parent="." unique_id=162588584]
+script = ExtResource("17_k5vhh")
+
+[node name="Background" type="CanvasLayer" parent="Stage" unique_id=652184466]
+layer = -1
+
+[node name="TextureRect" type="TextureRect" parent="Stage/Background" unique_id=1279956834]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("19_btxna")
+expand_mode = 1
+
+[node name="Timer" type="Timer" parent="Stage" unique_id=938371162]
+one_shot = true
+
+[node name="Player" type="Node2D" parent="Stage" unique_id=888585195]
+position = Vector2(179, 160)
+scale = Vector2(3, 3)
+script = ExtResource("19_vewj5")
+stats = ExtResource("20_aeitv")
+
+[node name="Sprite2D" type="Sprite2D" parent="Stage/Player" unique_id=382463450]
+z_index = 1
+texture = ExtResource("22_yl8fu")
+
+[node name="Area2D" type="Area2D" parent="Stage/Player" unique_id=924743265]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Stage/Player/Area2D" unique_id=95842268]
+shape = SubResource("CircleShape2D_dtglo")
+
+[node name="EntityManager" type="Node" parent="Stage" unique_id=1135806143]
+script = ExtResource("22_2o5js")
+stats = ExtResource("22_mmnmt")
+
+[node name="Shadows" type="MultiMeshInstance2D" parent="Stage/EntityManager" unique_id=1926341031]
+modulate = Color(0, 0, 0, 0.49411765)
+position = Vector2(0, 7)
+multimesh = SubResource("MultiMesh_68wwg")
+texture = ExtResource("21_68wwg")
+
+[node name="MultiMeshInstance2D" type="MultiMeshInstance2D" parent="Stage/EntityManager" unique_id=1625249083]
+material = SubResource("ShaderMaterial_jodyk")
+multimesh = SubResource("MultiMesh_68wwg")
+texture = ExtResource("22_jodyk")
+
+[node name="DamageLabel" type="Node2D" parent="Stage/EntityManager" unique_id=842094779]
+script = ExtResource("27_4tnyi")
+font = ExtResource("24_tawbq")
+gradient = SubResource("Gradient_tawbq")
+
+[node name="Particles" type="Node2D" parent="Stage/EntityManager" unique_id=1607769020]
+script = ExtResource("29_m3b5m")
+color = Color(1, 1, 1, 1)
+
+[node name="AudioManager" type="AudioStreamPlayer2D" parent="Stage/EntityManager/Particles" unique_id=234292079]
+stream = SubResource("AudioStreamRandomizer_2a0ah")
+autoplay = true
+max_polyphony = 40
+
+[node name="StageCanvas" type="CanvasLayer" parent="Stage" unique_id=1125312283 node_paths=PackedStringArray("time_label", "progress_bar", "menu", "menu_shade", "menu_button", "ui_chamber")]
+script = ExtResource("30_dlowu")
+time_label = NodePath("Control/TimeLabel")
+progress_bar = NodePath("Control/StageProgressBar")
+menu = NodePath("Control/Menu")
+menu_shade = NodePath("Control/MenuShade")
+menu_button = NodePath("Control/MenuButton")
+ui_chamber = [NodePath("Control/BulletChamber/TextureRect"), NodePath("Control/BulletChamber/TextureRect2"), NodePath("Control/BulletChamber/TextureRect3"), NodePath("Control/BulletChamber/TextureRect4"), NodePath("Control/BulletChamber/TextureRect5"), NodePath("Control/BulletChamber/TextureRect6")]
+
+[node name="Control" type="Control" parent="Stage/StageCanvas" unique_id=195308058]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TimeLabel" type="Label" parent="Stage/StageCanvas/Control" unique_id=324129299]
+layout_mode = 0
+offset_left = 34.0
+offset_top = 28.0
+offset_right = 248.0
+offset_bottom = 61.0
+theme_override_fonts/font = ExtResource("31_2700v")
+theme_override_font_sizes/font_size = 35
+text = "kjasnjknfa"
+
+[node name="BulletChamber" type="HBoxContainer" parent="Stage/StageCanvas/Control" unique_id=2011793062]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -265.0
+offset_top = -85.0
+offset_right = 265.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="Stage/StageCanvas/Control/BulletChamber" unique_id=1599821530]
+layout_mode = 2
+texture = ExtResource("32_2700v")
+expand_mode = 3
+
+[node name="TextureRect2" type="TextureRect" parent="Stage/StageCanvas/Control/BulletChamber" unique_id=1332962249]
+layout_mode = 2
+texture = ExtResource("32_2700v")
+expand_mode = 3
+
+[node name="TextureRect3" type="TextureRect" parent="Stage/StageCanvas/Control/BulletChamber" unique_id=404334034]
+layout_mode = 2
+texture = ExtResource("32_2700v")
+expand_mode = 2
+
+[node name="TextureRect4" type="TextureRect" parent="Stage/StageCanvas/Control/BulletChamber" unique_id=2051766225]
+layout_mode = 2
+texture = ExtResource("32_2700v")
+expand_mode = 2
+
+[node name="TextureRect5" type="TextureRect" parent="Stage/StageCanvas/Control/BulletChamber" unique_id=72378563]
+layout_mode = 2
+texture = ExtResource("32_2700v")
+expand_mode = 2
+
+[node name="TextureRect6" type="TextureRect" parent="Stage/StageCanvas/Control/BulletChamber" unique_id=1252788453]
+layout_mode = 2
+texture = ExtResource("32_2700v")
+expand_mode = 2
+
+[node name="StageProgressBar" type="ProgressBar" parent="Stage/StageCanvas/Control" unique_id=375365708]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -102.0
+offset_right = 102.0
+offset_bottom = 59.0
+grow_horizontal = 2
+max_value = 10.0
+allow_greater = true
+
+[node name="MenuShade" type="TextureRect" parent="Stage/StageCanvas/Control" unique_id=1578396438]
+visible = false
+modulate = Color(0, 0, 0, 0.5882353)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -48.0
+offset_top = -24.0
+offset_right = 48.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+texture = ExtResource("19_btxna")
+
+[node name="MenuButton" parent="Stage/StageCanvas/Control" unique_id=915991918 instance=ExtResource("5_hy3pq")]
+layout_mode = 1
+offset_left = 462.0
+offset_top = -338.0
+offset_right = 627.0
+offset_bottom = -273.0
+text = "| |"
+icon = ExtResource("18_68wwg")
+
+[node name="Menu" type="TextureRect" parent="Stage/StageCanvas/Control" unique_id=394418137]
+visible = false
+layout_mode = 0
+offset_left = 452.0
+offset_top = 163.0
+offset_right = 803.0
+offset_bottom = 545.0
+texture = ExtResource("9_27ybv")
+expand_mode = 1
+
+[node name="CustomButton2" parent="Stage/StageCanvas/Control/Menu" unique_id=904309247 instance=ExtResource("5_hy3pq")]
+layout_mode = 1
+offset_left = -75.5
+offset_top = -108.0
+offset_right = 89.5
+offset_bottom = -43.0
+text = "retry"
+icon = ExtResource("18_68wwg")
+
+[node name="CustomButton" parent="Stage/StageCanvas/Control/Menu" unique_id=343202504 instance=ExtResource("5_hy3pq")]
+layout_mode = 1
+offset_left = -79.5
+offset_top = 41.0
+offset_right = 85.5
+offset_bottom = 106.0
+text = "shop"
+icon = ExtResource("18_68wwg")
+
+[node name="Transition" type="CanvasLayer" parent="." unique_id=517670231]
+
+[node name="ColorRect" type="ColorRect" parent="Transition" unique_id=1671315147]
+material = SubResource("ShaderMaterial_006r0")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("13_ii7ab")
+duration_in = 1.0
+duration_out = 0.8
+await_time = 0.5
+
+[node name="bloqueador xd" type="ColorRect" parent="Transition" unique_id=1318035115]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+script = ExtResource("19_2kyel")
+
+[connection signal="state_change" from="MainMenu" to="." method="state_transition"]
+[connection signal="button_down" from="MainMenu/MenuCanvas/Control/Buttons/Play" to="MainMenu" method="_on_button_play"]
+[connection signal="button_down" from="MainMenu/MenuCanvas/Control/Buttons/Quit" to="MainMenu" method="_on_button_quit"]
+[connection signal="state_change" from="Shop" to="." method="state_transition"]
+[connection signal="button_down" from="Shop/ShopCanvas/Control/HBoxContainer/Arrow1" to="Shop/ShopCanvas/Control/HBoxContainer/StickerSheets" method="move_front"]
+[connection signal="button_down" from="Shop/ShopCanvas/Control/HBoxContainer/Arrow2" to="Shop/ShopCanvas/Control/HBoxContainer/StickerSheets" method="move_behind"]
+[connection signal="button_down" from="Shop/ShopCanvas/Control/VBoxContainer/Ready" to="Shop" method="_on_button_ready"]
+[connection signal="state_change" from="Stage" to="." method="state_transition"]
+[connection signal="timeout" from="Stage/Timer" to="Stage" method="_on_timer_timeout"]
+[connection signal="ammo_reset" from="Stage/Player" to="Stage" method="ammo_reset"]
+[connection signal="shoot_fired" from="Stage/Player" to="Stage" method="shoot_fired"]
+[connection signal="experience_gained" from="Stage/EntityManager" to="Stage" method="experience_gained"]
+[connection signal="pause" from="Stage/StageCanvas" to="Stage" method="_on_pause"]
+[connection signal="button_down" from="Stage/StageCanvas/Control/MenuButton" to="Stage/StageCanvas" method="_on_menu_button"]
+[connection signal="button_down" from="Stage/StageCanvas/Control/Menu/CustomButton2" to="Stage" method="on_button_retry"]
+[connection signal="pressed" from="Stage/StageCanvas/Control/Menu/CustomButton" to="Stage" method="on_button_shop"]

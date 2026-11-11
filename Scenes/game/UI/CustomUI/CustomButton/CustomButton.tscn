@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://n1o0odr82me"]
 
 [ext_resource type="Script" uid="uid://c73tgt48k60pu" path="res://Scenes/game/UI/CustomUI/CustomButton/CustomButton.gd" id="2_ddh1m"]
-[ext_resource type="FontFile" uid="uid://b7633adwlstvg" path="res://Assets/upheavtt.ttf" id="2_xm458"]
+[ext_resource type="FontFile" uid="uid://b7633adwlstvg" path="res://Assets/misc/upheavtt.ttf" id="2_xm458"]
 [ext_resource type="PackedScene" uid="uid://27858p8ohbyr" path="res://Scenes/game/UI/CustomUI/CustomShadow/CustomShadow.tscn" id="3_4ws5k"]
 [ext_resource type="PackedScene" uid="uid://dhcccgfi4g0ln" path="res://Scenes/game/UI/CustomUI/TweenAnim/TweenAnim.tscn" id="4_4ws5k"]
 
