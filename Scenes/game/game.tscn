@@ -32,9 +32,7 @@
 [ext_resource type="Texture2D" uid="uid://upt47mu43f0g" path="res://Assets/UFOS/textura del atlas.png" id="22_jodyk"]
 [ext_resource type="Resource" uid="uid://cj71ctl71rr6b" path="res://Resources/Profiles/UfoProfile.tres" id="22_mmnmt"]
 [ext_resource type="PackedScene" uid="uid://dhcccgfi4g0ln" path="res://Scenes/game/UI/CustomUI/TweenAnim/TweenAnim.tscn" id="23_4tnyi"]
-[ext_resource type="Texture2D" uid="uid://cktclkt8mgbll" path="res://Assets/anillo_plano.png" id="24_dlowu"]
 [ext_resource type="FontFile" uid="uid://c5pdyt8k2ko6q" path="res://Assets/misc/Hey Comic.ttf" id="24_tawbq"]
-[ext_resource type="Texture2D" uid="uid://bdri81intwntp" path="res://Assets/anillo_contorno.png" id="25_8demq"]
 [ext_resource type="Script" uid="uid://b14bd117adk2r" path="res://Scenes/game/Stage/damage_label.gd" id="27_4tnyi"]
 [ext_resource type="Script" uid="uid://y7apnnayiqu8" path="res://Scenes/game/Stage/particles.gd" id="29_m3b5m"]
 [ext_resource type="AudioStream" uid="uid://ccitejh8s6wk6" path="res://Assets/sound effects/UI SFX_FEEDBACK_Woop.ogg" id="30_5a7di"]
@@ -90,6 +88,12 @@ blend_mode = 3
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1y1g7"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_006r0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ov6r"]
+bg_color = Color(0.6, 0.6, 0.6, 0.3647059)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_006r0"]
+bg_color = Color(0.29411766, 1, 0.9490196, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dtglo"]
 radius = 14.0
@@ -369,17 +373,14 @@ texture = ExtResource("22_4tnyi")
 
 [node name="TweenAnim" parent="Stage/Player/Sprite2D" unique_id=679141744 instance=ExtResource("23_4tnyi")]
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="Stage/Player/Sprite2D" unique_id=1976682075]
-offset_left = -255.55557
-offset_top = -255.55557
-offset_right = 256.44443
-offset_bottom = 256.44443
-fill_mode = 4
-texture_under = ExtResource("24_dlowu")
-texture_over = ExtResource("25_8demq")
-texture_progress = ExtResource("24_dlowu")
-tint_under = Color(0.37413925, 0.37413928, 0.37413922, 1)
-tint_progress = Color(1, 0.54509807, 0.41568628, 1)
+[node name="PlayerProgressBar" type="ProgressBar" parent="Stage/Player" unique_id=138730965]
+offset_left = 16.0
+offset_top = -14.333334
+offset_right = 27.0
+offset_bottom = 17.666666
+theme_override_styles/background = SubResource("StyleBoxFlat_2ov6r")
+theme_override_styles/fill = SubResource("StyleBoxFlat_006r0")
+show_percentage = false
 
 [node name="Area2D" type="Area2D" parent="Stage/Player" unique_id=924743265]
 
