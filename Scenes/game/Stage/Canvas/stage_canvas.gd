@@ -74,7 +74,7 @@ func dispose() -> void:
 
 func update_money(money) -> void:
 	if label_money < money:
-		label_money += 1
+		label_money += 3
 	$Control/MoneyLabel.text = str(label_money).pad_zeros(3)
 	pass
 

@@ -51,6 +51,7 @@ func _input(event: InputEvent) -> void:
 			reset_ammo()
 		else:
 			shoot_fired.emit(global_position, stats.radius, damage_output(), ammo)
+			#$Sprite2D/TweenAnim.shake_player($Sprite2D)
 			decrease_ammo()
 			Sfx.play()
 
