@@ -7,6 +7,7 @@ var next_state : Enums.GameState
 var is_changing: bool = false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	Input.MOUSE_MODE_HIDDEN #BORRAR ESTOOOO
 	for node in state_node:
 		node.dispose()
 	EventBus.transition_change.connect(switch)

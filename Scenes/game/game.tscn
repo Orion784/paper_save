@@ -28,9 +28,9 @@
 [ext_resource type="Texture2D" uid="uid://k6w71u2q22x3" path="res://Assets/UFOS/blue ufo.png" id="21_68wwg"]
 [ext_resource type="Shader" uid="uid://de0td81qtux1y" path="res://Scenes/game/UI/Shaders/ufo_sprite.gdshader" id="21_jodyk"]
 [ext_resource type="Script" uid="uid://btbqpv5mumxr3" path="res://Scenes/game/Stage/entity_manager.gd" id="22_2o5js"]
+[ext_resource type="Texture2D" uid="uid://cktdenl20kyid" path="res://Assets/new_atlas_texture.tres" id="22_4tnyi"]
 [ext_resource type="Texture2D" uid="uid://upt47mu43f0g" path="res://Assets/UFOS/textura del atlas.png" id="22_jodyk"]
 [ext_resource type="Resource" uid="uid://cj71ctl71rr6b" path="res://Resources/Profiles/UfoProfile.tres" id="22_mmnmt"]
-[ext_resource type="Texture2D" uid="uid://bx1vt6fswk4m6" path="res://Assets/misc/mouse.png" id="22_yl8fu"]
 [ext_resource type="FontFile" uid="uid://c5pdyt8k2ko6q" path="res://Assets/misc/Hey Comic.ttf" id="24_tawbq"]
 [ext_resource type="Script" uid="uid://b14bd117adk2r" path="res://Scenes/game/Stage/damage_label.gd" id="27_4tnyi"]
 [ext_resource type="Script" uid="uid://y7apnnayiqu8" path="res://Scenes/game/Stage/particles.gd" id="29_m3b5m"]
@@ -39,76 +39,47 @@
 [ext_resource type="FontFile" uid="uid://b7633adwlstvg" path="res://Assets/misc/upheavtt.ttf" id="31_2700v"]
 [ext_resource type="Texture2D" uid="uid://cqv4ndv4u87yw" path="res://Assets/moneda_dorada_32x32.png" id="31_rmb0i"]
 [ext_resource type="Texture2D" uid="uid://dgcdiu7aw842j" path="res://Assets/misc/bala.png" id="32_2700v"]
-[ext_resource type="AudioStream" uid="uid://hpx8cf7rfysh" path="res://Assets/sound effects/Paper Mario 64 OST - Battle Theme_256kbps.mp3" id="40_gnbld"]
+[ext_resource type="AudioStream" uid="uid://d1cjlbw37cx8u" path="res://Assets/sound effects/SaturdayNight.wav" id="40_gnbld"]
+[ext_resource type="Texture2D" uid="uid://c6p5c72x5yebt" path="res://Assets/cursor_paper_32.png" id="41_k5vhh"]
+[ext_resource type="Script" uid="uid://djwoi1h5r5vxx" path="res://Scenes/game/MOUSE TEMPORAL BORRAR.gd" id="42_vewj5"]
+[ext_resource type="Shader" uid="uid://cbnfk4i33b5rj" path="res://PORONGA ELIMINAR.gdshader" id="43_2o5js"]
 
 [sub_resource type="Shader" id="Shader_5a7di"]
 code = "shader_type canvas_item;
 
-uniform vec2 pixelation = vec2(256, 256); //The resolution of the Texture
-uniform sampler2D cloud_noise1; //The first scroling noise for the clouds
-uniform vec2 scroll_speed1 = vec2(0.02, 0.007); //The scroll-speed of the first noise
-uniform sampler2D cloud_noise2; //The second scroling noise for the clouds
-uniform vec2 scroll_speed2 = vec2(-0.015, -0.004); //The scroll-speed of the second noise
-uniform vec2 center_pos = vec2(0.5, 0.0); //Mantengo el uniform por compatibilidad, aunque ya no se usa para radial
-uniform float position_impact : hint_range(0.0, 1.0, 0.01) = 0.75;
-uniform sampler2D color_gardient; //The colors of the cloud-sky-transition as a 1D-Gradient (set interpolation to constant for more pixel look)
+/*
+	Endless Scrolling Checkerboard
+	Works on ColorRect, TextureRect, Sprite2D, etc.
+	Checker size and scroll speed are in pixels.
+*/
+
+uniform vec4 color_a : source_color = vec4(0.9, 0.9, 0.9, 1.0);
+uniform vec4 color_b : source_color = vec4(0.2, 0.2, 0.2, 1.0);
+uniform float checker_size : hint_range(1.0, 512.0, 1.0) = 64.0;
+uniform vec2 scroll_speed = vec2(40.0, 40.0); // pixels per second, negative reverses
+uniform float angle_degrees : hint_range(-180.0, 180.0, 0.1) = 0.0;
+
+varying vec2 local_pos;
+
+void vertex() {
+	local_pos = VERTEX;
+}
 
 void fragment() {
-	//The pixelated UV (so that the texture is actually pixelart)
-	vec2 pixel_uv = floor(UV * pixelation) / pixelation;
-	//Makes sure the clouds aren't stretched, even if it's not square shaped
-	vec2 noise_uv_scale = pixel_uv;
-	noise_uv_scale.x *= pixelation.x / pixelation.y;
-	//The UVs inside the noise texture with time-offset
-	vec2 noise1uv = fract(noise_uv_scale + TIME * scroll_speed1);
-	vec2 noise2uv = fract(noise_uv_scale + TIME * scroll_speed2);
-	//Determents the average color of the two noises
-	vec4 noise_col = (texture(cloud_noise1, noise1uv) + texture(cloud_noise2, noise2uv)) * 0.5;
-	
-	// Utiliza la coordenada vertical (eje Y) para generar el gradiente horizontal
-	float vertical_grad = pixel_uv.y;
-	
-	//Mixes the noise color with the vertical coordinate to form horizontal bands
-	float final = mix(1.0 - noise_col.r, vertical_grad, position_impact);
-	//applies the color from the gradient
-	COLOR = texture(color_gardient, vec2(final, final));
+	float a = radians(angle_degrees);
+	mat2 rot = mat2(vec2(cos(a), -sin(a)), vec2(sin(a), cos(a)));
+	vec2 p = (rot * (local_pos + scroll_speed * TIME)) / checker_size;
+	float checker = mod(floor(p.x) + floor(p.y), 2.0);
+	COLOR = mix(color_a, color_b, checker);
 }"
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_duc3a"]
-noise_type = 2
-frequency = 0.0064
-fractal_octaves = 3
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qequx"]
-noise = SubResource("FastNoiseLite_duc3a")
-seamless = true
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_btxna"]
-noise_type = 2
-fractal_octaves = 3
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_27ybv"]
-noise = SubResource("FastNoiseLite_btxna")
-seamless = true
-
-[sub_resource type="Gradient" id="Gradient_qequx"]
-interpolation_mode = 1
-offsets = PackedFloat32Array(0, 0.15677966, 0.2584746, 0.30932203, 0.43644068, 0.5381356, 0.6398305, 0.7584746, 0.88559324)
-colors = PackedColorArray(0.22745098, 0.23137255, 0, 1, 1, 0.70980394, 0.36078432, 1, 1, 0.63529414, 0, 1, 0.22745098, 0.23137255, 0, 1, 1, 0.70980394, 0.36078432, 1, 0.22745098, 0.23137255, 0, 1, 1, 0.63529414, 0, 1, 1, 0.70980394, 0.36078432, 1, 0.22745098, 0.23137255, 0, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_27ybv"]
-gradient = SubResource("Gradient_qequx")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2ov6r"]
 shader = SubResource("Shader_5a7di")
-shader_parameter/pixelation = Vector2(3000, 3000)
-shader_parameter/cloud_noise1 = SubResource("NoiseTexture2D_qequx")
-shader_parameter/scroll_speed1 = Vector2(0.002, 0.007)
-shader_parameter/cloud_noise2 = SubResource("NoiseTexture2D_27ybv")
-shader_parameter/scroll_speed2 = Vector2(-0.001, -0.004)
-shader_parameter/center_pos = Vector2(0.5, 0)
-shader_parameter/position_impact = 0.499999988824
-shader_parameter/color_gardient = SubResource("GradientTexture1D_27ybv")
+shader_parameter/color_a = Color(0.8509804, 0.7882353, 0.627451, 1)
+shader_parameter/color_b = Color(0.2220661, 0.19855341, 0.13540334, 1)
+shader_parameter/checker_size = 166.0
+shader_parameter/scroll_speed = Vector2(-40, 40)
+shader_parameter/angle_degrees = -9.59999746083551
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_006r0"]
 blend_mode = 3
@@ -144,6 +115,18 @@ shader_parameter/zoom = 2.0
 shader_parameter/strength = 0.0
 shader_parameter/center = Vector2(0.5, 0.5)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4tnyi"]
+shader = ExtResource("43_2o5js")
+shader_parameter/curvature = 0.050000002375
+shader_parameter/corner_radius = 0.06
+shader_parameter/border_color = Color(0, 0, 0, 1)
+shader_parameter/scanlines = 0.35
+shader_parameter/scanline_size = 3.0
+shader_parameter/vignette = 0.35
+shader_parameter/brightness = 1.1
+shader_parameter/rgb_mask = false
+shader_parameter/mask_strength = 0.3
+
 [node name="Game" type="Node2D" unique_id=1666873034 node_paths=PackedStringArray("state_node")]
 script = ExtResource("1_2700v")
 state_node = [NodePath("MainMenu"), NodePath("Shop"), NodePath("Stage")]
@@ -158,7 +141,6 @@ script = ExtResource("3_iedfw")
 
 [node name="Background" type="CanvasLayer" parent="." unique_id=539190627]
 layer = -2
-visible = false
 
 [node name="ColorRect" type="ColorRect" parent="Background" unique_id=1852096254]
 material = SubResource("ShaderMaterial_2ov6r")
@@ -169,6 +151,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TextureRect" type="TextureRect" parent="Background" unique_id=1777311066]
+visible = false
 material = SubResource("CanvasItemMaterial_006r0")
 anchors_preset = 15
 anchor_right = 1.0
@@ -185,7 +168,6 @@ script = ExtResource("5_rmb0i")
 data = NodePath("../Data")
 
 [node name="MenuCanvas" type="CanvasLayer" parent="MainMenu" unique_id=1177897169]
-visible = false
 
 [node name="Control" type="Control" parent="MainMenu/MenuCanvas" unique_id=1940642793]
 layout_mode = 3
@@ -356,6 +338,7 @@ data = ExtResource("11_rmb0i")
 
 [node name="Background" type="CanvasLayer" parent="Stage" unique_id=652184466]
 layer = -1
+visible = false
 
 [node name="TextureRect" type="TextureRect" parent="Stage/Background" unique_id=1279956834]
 anchors_preset = 15
@@ -377,7 +360,8 @@ stats = ExtResource("20_aeitv")
 
 [node name="Sprite2D" type="Sprite2D" parent="Stage/Player" unique_id=382463450]
 z_index = 1
-texture = ExtResource("22_yl8fu")
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("22_4tnyi")
 
 [node name="Area2D" type="Area2D" parent="Stage/Player" unique_id=924743265]
 
@@ -402,7 +386,7 @@ texture = ExtResource("22_jodyk")
 [node name="DamageLabel" type="Node2D" parent="Stage/EntityManager" unique_id=842094779]
 script = ExtResource("27_4tnyi")
 font = ExtResource("24_tawbq")
-font_size = 64
+font_size = 32
 
 [node name="Particles" type="Node2D" parent="Stage/EntityManager" unique_id=1607769020]
 script = ExtResource("29_m3b5m")
@@ -432,20 +416,20 @@ grow_vertical = 2
 
 [node name="MoneyLabel" type="Label" parent="Stage/StageCanvas/Control" unique_id=2127687350]
 layout_mode = 0
-offset_left = 4.0
-offset_top = 56.0
-offset_right = 247.0
-offset_bottom = 89.0
+offset_left = 64.0
+offset_top = 87.0
+offset_right = 307.0
+offset_bottom = 120.0
 theme_override_fonts/font = ExtResource("31_2700v")
 theme_override_font_sizes/font_size = 35
 text = "poronga roja"
 
 [node name="TimeLabel" type="Label" parent="Stage/StageCanvas/Control" unique_id=324129299]
 layout_mode = 0
-offset_left = 13.0
-offset_top = 9.0
-offset_right = 227.0
-offset_bottom = 42.0
+offset_left = 73.0
+offset_top = 40.0
+offset_right = 287.0
+offset_bottom = 73.0
 theme_override_fonts/font = ExtResource("31_2700v")
 theme_override_font_sizes/font_size = 35
 text = "kjasnjknfa"
@@ -586,6 +570,29 @@ script = ExtResource("19_2kyel")
 stream = ExtResource("40_gnbld")
 volume_db = -5.0
 autoplay = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=690640400]
+layer = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer" unique_id=1326015006]
+light_mask = 16
+visibility_layer = 16
+position = Vector2(373, 217)
+texture = ExtResource("41_k5vhh")
+centered = false
+script = ExtResource("42_vewj5")
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="." unique_id=899105882]
+layer = 5
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer2" unique_id=912602946]
+material = SubResource("ShaderMaterial_4tnyi")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [connection signal="state_change" from="MainMenu" to="." method="state_transition"]
 [connection signal="button_down" from="MainMenu/MenuCanvas/Control/Buttons/Play" to="MainMenu" method="_on_button_play"]

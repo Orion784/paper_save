@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://drjjj0sacymkx"]
+
+[ext_resource type="Shader" uid="uid://cbnfk4i33b5rj" path="res://PORONGA ELIMINAR.gdshader" id="1_uvqxj"]
+[ext_resource type="PackedScene" uid="uid://pkba7i4wbbqt" path="res://Scenes/game/game.tscn" id="2_x1uqb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u0ya7"]
+shader = ExtResource("1_uvqxj")
+shader_parameter/curvature = 0.050000002375
+shader_parameter/corner_radius = 0.06
+shader_parameter/border_color = Color(0, 0, 0, 1)
+shader_parameter/scanlines = 0.35
+shader_parameter/scanline_size = 3.0
+shader_parameter/vignette = 0.35
+shader_parameter/brightness = 1.1
+shader_parameter/rgb_mask = false
+shader_parameter/mask_strength = 0.3
+
+[node name="CanvasLayer" type="CanvasLayer" unique_id=358019886]
+
+[node name="Game" parent="." unique_id=1666873034 instance=ExtResource("2_x1uqb")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1954118499]
+layer = 5
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=64564115]
+material = SubResource("ShaderMaterial_u0ya7")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

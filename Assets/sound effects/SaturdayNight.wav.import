@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://d1cjlbw37cx8u"
+path="res://.godot/imported/SaturdayNight.wav-03fb6c07b27248e35a8ea1df8a7fe213.sample"
+
+[deps]
+
+source_file="res://Assets/sound effects/SaturdayNight.wav"
+dest_files=["res://.godot/imported/SaturdayNight.wav-03fb6c07b27248e35a8ea1df8a7fe213.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

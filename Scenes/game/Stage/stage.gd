@@ -24,7 +24,9 @@ func init():
 	$Player.paused = false
 	$Timer.paused = false
 	$EntityManager.paused = false
-	
+	$Player.reset_ammo()
+	$"../CanvasLayer/Sprite2D".visible = false
+	Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 	pass
 
 func dispose():
@@ -35,6 +37,8 @@ func dispose():
 	$EntityManager.clear_ufos()
 	$Timer.stop()
 	#mandar el dinero del stage a la data
+	$"../CanvasLayer/Sprite2D".visible = true
+	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 	
 	pass
 
@@ -57,6 +61,11 @@ func on_button_retry() -> void:
 func _on_timer_timeout() -> void:
 	$StageCanvas.time_out()
 	$Player.paused = true
+	$"../CanvasLayer/Sprite2D".visible = !$"../CanvasLayer/Sprite2D".visible
+	if Input.mouse_mode != Input.MOUSE_MODE_HIDDEN:
+		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+	else:
+		Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 	
 	pass # Replace with function body.
 
@@ -64,6 +73,11 @@ func _on_pause() -> void:
 	$EntityManager.paused = !$EntityManager.paused
 	$Timer.paused = !$Timer.paused
 	$Player.paused = !$Player.paused
+	$"../CanvasLayer/Sprite2D".visible = !$"../CanvasLayer/Sprite2D".visible
+	if Input.mouse_mode != Input.MOUSE_MODE_HIDDEN:
+		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+	else:
+		Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 	pass # Replace with function body.
 
 func experience_gained(amount: float) -> void:
