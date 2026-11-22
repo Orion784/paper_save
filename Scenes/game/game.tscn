@@ -346,12 +346,25 @@ data = ExtResource("11_rmb0i")
 
 [node name="Background" type="CanvasLayer" parent="Stage" unique_id=652184466]
 layer = -1
-visible = false
+
+[node name="TextureRect2" type="TextureRect" parent="Stage/Background" unique_id=1696225674]
+modulate = Color(0, 0, 0, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 575.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("19_btxna")
+expand_mode = 1
 
 [node name="TextureRect" type="TextureRect" parent="Stage/Background" unique_id=1279956834]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -4.0
+offset_bottom = -96.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("19_btxna")
@@ -604,7 +617,6 @@ script = ExtResource("42_vewj5")
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="." unique_id=899105882]
 layer = 5
-visible = false
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer2" unique_id=912602946]
 material = SubResource("ShaderMaterial_4tnyi")

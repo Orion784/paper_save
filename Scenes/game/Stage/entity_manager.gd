@@ -6,7 +6,8 @@ class_name EntityManager
 var paused: bool = true
 signal experience_gained(amount:float)
 
-@onready var play_area : Rect2 = get_viewport().get_visible_rect() #MAl, ajustarlo
+#@onready var play_area : Rect2 = get_viewport().get_visible_rect() #MAl, ajustarlo
+@onready var play_area : Rect2 = Rect2(0, 0, 1280, 625)
 @onready var inner: Rect2 = play_area.grow(-stats.UFO_RADIUS) #bordea la zona para que no haya errores
 @onready var multimesh: MultiMesh = $MultiMeshInstance2D.multimesh
 @onready var damage_label: DamageNumbers = $DamageLabel
