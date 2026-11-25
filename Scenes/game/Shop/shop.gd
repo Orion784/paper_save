@@ -17,6 +17,7 @@ func _process(_delta: float) -> void:
 
 func init():
 	$ShopCanvas.visible = true
+	refresh_money()
 	pass
 	
 func dispose():
@@ -26,4 +27,9 @@ func dispose():
 
 func _on_button_ready() -> void:
 	state_change.emit(Enums.GameState.STAGE)
+	pass # Replace with function body.
+
+
+func refresh_money() -> void:
+	$ShopCanvas/Label.text = str(data.money).pad_zeros(3)
 	pass # Replace with function body.

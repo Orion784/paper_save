@@ -32,6 +32,7 @@
 [ext_resource type="Texture2D" uid="uid://upt47mu43f0g" path="res://Assets/UFOS/textura del atlas.png" id="22_jodyk"]
 [ext_resource type="Resource" uid="uid://cj71ctl71rr6b" path="res://Resources/Profiles/UfoProfile.tres" id="22_mmnmt"]
 [ext_resource type="PackedScene" uid="uid://dhcccgfi4g0ln" path="res://Scenes/game/UI/CustomUI/TweenAnim/TweenAnim.tscn" id="23_4tnyi"]
+[ext_resource type="Texture2D" uid="uid://cehmceboyf8hi" path="res://Assets/anillo_fino_completo.png" id="24_m3b5m"]
 [ext_resource type="FontFile" uid="uid://c5pdyt8k2ko6q" path="res://Assets/misc/Hey Comic.ttf" id="24_tawbq"]
 [ext_resource type="Script" uid="uid://b14bd117adk2r" path="res://Scenes/game/Stage/damage_label.gd" id="27_4tnyi"]
 [ext_resource type="Script" uid="uid://y7apnnayiqu8" path="res://Scenes/game/Stage/particles.gd" id="29_m3b5m"]
@@ -88,12 +89,6 @@ blend_mode = 3
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1y1g7"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_006r0"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ov6r"]
-bg_color = Color(0.6, 0.6, 0.6, 0.3647059)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_006r0"]
-bg_color = Color(0.29411766, 1, 0.9490196, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dtglo"]
 radius = 14.0
@@ -253,9 +248,9 @@ expand_mode = 4
 
 [node name="Shop" type="Node2D" parent="." unique_id=1383714936]
 script = ExtResource("10_gnbld")
+data = ExtResource("11_rmb0i")
 
 [node name="ShopCanvas" type="CanvasLayer" parent="Shop" unique_id=426446954]
-visible = false
 
 [node name="Control" type="Control" parent="Shop/ShopCanvas" unique_id=831682384]
 layout_mode = 3
@@ -340,6 +335,15 @@ text = "Ready"
 icon = ExtResource("18_68wwg")
 container = NodePath("..")
 
+[node name="Label" type="Label" parent="Shop/ShopCanvas" unique_id=294075340]
+offset_left = 35.0
+offset_top = 45.0
+offset_right = 158.0
+offset_bottom = 68.0
+theme_override_fonts/font = ExtResource("31_2700v")
+theme_override_font_sizes/font_size = 27
+text = "sdgjoijwgoijgaio"
+
 [node name="Stage" type="Node2D" parent="." unique_id=162588584]
 script = ExtResource("17_k5vhh")
 data = ExtResource("11_rmb0i")
@@ -386,19 +390,32 @@ texture = ExtResource("22_4tnyi")
 
 [node name="TweenAnim" parent="Stage/Player/Sprite2D" unique_id=679141744 instance=ExtResource("23_4tnyi")]
 
-[node name="PlayerProgressBar" type="ProgressBar" parent="Stage/Player" unique_id=138730965]
-offset_left = 16.0
-offset_top = -14.333334
-offset_right = 27.0
-offset_bottom = 17.666666
-theme_override_styles/background = SubResource("StyleBoxFlat_2ov6r")
-theme_override_styles/fill = SubResource("StyleBoxFlat_006r0")
-show_percentage = false
-
 [node name="Area2D" type="Area2D" parent="Stage/Player" unique_id=924743265]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Stage/Player/Area2D" unique_id=95842268]
 shape = SubResource("CircleShape2D_dtglo")
+
+[node name="RechargeTimer" type="Timer" parent="Stage/Player" unique_id=1748150121]
+one_shot = true
+
+[node name="PlayerProgressBar" type="TextureProgressBar" parent="Stage/Player" unique_id=1161283760]
+z_index = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = 256.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -1.5707964
+scale = Vector2(0.08, 0.08)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+fill_mode = 4
+texture_progress = ExtResource("24_m3b5m")
 
 [node name="EntityManager" type="Node" parent="Stage" unique_id=1135806143]
 script = ExtResource("22_2o5js")
@@ -576,7 +593,6 @@ text = "shop"
 icon = ExtResource("18_68wwg")
 
 [node name="Transition" type="CanvasLayer" parent="." unique_id=517670231]
-visible = false
 
 [node name="ColorRect" type="ColorRect" parent="Transition" unique_id=1671315147]
 material = SubResource("ShaderMaterial_006r0")
@@ -632,6 +648,7 @@ mouse_filter = 2
 [connection signal="button_down" from="MainMenu/MenuCanvas/Control/Buttons/Quit" to="MainMenu" method="_on_button_quit"]
 [connection signal="state_change" from="Shop" to="." method="state_transition"]
 [connection signal="button_down" from="Shop/ShopCanvas/Control/HBoxContainer/Arrow1" to="Shop/ShopCanvas/Control/HBoxContainer/StickerSheets" method="move_front"]
+[connection signal="button_down" from="Shop/ShopCanvas/Control/HBoxContainer/StickerSheets/Sheet0/Stickers/Sticker" to="Shop" method="refresh_money"]
 [connection signal="button_down" from="Shop/ShopCanvas/Control/HBoxContainer/Arrow2" to="Shop/ShopCanvas/Control/HBoxContainer/StickerSheets" method="move_behind"]
 [connection signal="button_down" from="Shop/ShopCanvas/Control/VBoxContainer/Ready" to="Shop" method="_on_button_ready"]
 [connection signal="state_change" from="Stage" to="." method="state_transition"]

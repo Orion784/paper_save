@@ -31,36 +31,37 @@ func damage_output() -> float:
 	else:
 		return stats.base_damage #se envia el rango, el daño, el multiplicador
 
-#func update_damage(_delta) -> void:
-	#if cadence > 0.0:
-		#cadence -= _delta
-	#else:
-		#if ammo_empty():
-			#reset_ammo()
-			#cadence = stats.shot_timer
-		#else:
-			#shoot_fired.emit(global_position, stats.radius, damage_output(), ammo)
-			#decrease_ammo()
-			#Sfx.play()
-			#cadence = stats.shot_timer
-		#
-	#pass
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("shoot") and !paused:
-		if ammo_empty():
+	if event.is_action_pressed("shoot") and !paused and !is_charging():
+		shoot_fired.emit(global_position, stats.radius, damage_output(), ammo)
+		decrease_ammo()
+		Sfx.play()
+		recharge(0.5)
+		if is_ammo_empty():
+			recharge(1.5)
 			reset_ammo()
-		else:
-			shoot_fired.emit(global_position, stats.radius, damage_output(), ammo)
-			#$Sprite2D/TweenAnim.shake_player($Sprite2D)
-			decrease_ammo()
-			Sfx.play()
 
 func reset_ammo() -> void:
 	ammo = 6
 	ammo_reset.emit()
-func ammo_empty() -> bool:
+func is_ammo_empty() -> bool:
 	return ammo == 0 
 func decrease_ammo() -> void:
 	ammo -= 1
 func increase_ammo() -> void:
 	ammo += 1
+
+
+func is_charging() -> bool:
+	return $RechargeTimer.time_left > 0
+func recharge(time: float) -> void:
+	$RechargeTimer.start(time)
+	update_recharge_bar(time)
+
+func update_recharge_bar(time : float) -> void:
+	$PlayerProgressBar.modulate = Color.ORANGE
+	var tween = create_tween()
+	$PlayerProgressBar.value = 0
+	tween.tween_property($PlayerProgressBar, "value", 50, time)
+	tween.parallel().tween_property($PlayerProgressBar, "modulate", Color.ORANGE_RED, time)
+	pass

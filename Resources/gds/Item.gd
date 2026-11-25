@@ -9,8 +9,9 @@ class_name Item
 @export var locked : bool
 @export var lv : int
 @export var values : Array
+@export var price: int
 @export var player_profile : PlayerProfile
-@export var shop_profile : Profile
+@export var data_profile : Profile
 @export var ufo_profile : UfoProfile
 
 func use() -> void:
@@ -19,5 +20,11 @@ func use() -> void:
 func update_level() -> bool:
 	if lv < 3:
 		lv +=1
+		return true
+	return false
+
+func take_money() -> bool:
+	if data_profile.money > price:
+		data_profile.money = data_profile.money - price
 		return true
 	return false

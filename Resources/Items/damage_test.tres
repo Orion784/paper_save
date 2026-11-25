@@ -1,5 +1,6 @@
 [gd_resource type="Resource" format=3 uid="uid://c8507p857p1hp"]
 
+[ext_resource type="Resource" uid="uid://dyta4aqu6t53i" path="res://Resources/Profiles/DataProfile.tres" id="1_adtrr"]
 [ext_resource type="Texture2D" uid="uid://k6w71u2q22x3" path="res://Assets/UFOS/blue ufo.png" id="1_jcbtf"]
 [ext_resource type="Resource" uid="uid://cdlexgvh0uyf7" path="res://Resources/Profiles/PlayerProfile.tres" id="2_4r202"]
 [ext_resource type="Script" uid="uid://bwoy4lsb10lnj" path="res://Resources/Items/damage_test.gd" id="2_muy5j"]
@@ -12,6 +13,8 @@ name = "damage_test"
 description = "aumenta el daño en +1"
 icon = ExtResource("1_jcbtf")
 locked = true
+price = 800
 player_profile = ExtResource("2_4r202")
+data_profile = ExtResource("1_adtrr")
 ufo_profile = ExtResource("4_jcbtf")
 metadata/_custom_type_script = "uid://bkxom5i8fmx26"
