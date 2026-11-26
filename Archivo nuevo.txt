@@ -27,7 +27,7 @@ Tengo que definir el juego en si:
 --como se gana el nivel?
 Pues mi primera idea es copiarme deljuego de feed the ai. ganar experiencia y a partir de esa experiencia avanzar de nivel.
 en feed the ai tiene historia de que, bueno, eso, alimentas a la ia y la ayudads a crecer. Pero que puedo hacer yo????
-hacer crecer elpueblito? no suena mal, pero no tengo idea de por donde podria empezar, ademas, eso suena a mas trabajo. suponiendo que sea como en ball x pit.
+hacer crecer el pueblito? no suena mal, pero no tengo idea de por donde podria empezar, ademas, eso suena a mas trabajo. suponiendo que sea como en ball x pit.
 Puedo imaginar como empieza, "hola,necesitamos tu ayuda" -> "aqui viene otra oleada contamos contigo". Tendria que darle un poco mas de personalidad a Lucy.
 Ah, mira, podriamos decir que ella nos pide ayuda y poco a poco nos va enseñando el oficio  para  ser el alguacil, a ese mismo paso nos va dando herramientas y mejoras
 ...
@@ -36,4 +36,70 @@ Ah, mira, podriamos decir que ella nos pide ayuda y poco a poco nos va enseñand
 El protagonistas es un random que llega, se enamora de lucy y se convierte en alguacil. Esa no es mala
 cual seria el  final?
 pensando en el nombre provisional "100 paper nights" me parece excesivo
-loque feed the ai hace es hacer 4 capitulos con 10 niveles cada uno. lo voy a copiar a la verga.
+lo que feed the ai hace es hacer 4 capitulos con 10 niveles cada uno. voy a copiar es formato, quizas con 3.
+
+Entonces, quedaria asi:
+Protagonista llega, ayuda a repeler los ufos, en los primeros niveles se van introduciendo mecanicas. y luego te suelta la mano.
+durante 7 noches llegan ufos y hay que espantarlos (la barra). el primer capitulo es el inicial, el ultimo dia aparece un jefe.
+que pasa en la segunda semana?
+en la tercera semana seguramente se va todo al carajo. podria cambiar el stage un poco, y añadir algo mas...
+
+ME GUSTA!
+
+Como funciona el nivel especial con el jefe?
+Ya se, deberia tener mucha vida, y ayudantes, tanta vida que sea muy complicado bajarlo simplemente disparando. 
+Los jefes vienen con ayudantes, que al matarlos hacen mas vulnerable al jefe y ademas dan tiempo.
+Entonces el jugador tiene que luchar contra el tiempo, el jefe, y la barra(deberia de tener en cuenta la barra???)
+
+ya, esta bien.
+
+Perfectisimo, tenemos lo basico del juego en cuanto a historia, objetivo y obstaculos.
+
+Que mas puedo añadir para que sea divertido?
+En feed the ai se tiene las "rutas" de ia malvada y benevolente. 
+No puedo hacer lo mismo aqui, seria medio estupido eso de bueno/malo
+Tengo que buscar una rama de mejoras que afecte al gameplay un poco
+para que se pueda rejugar, almenos una vez...
+No quiero que sea muy relevante, porque tendria que rehacer la historia...
+OYE, eso no es mala idea, encontrarte un ufo en mitad del juego
+y que te den dos decisiones, hacerlo mierda, o "ayudarlo"
+si lo ayudas, eso te da buenos stickers para tratar con ufos mas rapido
+si lo matas, entonces desbloqueas una rama para que haya ufos mucho mas agresivos
+ME GUSTA ME GUSTA. Pero tenemos que recordar, hay que elegir el camino mas vago
+...
+Para definir exactamente que pasa me falta establecer primero las bases del juego, como las mejoras.
+Pero creo que seguir por ese camino de buscar la paz o el exterminio es buena idea.
+
+Pero feed the ai hace eso tambien, dependiendo de la ruta te da ciertas mejoras.
+Dependiendo de nuestra decision, se nos desbloquea un stickersheet.
+cual seria la diferencia entre ambas rutas en cuanto a las mejoras???
+
+en feed the ai tenemos asistencia para atacar enemigos. Un potenciador para nosotros, y por el otro lado un "killer"
+
+Se me ocurre que quizas por el lado del ufo podriamos colocar a boby, un ufo que combate con nosotros
+boby tiene velocidad, daño, efectos cada x tiempo, etc
+
+por el lado exterminador? 
+muchos efectos para las balas y ya, eso no es mala idea, las balas explosivas, congeladoras, tractoras y mas falopa
+
+despues de pasarte el juego dos veces asi, a la tercera tienes ambos y una semana adicional
+OYE QUE BUENA IDEAA, ES BUENISIMA QUE ONDA
+
+QUEDA ASI ENTONCES, ES UNA MUUY BUENA IDEA. Y UNA ILUSTRACION POR CADA FINAL, QUE BUENA IDEA LOCOOOOOOOOOOOO
+
+Stickersheets : arma - ufo - bobby - balas - stage
+
+me gustaria poner algo mas, pero no se...
+alguna mecanica tonta quizas. Aunque no es necesario...
+Oh si, esta la idea de que al morir varios en un solo frame, se otorga un bonus. un stickersheet de bonuses, eso me parece bien.
+
+
+Que de lo que tenia planeado de usar stickers como bombas? supongo que se va desechada esa idea, es mejor que simplemente reemplacen las balas
+BIEN
+
+
+... respecto a lo visual, creo que lo mejor es intentar ignorarlo un poco, tiendo a desviarme por ese lado y no hacer nada mas, como si procastinase
+
+A DORMIR
+
+
