@@ -1,0 +1,430 @@
+================================================================================
+                         PAPER NIGHTS - DOCUMENTACION
+================================================================================
+
+Ultima actualizacion: 2026-11-25
+Motor: Godot 4.7 (GL Compatibility)
+Lenguaje: GDScript
+
+
+--------------------------------------------------------------------------------
+1. DESCRIPCION GENERAL
+--------------------------------------------------------------------------------
+
+Paper Nights es un juego 2D con estetica de papel/carton (papercraft) donde el
+jugador dispara a oleadas de OVNIs (UFOs) que rebotan por la pantalla. El juego
+esta pensado como un roguelite de rondas ("noches"): entre rondas se abren
+sobres de stickers, se visita una tienda para desbloquear/mejorar stickers y
+estadisticas, y luego se juega una nueva ronda con mayor dificultad.
+
+La estetica general usa texturas de papel, sombras personalizadas, animaciones
+con "bounce" y transiciones con mascara de textura.
+
+Estado: prototipo / en desarrollo activo.
+
+
+--------------------------------------------------------------------------------
+2. COMO EJECUTAR EL PROYECTO
+--------------------------------------------------------------------------------
+
+Requisitos:
+  - Godot Engine 4.7 (build con soporte GL Compatibility).
+
+Pasos:
+  1. Abrir Godot.
+  2. Importar la carpeta del proyecto (seleccionar project.godot).
+  3. Presionar F5 (ejecutar escena principal).
+
+Escena principal: Scenes/game/game.tscn
+Resolucion base: 1280 x 720 (no redimensionable, stretch canvas_items/expand)
+Input "shoot": clic izquierdo del mouse.
+Autoloads: Enums, EventBus, Sfx.
+
+
+--------------------------------------------------------------------------------
+3. ESTRUCTURA DE CARPETAS
+--------------------------------------------------------------------------------
+
+Assets/
+  Recursos artisticos y de audio.
+    anillo_*.png, cursor_paper_32.png, mira_conectada_512.png, icon.svg
+    carboard/            Texturas de carton de fondo.
+    papel/               Texturas de papel y flechas decorativas.
+    misc/                Fuentes (Hey Comic.ttf, upheavtt.ttf), bala, mouse, etc.
+    UFOS/                Sprites de OVNIs por color y atlas.
+    stickersheets/       Hoja de stickers (stichersheet.png).
+    sound effects/       Disparos, musica, SFX de UI.
+    new_atlas_texture.tres, atlas_prueba.tres
+
+Resources/
+  Recursos de datos reutilizables (Resources de Godot).
+    gds/
+      Profile.gd         Clase base de perfiles (name).
+      Item.gd            Clase base de items/stickers.
+      State.gd           Clase base abstracta para estados.
+    Profiles/
+      DataProfile.gd/.tres    Datos persistentes de la partida (money).
+      PlayerProfile.gd/.tres  Estadisticas del jugador.
+      UfoProfile.gd/.tres     Parametros de los OVNIs y del spawn.
+    Items/
+      damage_test.gd/.tres    Item de ejemplo: sube el dano base.
+
+Scenes/
+  game/
+    game.gd / game.tscn   Escena raiz y maquina de estados del juego.
+    MainMenu/             Menu principal.
+    Shop/                 Tienda y seleccion de stickers.
+    Stage/                Ronda jugable.
+      stage.gd            Logica de la ronda.
+      player.gd           Jugador / disparo.
+      entity_manager.gd   Pool y simulacion de OVNIs (MultiMesh).
+      particles.gd        Particulas de muerte que vuelan a la UI.
+      damage_label.gd     Numeros de dano flotantes.
+      Canvas/
+        stage_canvas.gd   HUD (tiempo, dinero, municion, barra, menu).
+    Data/                 Contenedores de datos (Data, Items, WaveProfile).
+    Sfx/                  Reproductor de sonido.
+    UI/CustomUI/          Componentes de UI reutilizables:
+      CustomButton/       Boton con animacion y sombra.
+      CustomShadow/       Sombra dinamica que sigue al contenedor.
+      Sticker/            Sticker individual con niveles.
+      Stickersheet/       Hoja de stickers y pila (stack) animada.
+      TweenAnim/          Animaciones de hover (focus/unfocus).
+    transition/           Transicion con mascara de textura + bloqueador.
+  ufo/                    Escena/script de UFO suelta (placeholder).
+  sfx/                    Escena de sonido (placeholder).
+  PRUEBA SCANLINE.tscn    Escena de prueba de efecto scanline.
+
+Singletons/
+  enums.gd                Enums globales y utilidades de RNG.
+  eventbus.gd             Bus de eventos de transicion.
+
+Archivos raiz:
+  project.godot           Configuracion del proyecto.
+  export_presets.cfg      Presets de exportacion.
+  PORONGA ELIMINAR.gdshader  Shader temporal (marcado para eliminar).
+  texture_rect.gd         Script vacio (temporal).
+  planes2.txt             Notas de diseno y tareas pendientes.
+  Nuevo documento de texto.txt  Notas personales (no relacionado al juego).
+
+
+--------------------------------------------------------------------------------
+4. FLUJO DEL JUEGO
+--------------------------------------------------------------------------------
+
+El nodo raiz "Game" (game.gd) es una maquina de estados simple:
+
+  Estados (Enums.GameState): MAIN -> SHOP -> STAGE -> SHOP -> STAGE -> ...
+
+  - Cada estado corresponde a un nodo hijo: MainMenu, Shop, Stage.
+  - Al iniciar, game.gd llama dispose() en todos los estados y hace enter()
+    sobre opening_state.
+  - enter(state) -> state_node[state].init()
+  - exit(state)  -> state_node[state].dispose()
+  - El cambio de estado se dispara con la senal EventBus.transition_change,
+    que se emite al final de la animacion de transicion (fade_in).
+
+  Transicion visual:
+    Game/Transition (CanvasLayer)
+      ColorRect        transition_texture_mask.gd (mascara con shader)
+      bloqueador xd    bloqueador_xd.gd (bloquea input durante la transicion)
+
+  Secuencia: state_transition() -> ColorRect.fade_in() -> EventBus.transition_change
+  -> switch() -> exit/enter del estado. La transicion ademas emite
+  transition_start y transition_end para que el bloqueador se muestre/oculte.
+
+Navegacion:
+  MainMenu: "Play" -> SHOP ; "Quit" -> cerrar juego.
+  Shop:     "Ready" -> STAGE.
+  Stage:    "Shop" -> SHOP ; "Retry" -> STAGE.
+
+
+--------------------------------------------------------------------------------
+5. SISTEMA DE DATOS (Resources)
+--------------------------------------------------------------------------------
+
+Profile (Resources/gds/Profile.gd)
+  Clase base. Campo: name.
+
+PlayerProfile (Resources/Profiles/PlayerProfile.gd)
+  Estadisticas del jugador:
+    base_damage   Dano base por disparo (1.0)
+    crit_damage   Multiplicador de critico (2.0)
+    crit_chance   Probabilidad de critico (0.1)
+    radius        Radio del disparo (42.0)
+    shot_timer    Cadencia / tiempo de recarga (0.8)
+
+UfoProfile (Resources/Profiles/UfoProfile.gd)
+  Parametros de OVNIs y spawn:
+    MAX_UFOS          Maximo de UFOs en el pool (2000)
+    MAX_INITIAL_UFOS  UFOs al iniciar la ronda (30)
+    SPAWN_RATE        Probabilidad de spawn por tick (0.25)
+    SPAWN_TIMER       Intervalo de intento de spawn (4.0 s)
+    SPAWN_PACK        UFOs por paquete (5)
+    UFO_SPEED         Velocidad base (122 px/s)
+    UFO_HEALTH        Vida base (3)
+    UFO_RADIUS        Radio de colision (24 px)
+    UFO_EXPERIENCE    Experiencia otorgada al morir (10)
+
+DataProfile (Resources/Profiles/DataProfile.gd)
+  Datos persistentes de partida: money.
+
+Item (Resources/gds/Item.gd)
+  Item/sticker. Campos: id, name, description, icon, locked, lv (nivel),
+  values, price, y referencias a PlayerProfile, DataProfile y UfoProfile.
+  Metodos:
+    use()             (sobreescribir en cada item)
+    update_level()    Sube nivel hasta un maximo de 3.
+    take_money()      Descuenta price de data_profile.money si hay saldo.
+  Ejemplo: Resources/Items/damage_test.gd sube base_damage +1 por compra.
+
+WaveProfile (Scenes/game/Data/wave_profile.gd)
+  Parametros de oleada: base_health, mod_health, base_score, mod_score.
+  (Aun no integrado en la logica actual.)
+
+Data / Items (Scenes/game/Data/*.gd)
+  Nodos contenedores. Data esta vacio; Items expone Array[Item].
+
+State (Resources/gds/State.gd)
+  Clase abstracta para estados por entidad (enter/exit/switch). Todavia no se
+  usa; la maquina de estados real vive en game.gd.
+
+
+--------------------------------------------------------------------------------
+6. STAGE (RONDA JUGABLE)
+--------------------------------------------------------------------------------
+
+Stage (Scenes/game/Stage/stage.gd)
+  Orquesta la ronda.
+  init():
+    - EntityManager.initial_spawn()
+    - Timer.start(31)   (ronda de 31 segundos)
+    - muestra fondo, HUD, desbloquea player/manager
+    - Player.reset_ammo()
+  dispose():
+    - oculta todo, pausa y limpia UFOs, detiene timer.
+  _process():
+    - Actualiza el tiempo restante y el dinero en el HUD.
+  Senales/eventos:
+    - on_button_shop()  -> SHOP
+    - on_button_retry() -> STAGE
+    - _on_timer_timeout(): fin de ronda, muestra menu.
+    - _on_pause(): alterna pausa de player, timer y entity manager.
+    - experience_gained(amount): llena la barra de progreso.
+    - shoot_fired(center, radius, damage, ammo): aplica el disparo.
+    - ammo_reset(): resetea el HUD de municion.
+
+Player (Scenes/game/Stage/player.gd)
+  Sigue al mouse. Dispara con input "shoot" si no esta pausado ni recargando.
+  - Municion: 6 balas.
+  - Cada disparo: recharge(0.5 s); si queda sin balas: recharge(1.5 s) y
+    reset_ammo().
+  - damage_output(): aplica critico segun crit_chance/crit_damage.
+  - Emite shoot_fired(global_position, radius, damage, ammo).
+  - Barra de recarga (PlayerProgressBar) animada con tween.
+  - Aun no implementa el "cartucho" de stickers (bala explosiva, etc.).
+
+EntityManager (Scenes/game/Stage/entity_manager.gd)
+  Corazon de la simulacion de UFOs. Usa Pool + MultiMesh para rendimiento.
+  Datos en arrays Packed paralelos:
+    positions, velocities, health, experience, phases, pendulum_boosts,
+    stun_timers, flash_timers, death_timers, birth_timers, bounce_timers.
+  Areas jugables: Rect2(0, 0, 1280, 625), con margen UFO_RADIUS.
+  Funciones principales:
+    spawn_ufo(pos)        Crea UFO si hay espacio (< MAX_UFOS).
+    initial_spawn()       Spawnea MAX_INITIAL_UFOS.
+    update_movement()     Rebote en los bordes del area.
+    update_pendulum()     Balanceo (seno) de los sprites.
+    update_pendulum_boost() Aceleracion temporal del balanceo al recibir golpe.
+    update_spawns()       Spawn periodico con SPAWN_RATE/SPAWN_TIMER/PACK.
+    update_flash()        Timer del flash blanco al recibir dano.
+    update_bounce()       Timer del efecto de rebote de escala.
+    update_birth()        Timer de aparicion (espejo de la muerte).
+    update_death()        Al morir: particulas y eliminacion tras DEATH_TIME.
+    bounce_scale()        Curva de escala (encoge -> agranda -> normal).
+    sync_multimesh()      Envia transform y custom data al MultiMesh.
+    apply_shoot(center,radius,damage)
+                          Aplica dano en area (deteccion circular, sin sqrt).
+                          Acumula experiencia y emite experience_gained.
+    remove_ufo(i)         Elimina por swap con el ultimo (O(1)).
+    clear_ufos()          Vacía el pool.
+  MultiMesh: instance_count = MAX_UFOS; visible_instance_count = active_count.
+  Custom data por instancia: (frame, flash, fade, 0) usada por ufo_sprite.gdshader.
+
+Particulas (Scenes/game/Stage/particles.gd - DeathParticles)
+  Al morir un UFO, burst(pos) lanza particulas que se esparcen, esperan y vuelan
+  hacia un punto de pantalla (por defecto arriba-izquierda, 32,32). Al llegar,
+  reproducen sonido (AudioManager) y suman +40 a data.money.
+
+DamageNumbers (Scenes/game/Stage/damage_label.gd)
+  Numeros de dano flotantes dibujados con _draw(). Hasta 300 simultaneos,
+  vida 0.8 s, con pop de entrada, inclinacion aleatoria, encogimiento final y
+  formato compacto (K, M, B, T).
+
+StageCanvas (Scenes/game/Stage/Canvas/stage_canvas.gd)
+  HUD de la ronda:
+    - TimeLabel: tiempo restante.
+    - MoneyLabel: dinero (animado de 3 en 3).
+    - BulletChamber: 6 TextureRects que representan la municion.
+    - StageProgressBar: progreso/experiencia.
+    - Menu / MenuShade / MenuButton: pausa y menu de fin de ronda.
+    - time_out(): muestra el menu al terminar el tiempo.
+    - pause signal: lo conecta stage.gd a _on_pause.
+
+
+--------------------------------------------------------------------------------
+7. UI PERSONALIZADA (Scenes/game/UI/CustomUI)
+--------------------------------------------------------------------------------
+
+CustomButton (CustomButton.gd)
+  Button con RichTextLabel interno, animacion de hover (TweenAnim) y sombra
+  (CustomShadow). Parametros: container, animation, shadow, current_shadow_size.
+
+CustomShadow (custom_shadow.gd)
+  TextureRect que actua como sombra dinamica. Se desplaza segun la posicion del
+  parent respecto al centro de la pantalla. Soporta movimiento horizontal y
+  vertical y tres tamanos (SMALL/MEDIUM/LARGE). Ajusta offsets si el parent esta
+  dentro de VBoxContainer o HBoxContainer.
+
+TweenAnim (tween_anim.gd)
+  Animaciones de focus/unfocus: escala (x mas rapida que y) y una pequena
+  rotacion aleatoria con retorno a 0.
+
+Sticker (sticker.gd)
+  TextureButton que representa un Item. Muestra el icono del item y 4 capas
+  (TextureRect..TextureRect4) para representar su nivel (lv 0-3). Al presionar,
+  llama item.use() y actualiza el nivel. Hover con TweenAnim.
+
+Stickersheet (stickersheet.gd)
+  PanelContainer con textura de hoja, sombra y animacion. Representa una hoja de
+  stickers.
+
+sticker_stack (sticker_stack.gd)
+  Pila de Stickersheet con animacion de "swing" para pasar hojas al frente o al
+  fondo (move_front / move_behind). Solo la hoja del frente recibe input.
+
+
+--------------------------------------------------------------------------------
+8. TIENDA Y MENU
+--------------------------------------------------------------------------------
+
+Shop (Scenes/game/Shop/shop.gd)
+  - init(): muestra ShopCanvas y refresca el dinero.
+  - dispose(): oculta la tienda.
+  - refresh_money(): muestra data.money con pad_zeros(3).
+  - Boton "Ready" -> emite state_change(STAGE).
+  La escena contiene las hojas de stickers (StickerSheets con Sheet0/1/2),
+  flechas de navegacion y boton Ready.
+
+MainMenu (Scenes/game/MainMenu/main_menu.gd)
+  - init()/dispose() muestran u ocultan MenuCanvas.
+  - "Play" -> SHOP ; "Quit" -> get_tree().quit().
+
+
+--------------------------------------------------------------------------------
+9. SINGLETONS / AUTOLOADS
+--------------------------------------------------------------------------------
+
+Enums (Singletons/enums.gd)
+  enum GameState { MAIN, SHOP, STAGE }
+  enum ShadowSize { SMALL, MEDIUM, LARGE }
+  rng: RandomNumberGenerator con semilla aleatoria.
+  rand_int(min,max) / rand_float(min,max): utilidades de aleatoriedad.
+
+EventBus (Singletons/eventbus.gd)
+  Senales: transition_start, transition_change, transition_end.
+  Coordina la transicion entre estados y el bloqueo de input.
+
+Sfx (Scenes/game/Sfx/sfx.gd como autoload)
+  AudioStreamPlayer2D. Se usa con Sfx.play() en player.gd para el disparo.
+
+
+--------------------------------------------------------------------------------
+10. SHADERS
+--------------------------------------------------------------------------------
+
+Scenes/game/UI/Shaders/
+  background.gdshader     Fondo (efecto de papel/scanline, segun escena).
+  button.gdshader         Efecto visual de botones.
+  ufo_sprite.gdshader     Dibuja los UFOs en el MultiMesh usando el frame de
+                          vida y parametros de flash/fade (custom data).
+
+Scenes/game/UI/CustomUI/Sticker/
+  sticker.gdshader, sticker_outline.gdshader, stickeroutlineblanco.gdshader,
+  stickeroutlinegris.gdshader: contornos y estilo de stickers.
+
+Scenes/game/transition/transition_texture_mask.gdshader
+  Mascara de transicion con parametros strength, zoom y center (usada por
+  transition_texture_mask.gd).
+
+PORONGA ELIMINAR.gdshader
+  Shader temporal en la raiz; pendiente de eliminar.
+
+
+--------------------------------------------------------------------------------
+11. DISENO / MECANICAS PLANIFICADAS (segun planes2.txt)
+--------------------------------------------------------------------------------
+
+- Antes de cada ronda se abre un sobre/caja misteriosa con stickers de la ronda.
+- Los stickers modifican la jugabilidad de esa ronda.
+- 6 balas -> 6 stickers; cada "cartucho" convierte balas normales en especiales
+  (p. ej. bala explosiva).
+- Stickers pueden alterar a los UFOs: mas grandes, mas vida, mas rapidos,
+  variantes especiales (ej. UFO que al morir crea un agujero negro que atrae
+  enemigos; combinado con explosion puede generar reacciones en cadena).
+- La tienda permite desbloquear stickers y mejorar estadisticas base.
+- Cada UFO otorga experiencia al morir; al 100% se sube de nivel y se puede
+  seguir acumulando.
+- Hay un maximo de UFOs en pantalla y spawnean infinitamente.
+- Al final de la ronda, el porcentaje de experiencia se convierte en dinero.
+
+Tareas pendientes declaradas:
+  1. Stage
+     - Finalizar sistema de partida: temporizador, barra de avance,
+       (puntaje?), sistema de balas, sistema de bomba, spawn_rate, UFOs activos.
+     - Recarga especial cada 6 balas.
+     - Crear UI basica de stage.
+     - Crear stickers placeholder.
+     - Finalizar la tienda.
+
+
+--------------------------------------------------------------------------------
+12. NOTAS TECNICAS / DEUDA TECNICA
+--------------------------------------------------------------------------------
+
+- Varios scripts/nodos son temporales o de prueba:
+    PORONGA ELIMINAR.gdshader, texture_rect.gd,
+    Scenes/game/MOUSE TEMPORAL BORRAR.gd,
+    Scenes/PRUEBA SCANLINE.tscn, Scenes/ufo/ufo.gd (vacio),
+    Scenes/sfx/sfx.tscn, Scenes/game/game.tscn959504873.tmp.
+- "Nuevo documento de texto.txt" no pertenece al proyecto (rutina de ejercicio).
+- Scenes/ufo/ufo.gd esta vacio: la logica real de UFOs vive en entity_manager.gd.
+- El input del mouse se oculta/confina manualmente desde stage.gd y game.gd
+  (hay un Input.MOUSE_MODE_HIDDEN marcado como "BORRAR ESTO" en game.gd).
+- Data.gd esta vacio; los datos reales se manejan con DataProfile/PlayerProfile/
+  UfoProfile referenciados desde las escenas.
+- WaveProfile aun no esta conectado a la generacion de oleadas.
+- Player aun no implementa el sistema de stickers/cartuchos de balas.
+- El dinero se suma actualmente en particles.gd (+40 por particula que llega),
+  lo cual es un valor de prueba.
+- No hay carpeta de tests ni scripts de lint/CI configurados.
+- El .gitignore excluye la carpeta .godot y artefactos de importacion.
+
+
+--------------------------------------------------------------------------------
+13. GLOSARIO
+--------------------------------------------------------------------------------
+
+  Stage       Ronda jugable (una "noche").
+  UFO/OVNI    Enemigo que rebota por la pantalla.
+  Sticker     Item desbloqueable que modifica la ronda o estadisticas.
+  Stickersheet Hoja que agrupa stickers (se abre entre rondas / en tienda).
+  Profile     Resource con estadisticas/parametros.
+  MultiMesh   Tecnica de render por lotes usada para dibujar miles de UFOs.
+  Pool        Conjunto preasignado de entidades reutilizadas sin instanciar.
+  Transition  Animacion de mascara entre estados del juego.
+  HUD         Interfaz durante la ronda (tiempo, dinero, municion, progreso).
+
+================================================================================
+                              FIN DEL DOCUMENTO
+================================================================================

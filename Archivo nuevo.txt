@@ -1,0 +1,39 @@
+Emojis para tagear nodos: https://emojiexplorer.com/
+
+Efectos Balatro : https://www.youtube.com/watch?v=Alwy-TH0WzE
+
+Tips godot : https://www.youtube.com/@roadsidegamestudio/shorts
+
+shaders interesantes:
+https://godotshaders.com/shader/test-2/
+https://godotshaders.com/shader/draws-a-rounded-rectangle-with-animated-distorted-edges/
+https://godotshaders.com/shader/overlapping-seamless-textures-with-alpha-and-time-randomized-order/
+https://godotshaders.com/shader/rainbow-flowcanvasitem/
+https://godotshaders.com/shader/apple-blur-shader-recreation/
+https://godotshaders.com/shader/frosted-glass-shader-rounded-rect-outline-shadow/
+https://godotshaders.com/shader/glass-pixel-rect/
+https://godotshaders.com/shader/glass-pixel-rect/
+https://godotshaders.com/shader/multi-stage-shine-canvasitem/
+https://godotshaders.com/shader/pixelated-radial-2d-clouds/
+
+----------------------------------------------------------------------------------------------------
+
+Hola como estas lucio, vamos a pensar. hay que copiarse, llevas una semana sin poder hacer esto bien, no es complicado, por mas que lo estes vendiendo
+acordate de que va a ser una pelotudes. No copiarse es estupido, no usar IA es estupido, no hacer el menor esfuerzo es estupido.
+Tengo que definir el juego en si:
+
+-Cual es el objetivo
+--tiene niveles?
+--como se gana el nivel?
+Pues mi primera idea es copiarme deljuego de feed the ai. ganar experiencia y a partir de esa experiencia avanzar de nivel.
+en feed the ai tiene historia de que, bueno, eso, alimentas a la ia y la ayudads a crecer. Pero que puedo hacer yo????
+hacer crecer elpueblito? no suena mal, pero no tengo idea de por donde podria empezar, ademas, eso suena a mas trabajo. suponiendo que sea como en ball x pit.
+Puedo imaginar como empieza, "hola,necesitamos tu ayuda" -> "aqui viene otra oleada contamos contigo". Tendria que darle un poco mas de personalidad a Lucy.
+Ah, mira, podriamos decir que ella nos pide ayuda y poco a poco nos va enseñando el oficio  para  ser el alguacil, a ese mismo paso nos va dando herramientas y mejoras
+...
+...
+...
+El protagonistas es un random que llega, se enamora de lucy y se convierte en alguacil. Esa no es mala
+cual seria el  final?
+pensando en el nombre provisional "100 paper nights" me parece excesivo
+loque feed the ai hace es hacer 4 capitulos con 10 niveles cada uno. lo voy a copiar a la verga.
