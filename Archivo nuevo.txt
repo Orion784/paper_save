@@ -103,3 +103,53 @@ BIEN
 A DORMIR
 
 
+Buenas noches. 
+
+Llevar a cabo el algoritmo de de avance de nivel creo que deberia ir al final, eso me ayudaria con calcular el precio y esas cosas.
+Creo que deberia encargarme de lasmejroas basicas, mejoras de bala y finalmente con la mejora de bobby. no hace falta que sean perfectos, solo funcionales.
+una vez con eso hecho, deberia ponerme a trabajar en aspectos del menu, para que tenga sentido y se sienta bien, luego finalmente puedo empezar a trabajar en
+el algoritmo de avance, el efecto en el stage, los dialogos de lucy, y los eventos de la historia.
+
+-Stickers
+-Menu y flow
+-algoritmo d la historia
+
+cosas que hay que tener en cuenta
+-refactorizar para que sea mas limpio el codigo (eliminar las busquedas por string)
+-como guardar la partida entre sesiones
+-identidad visual de papermario
+
+
+
+Empecemos con el draft basico:
+
+ARMA | Stats: base damage, crit chance, crit damage, reload time, full reload time, radius.
+
+stciker base damage
+sticker crit chance
+sticker crit damage
+sticker reload time
+sticker  full reload time
+
+
+UFO | ufo-limit, intial ufos,spawnrate, spawntimer,spawn_pack,ufospeed, health, radius, xp
+
+
+sticker spawnrate
+sticker limite
+sticker spawntimer
+sticker spawnpack
+sticker ufo health
+sticker xp
+sticker health
+
+Stage |
+
+
+
+
+
+
+
+
+
